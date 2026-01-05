@@ -22,17 +22,8 @@
 <body>
     <!-- Three.js Canvas for Stars -->
     <canvas id="space-canvas"></canvas>
-    
-    <!-- Globe Canvas (separate for zoom effect) -->
-    <div id="globe-wrapper">
-        <canvas id="mini-globe"></canvas>
-        <div id="globe-label">
-            <span class="label-title">My Journey</span>
-            <span class="label-subtitle">Click to explore</span>
-        </div>
-    </div>
 
-    <!-- Hub View -->
+    <!-- ==================== HUB VIEW ==================== -->
     <div id="hub-view">
         <!-- Header -->
         <header id="hub-header">
@@ -40,54 +31,46 @@
             <p class="subtitle">Data Analyst & Builder</p>
         </header>
 
-        <!-- Navigation Objects -->
-        <nav id="space-nav">
-            <!-- Globe placeholder - actual globe is separate -->
-            <div class="nav-object" id="nav-earth-placeholder">
-                <!-- Space for the globe -->
+        <!-- Main Navigation Area -->
+        <div id="main-nav-area">
+            <!-- Globe -->
+            <div id="globe-container">
+                <canvas id="mini-globe"></canvas>
+                <div class="globe-label">
+                    <span class="label-title">My Journey</span>
+                    <span class="label-subtitle">9 places, 4 continents</span>
+                </div>
             </div>
             
-            <!-- Satellite - Projects -->
-            <a href="#" class="nav-object" id="nav-projects" data-label="Projects">
-                <div class="object-glow"></div>
-                <div class="object-visual satellite">
-                    <div class="satellite-body"></div>
-                    <div class="satellite-panel left"></div>
-                    <div class="satellite-panel right"></div>
-                </div>
-                <div class="object-label">Projects</div>
-                <div class="object-sublabel">What I'm building</div>
-            </a>
-            
-            <!-- Stars - Interests -->
-            <a href="#" class="nav-object" id="nav-interests" data-label="Interests">
-                <div class="object-glow"></div>
-                <div class="object-visual star-cluster">
-                    <div class="star-point s1"></div>
-                    <div class="star-point s2"></div>
-                    <div class="star-point s3"></div>
-                    <div class="star-point s4"></div>
-                </div>
-                <div class="object-label">Interests</div>
-                <div class="object-sublabel">What I'm reading</div>
-            </a>
-            
-            <!-- Rocket - Resume -->
-            <a href="#" class="nav-object" id="nav-resume" data-label="Resume">
-                <div class="object-glow"></div>
-                <div class="object-visual rocket">
-                    <div class="rocket-body"></div>
-                    <div class="rocket-window"></div>
-                    <div class="rocket-fin left"></div>
-                    <div class="rocket-fin right"></div>
-                    <div class="rocket-flame"></div>
-                </div>
-                <div class="object-label">Resume</div>
-                <div class="object-sublabel">Background & skills</div>
-            </a>
-        </nav>
+            <!-- Other Nav Items -->
+            <div id="other-nav-items">
+                <a href="#" class="nav-item" id="nav-projects">
+                    <div class="nav-icon">🛰️</div>
+                    <div class="nav-item-text">
+                        <span class="nav-title">Projects</span>
+                        <span class="nav-subtitle">What I'm building</span>
+                    </div>
+                </a>
+                
+                <a href="#" class="nav-item" id="nav-interests">
+                    <div class="nav-icon">✨</div>
+                    <div class="nav-item-text">
+                        <span class="nav-title">Interests</span>
+                        <span class="nav-subtitle">What I'm reading</span>
+                    </div>
+                </a>
+                
+                <a href="#" class="nav-item" id="nav-resume">
+                    <div class="nav-icon">📄</div>
+                    <div class="nav-item-text">
+                        <span class="nav-title">Resume</span>
+                        <span class="nav-subtitle">Background & skills</span>
+                    </div>
+                </a>
+            </div>
+        </div>
 
-        <!-- Connect Links -->
+        <!-- Footer -->
         <footer id="hub-footer">
             <div class="connect-links">
                 <a href="https://github.com/tristan333" target="_blank" class="connect-link">GitHub</a>
@@ -97,8 +80,13 @@
         </footer>
     </div>
 
-    <!-- Journey View (hidden initially) -->
+    <!-- ==================== JOURNEY VIEW ==================== -->
     <div id="journey-view">
+        <!-- Globe Container for Journey -->
+        <div id="journey-globe-container">
+            <canvas id="journey-globe"></canvas>
+        </div>
+
         <!-- Back Button -->
         <button id="back-to-hub">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -271,6 +259,7 @@
         </div>
     </div>
 
+    <!-- ==================== MODALS ==================== -->
     <!-- Projects Modal -->
     <div id="projects-modal" class="modal">
         <div class="modal-content">
@@ -323,10 +312,6 @@
                             <span class="interest-title">The Making of the Atomic Bomb</span>
                             <span class="interest-author">Richard Rhodes</span>
                         </li>
-                        <li>
-                            <span class="interest-title">Add more books...</span>
-                            <span class="interest-author"></span>
-                        </li>
                     </ul>
                 </div>
                 <div class="interest-category">
@@ -339,10 +324,6 @@
                         <li>
                             <span class="interest-title">SemiAnalysis</span>
                             <span class="interest-author">Dylan Patel</span>
-                        </li>
-                        <li>
-                            <span class="interest-title">Add more...</span>
-                            <span class="interest-author"></span>
                         </li>
                     </ul>
                 </div>

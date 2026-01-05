@@ -1,7 +1,10 @@
 // ==========================================
-// SPACE HUB - Three.js with Mini Globe & Zoom
+// SPACE HUB - Clean Implementation
 // ==========================================
 
+// ==========================================
+// SPACE BACKGROUND
+// ==========================================
 class SpaceBackground {
     constructor() {
         this.canvas = document.getElementById('space-canvas');
@@ -11,10 +14,6 @@ class SpaceBackground {
         
         this.mouseX = 0;
         this.mouseY = 0;
-        this.targetX = 0;
-        this.targetY = 0;
-        
-        this.shootingStars = [];
         
         this.init();
     }
@@ -25,164 +24,30 @@ class SpaceBackground {
         this.camera.position.z = 30;
         
         this.createStars();
-        this.createNebula();
-        this.createShootingStars();
         this.addEventListeners();
         this.animate();
     }
     
     createStars() {
-        // Layer 1 - Distant stars
-        const starsGeometry1 = new THREE.BufferGeometry();
-        const starsVertices1 = [];
-        
-        for (let i = 0; i < 3000; i++) {
-            starsVertices1.push(
-                (Math.random() - 0.5) * 200,
-                (Math.random() - 0.5) * 200,
-                (Math.random() - 0.5) * 100 - 50
-            );
+        // Layer 1
+        const geo1 = new THREE.BufferGeometry();
+        const verts1 = [];
+        for (let i = 0; i < 2000; i++) {
+            verts1.push((Math.random() - 0.5) * 200, (Math.random() - 0.5) * 200, (Math.random() - 0.5) * 100 - 50);
         }
-        
-        starsGeometry1.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices1, 3));
-        const starsMaterial1 = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1, transparent: true, opacity: 0.8 });
-        this.stars1 = new THREE.Points(starsGeometry1, starsMaterial1);
+        geo1.setAttribute('position', new THREE.Float32BufferAttribute(verts1, 3));
+        this.stars1 = new THREE.Points(geo1, new THREE.PointsMaterial({ color: 0xffffff, size: 0.1, transparent: true, opacity: 0.8 }));
         this.scene.add(this.stars1);
         
         // Layer 2
-        const starsGeometry2 = new THREE.BufferGeometry();
-        const starsVertices2 = [];
-        
-        for (let i = 0; i < 1000; i++) {
-            starsVertices2.push(
-                (Math.random() - 0.5) * 150,
-                (Math.random() - 0.5) * 150,
-                (Math.random() - 0.5) * 80 - 30
-            );
+        const geo2 = new THREE.BufferGeometry();
+        const verts2 = [];
+        for (let i = 0; i < 500; i++) {
+            verts2.push((Math.random() - 0.5) * 150, (Math.random() - 0.5) * 150, (Math.random() - 0.5) * 80 - 30);
         }
-        
-        starsGeometry2.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices2, 3));
-        const starsMaterial2 = new THREE.PointsMaterial({ color: 0x88ccff, size: 0.15, transparent: true, opacity: 0.6 });
-        this.stars2 = new THREE.Points(starsGeometry2, starsMaterial2);
+        geo2.setAttribute('position', new THREE.Float32BufferAttribute(verts2, 3));
+        this.stars2 = new THREE.Points(geo2, new THREE.PointsMaterial({ color: 0x00d4ff, size: 0.2, transparent: true, opacity: 0.6 }));
         this.scene.add(this.stars2);
-        
-        // Layer 3
-        const starsGeometry3 = new THREE.BufferGeometry();
-        const starsVertices3 = [];
-        
-        for (let i = 0; i < 200; i++) {
-            starsVertices3.push(
-                (Math.random() - 0.5) * 100,
-                (Math.random() - 0.5) * 100,
-                (Math.random() - 0.5) * 50 - 10
-            );
-        }
-        
-        starsGeometry3.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices3, 3));
-        const starsMaterial3 = new THREE.PointsMaterial({ color: 0x00d4ff, size: 0.25, transparent: true, opacity: 0.7 });
-        this.stars3 = new THREE.Points(starsGeometry3, starsMaterial3);
-        this.scene.add(this.stars3);
-    }
-    
-    createNebula() {
-        for (let i = 0; i < 5; i++) {
-            const canvas = document.createElement('canvas');
-            canvas.width = 128;
-            canvas.height = 128;
-            const ctx = canvas.getContext('2d');
-            
-            const gradient = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
-            gradient.addColorStop(0, 'rgba(123, 47, 254, 0.15)');
-            gradient.addColorStop(0.5, 'rgba(0, 212, 255, 0.05)');
-            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, 128, 128);
-            
-            const texture = new THREE.CanvasTexture(canvas);
-            const material = new THREE.SpriteMaterial({
-                map: texture,
-                transparent: true,
-                opacity: 0.3,
-                blending: THREE.AdditiveBlending
-            });
-            
-            const sprite = new THREE.Sprite(material);
-            sprite.position.set(
-                (Math.random() - 0.5) * 80,
-                (Math.random() - 0.5) * 80,
-                -50 + Math.random() * 20
-            );
-            sprite.scale.setScalar(30 + Math.random() * 40);
-            this.scene.add(sprite);
-        }
-    }
-    
-    createShootingStars() {
-        for (let i = 0; i < 3; i++) {
-            const geometry = new THREE.BufferGeometry();
-            const positions = new Float32Array(6);
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            
-            const material = new THREE.LineBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: 0 });
-            const line = new THREE.Line(geometry, material);
-            line.visible = false;
-            this.scene.add(line);
-            
-            this.shootingStars.push({ line, active: false, progress: 0, startX: 0, startY: 0, endX: 0, endY: 0 });
-        }
-        
-        this.triggerShootingStar();
-    }
-    
-    triggerShootingStar() {
-        const inactiveStar = this.shootingStars.find(s => !s.active);
-        
-        if (inactiveStar) {
-            inactiveStar.active = true;
-            inactiveStar.progress = 0;
-            inactiveStar.startX = (Math.random() - 0.5) * 60;
-            inactiveStar.startY = 20 + Math.random() * 20;
-            inactiveStar.endX = inactiveStar.startX + 30 + Math.random() * 20;
-            inactiveStar.endY = inactiveStar.startY - 30 - Math.random() * 20;
-            inactiveStar.line.visible = true;
-        }
-        
-        setTimeout(() => this.triggerShootingStar(), 3000 + Math.random() * 5000);
-    }
-    
-    updateShootingStars() {
-        this.shootingStars.forEach(star => {
-            if (!star.active) return;
-            
-            star.progress += 0.03;
-            
-            const positions = star.line.geometry.attributes.position.array;
-            const headProgress = Math.min(star.progress, 1);
-            const tailProgress = Math.max(star.progress - 0.3, 0);
-            
-            positions[0] = star.startX + (star.endX - star.startX) * headProgress;
-            positions[1] = star.startY + (star.endY - star.startY) * headProgress;
-            positions[2] = -20;
-            positions[3] = star.startX + (star.endX - star.startX) * tailProgress;
-            positions[4] = star.startY + (star.endY - star.startY) * tailProgress;
-            positions[5] = -20;
-            
-            star.line.geometry.attributes.position.needsUpdate = true;
-            
-            if (star.progress < 0.3) {
-                star.line.material.opacity = star.progress / 0.3;
-            } else if (star.progress > 0.7) {
-                star.line.material.opacity = 1 - (star.progress - 0.7) / 0.3;
-            } else {
-                star.line.material.opacity = 1;
-            }
-            
-            if (star.progress >= 1.3) {
-                star.active = false;
-                star.line.visible = false;
-            }
-        });
     }
     
     addEventListeners() {
@@ -201,39 +66,33 @@ class SpaceBackground {
     animate() {
         requestAnimationFrame(() => this.animate());
         
-        this.targetX += (this.mouseX - this.targetX) * 0.05;
-        this.targetY += (this.mouseY - this.targetY) * 0.05;
-        
-        this.stars1.rotation.y = this.targetX * 0.05;
-        this.stars1.rotation.x = this.targetY * 0.05;
-        this.stars2.rotation.y = this.targetX * 0.1;
-        this.stars2.rotation.x = this.targetY * 0.1;
-        this.stars3.rotation.y = this.targetX * 0.15;
-        this.stars3.rotation.x = this.targetY * 0.15;
+        this.stars1.rotation.y += (this.mouseX * 0.05 - this.stars1.rotation.y) * 0.05;
+        this.stars1.rotation.x += (this.mouseY * 0.05 - this.stars1.rotation.x) * 0.05;
+        this.stars2.rotation.y += (this.mouseX * 0.1 - this.stars2.rotation.y) * 0.05;
+        this.stars2.rotation.x += (this.mouseY * 0.1 - this.stars2.rotation.x) * 0.05;
         
         this.stars1.rotation.z += 0.0001;
-        this.stars2.rotation.z += 0.00015;
         
-        this.updateShootingStars();
         this.renderer.render(this.scene, this.camera);
     }
 }
 
 // ==========================================
-// MINI GLOBE
+// GLOBE CLASS (Reusable)
 // ==========================================
-class MiniGlobe {
-    constructor() {
-        this.wrapper = document.getElementById('globe-wrapper');
-        this.canvas = document.getElementById('mini-globe');
+class Globe {
+    constructor(canvas, size = 220) {
+        this.canvas = canvas;
+        this.size = size;
         
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
         this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: true });
         
         this.radius = 5;
-        this.autoRotate = true;
         this.rotation = { x: 0, y: 0 };
+        this.autoRotate = true;
+        this.autoRotateSpeed = 0.002;
         
         this.locations = [
             { name: 'New York', lat: 40.7128, lng: -74.0060 },
@@ -250,13 +109,12 @@ class MiniGlobe {
         this.pins = [];
         this.globeGroup = new THREE.Group();
         
-        this.isJourneyMode = false;
-        
         this.init();
     }
     
     init() {
-        this.updateSize();
+        this.renderer.setSize(this.size, this.size);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.camera.position.z = 15;
         
         this.scene.add(this.globeGroup);
@@ -265,14 +123,12 @@ class MiniGlobe {
         this.createAtmosphere();
         this.createPins();
         
-        this.addEventListeners();
         this.animate();
     }
     
-    updateSize() {
-        const size = this.wrapper.offsetWidth;
-        this.renderer.setSize(size, size);
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    resize(newSize) {
+        this.size = newSize;
+        this.renderer.setSize(this.size, this.size);
     }
     
     createGlobe() {
@@ -293,32 +149,23 @@ class MiniGlobe {
         this.globeGroup.add(this.globe);
         
         // Wireframe
-        const wireframeGeometry = new THREE.SphereGeometry(this.radius + 0.02, 48, 48);
-        const wireframeMaterial = new THREE.MeshBasicMaterial({
-            color: 0x00d4ff,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.03
-        });
-        this.wireframe = new THREE.Mesh(wireframeGeometry, wireframeMaterial);
-        this.globeGroup.add(this.wireframe);
+        const wireframeGeo = new THREE.SphereGeometry(this.radius + 0.02, 48, 48);
+        const wireframeMat = new THREE.MeshBasicMaterial({ color: 0x00d4ff, wireframe: true, transparent: true, opacity: 0.03 });
+        this.globeGroup.add(new THREE.Mesh(wireframeGeo, wireframeMat));
         
         // Lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-        this.scene.add(ambientLight);
-        
+        this.scene.add(new THREE.AmbientLight(0xffffff, 0.6));
         const sunLight = new THREE.DirectionalLight(0xffffff, 1);
         sunLight.position.set(10, 5, 10);
         this.scene.add(sunLight);
-        
         const accentLight = new THREE.PointLight(0x00d4ff, 0.5, 50);
         accentLight.position.set(-10, 0, 10);
         this.scene.add(accentLight);
     }
     
     createAtmosphere() {
-        const atmosphereGeometry = new THREE.SphereGeometry(this.radius + 0.15, 64, 64);
-        const atmosphereMaterial = new THREE.ShaderMaterial({
+        const atmosphereGeo = new THREE.SphereGeometry(this.radius + 0.15, 64, 64);
+        const atmosphereMat = new THREE.ShaderMaterial({
             vertexShader: `
                 varying vec3 vNormal;
                 void main() {
@@ -337,44 +184,34 @@ class MiniGlobe {
             side: THREE.BackSide,
             transparent: true
         });
-        this.atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-        this.globeGroup.add(this.atmosphere);
+        this.globeGroup.add(new THREE.Mesh(atmosphereGeo, atmosphereMat));
     }
     
     createPins() {
-        this.locations.forEach((location) => {
-            const pin = this.createPin(location);
-            this.pins.push({ mesh: pin, data: location });
+        this.locations.forEach((loc) => {
+            const group = new THREE.Group();
+            const pos = this.latLngToVector3(loc.lat, loc.lng);
+            
+            const dotGeo = new THREE.SphereGeometry(0.08, 32, 32);
+            const dotMat = new THREE.MeshBasicMaterial({ color: 0x00d4ff });
+            group.add(new THREE.Mesh(dotGeo, dotMat));
+            
+            const glowGeo = new THREE.SphereGeometry(0.15, 32, 32);
+            const glowMat = new THREE.MeshBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: 0.3 });
+            const glow = new THREE.Mesh(glowGeo, glowMat);
+            group.add(glow);
+            
+            group.userData = { glow };
+            group.position.copy(pos);
+            
+            this.globeGroup.add(group);
+            this.pins.push({ mesh: group, data: loc });
         });
-    }
-    
-    createPin(location) {
-        const group = new THREE.Group();
-        const position = this.latLngToVector3(location.lat, location.lng);
-        
-        // Dot
-        const dotGeometry = new THREE.SphereGeometry(0.08, 32, 32);
-        const dotMaterial = new THREE.MeshBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: 1 });
-        const dot = new THREE.Mesh(dotGeometry, dotMaterial);
-        group.add(dot);
-        
-        // Glow
-        const glowGeometry = new THREE.SphereGeometry(0.15, 32, 32);
-        const glowMaterial = new THREE.MeshBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: 0.3 });
-        const glow = new THREE.Mesh(glowGeometry, glowMaterial);
-        group.add(glow);
-        
-        group.userData = { glow };
-        group.position.copy(position);
-        
-        this.globeGroup.add(group);
-        return group;
     }
     
     latLngToVector3(lat, lng) {
         const phi = (90 - lat) * (Math.PI / 180);
         const theta = (lng + 180) * (Math.PI / 180);
-        
         return new THREE.Vector3(
             -this.radius * Math.sin(phi) * Math.cos(theta),
             this.radius * Math.cos(phi),
@@ -382,13 +219,8 @@ class MiniGlobe {
         );
     }
     
-    addEventListeners() {
-        window.addEventListener('resize', () => this.updateSize());
-    }
-    
     rotateTo(lat, lng, duration = 1.5) {
         this.autoRotate = false;
-        
         const targetY = -lng * (Math.PI / 180) - Math.PI / 2;
         const targetX = lat * (Math.PI / 180) * 0.3;
         
@@ -403,21 +235,16 @@ class MiniGlobe {
     highlightPin(index) {
         this.pins.forEach((pin, i) => {
             const isActive = i === index;
-            const targetScale = isActive ? 2 : 1;
-            const targetOpacity = isActive ? 0.5 : 0.3;
-            
-            gsap.to(pin.mesh.scale, { x: targetScale, y: targetScale, z: targetScale, duration: 0.5, ease: 'back.out(1.7)' });
-            gsap.to(pin.mesh.userData.glow.material, { opacity: targetOpacity, duration: 0.5 });
+            gsap.to(pin.mesh.scale, { x: isActive ? 2 : 1, y: isActive ? 2 : 1, z: isActive ? 2 : 1, duration: 0.5, ease: 'back.out(1.7)' });
+            gsap.to(pin.mesh.userData.glow.material, { opacity: isActive ? 0.5 : 0.3, duration: 0.5 });
         });
     }
     
     animate() {
         requestAnimationFrame(() => this.animate());
         
-        if (this.autoRotate && !this.isJourneyMode) {
-            this.rotation.y += 0.002;
-        } else if (this.autoRotate && this.isJourneyMode) {
-            this.rotation.y += 0.0005;
+        if (this.autoRotate) {
+            this.rotation.y += this.autoRotateSpeed;
         }
         
         this.globeGroup.rotation.x = this.rotation.x;
@@ -438,128 +265,119 @@ class MiniGlobe {
 }
 
 // ==========================================
-// PAGE CONTROLLER
+// APP CONTROLLER
 // ==========================================
-class PageController {
-    constructor(globe) {
-        this.globe = globe;
-        this.globeWrapper = document.getElementById('globe-wrapper');
+class App {
+    constructor() {
         this.hubView = document.getElementById('hub-view');
         this.journeyView = document.getElementById('journey-view');
         this.isJourneyActive = false;
+        
+        // Create globes
+        this.miniGlobe = new Globe(document.getElementById('mini-globe'), 220);
+        this.journeyGlobe = null;
         
         this.init();
     }
     
     init() {
-        // Globe click
-        this.globeWrapper.addEventListener('click', () => {
-            if (!this.isJourneyActive) {
-                this.enterJourney();
-            }
-        });
+        // Globe click -> enter journey
+        document.getElementById('globe-container').addEventListener('click', () => this.enterJourney());
         
         // Back buttons
         document.getElementById('back-to-hub').addEventListener('click', () => this.exitJourney());
         document.getElementById('back-to-hub-bottom').addEventListener('click', () => this.exitJourney());
         
-        // Modal handlers
+        // Modals
         this.setupModals();
         
-        // Scroll animations for journey
-        this.setupScrollAnimations();
+        // Animate in
+        gsap.fromTo('#globe-container', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1, ease: 'power2.out', delay: 0.3 });
+        gsap.fromTo('.nav-item', { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out', delay: 0.5 });
     }
     
     enterJourney() {
+        if (this.isJourneyActive) return;
         this.isJourneyActive = true;
-        this.globe.isJourneyMode = true;
         
-        // Hide hub
-        this.hubView.classList.add('hidden');
-        
-        // Zoom globe
-        this.globeWrapper.classList.add('zooming');
-        
-        gsap.to(this.globeWrapper, {
-            top: '50%',
-            left: '50%',
-            xPercent: -50,
-            yPercent: -50,
-            width: '100vmax',
-            height: '100vmax',
-            duration: 1.5,
-            ease: 'power2.inOut',
+        // Animate out hub
+        gsap.to(this.hubView, {
+            opacity: 0,
+            duration: 0.5,
             onComplete: () => {
-                this.globeWrapper.classList.remove('zooming');
-                this.globeWrapper.classList.add('journey-mode');
+                this.hubView.classList.add('hidden');
                 
-                // Reset to fixed position for journey
-                gsap.set(this.globeWrapper, {
-                    top: 0,
-                    left: 0,
-                    xPercent: 0,
-                    yPercent: 0,
-                    width: '100%',
-                    height: '100%'
-                });
-                
-                // Show journey content
+                // Show journey view
                 this.journeyView.classList.add('active');
                 document.body.classList.add('journey-active');
+                
+                // Create journey globe
+                const journeyCanvas = document.getElementById('journey-globe');
+                this.journeyGlobe = new Globe(journeyCanvas, window.innerWidth);
+                this.journeyGlobe.autoRotateSpeed = 0.0005;
+                
+                // Handle resize for journey globe
+                this.resizeHandler = () => {
+                    if (this.journeyGlobe) {
+                        this.journeyGlobe.resize(Math.max(window.innerWidth, window.innerHeight));
+                    }
+                };
+                window.addEventListener('resize', this.resizeHandler);
                 
                 // Scroll to top
                 window.scrollTo(0, 0);
                 
-                // Init scroll triggers
-                this.initJourneyScrollTriggers();
+                // Setup scroll triggers
+                this.setupScrollTriggers();
+                
+                // Fade in journey content
+                gsap.fromTo('.hero-content', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, delay: 0.3 });
             }
         });
     }
     
     exitJourney() {
+        if (!this.isJourneyActive) return;
         this.isJourneyActive = false;
-        this.globe.isJourneyMode = false;
-        this.globe.autoRotate = true;
+        
+        // Kill scroll triggers
+        ScrollTrigger.getAll().forEach(st => st.kill());
+        
+        // Remove resize handler
+        if (this.resizeHandler) {
+            window.removeEventListener('resize', this.resizeHandler);
+        }
         
         // Hide journey
         this.journeyView.classList.remove('active');
         document.body.classList.remove('journey-active');
         
-        // Kill scroll triggers
-        ScrollTrigger.getAll().forEach(st => st.kill());
+        // Clean up journey globe
+        if (this.journeyGlobe) {
+            this.journeyGlobe = null;
+        }
         
-        // Reset globe position
-        this.globeWrapper.classList.remove('journey-mode');
-        
-        gsap.to(this.globeWrapper, {
-            top: '50%',
-            left: '50%',
-            xPercent: -50,
-            yPercent: -50,
-            x: -180,
-            y: 0,
-            width: 200,
-            height: 200,
-            duration: 1,
-            ease: 'power2.inOut',
-            onComplete: () => {
-                gsap.set(this.globeWrapper, { clearProps: 'all' });
-                this.hubView.classList.remove('hidden');
-            }
-        });
+        // Reset scroll
+        window.scrollTo(0, 0);
         
         // Reset content panels
-        document.querySelectorAll('.content-panel').forEach(panel => {
-            panel.classList.remove('visible');
-        });
+        document.querySelectorAll('.content-panel').forEach(panel => panel.classList.remove('visible'));
+        document.querySelectorAll('.nav-dot').forEach((dot, i) => dot.classList.toggle('active', i === 0));
+        document.getElementById('progress-bar').style.width = '0%';
+        document.getElementById('journey-globe-container').style.opacity = '1';
+        
+        // Show hub
+        this.hubView.classList.remove('hidden');
+        gsap.fromTo(this.hubView, { opacity: 0 }, { opacity: 1, duration: 0.5 });
     }
     
-    initJourneyScrollTriggers() {
+    setupScrollTriggers() {
         gsap.registerPlugin(ScrollTrigger);
         
         const sections = document.querySelectorAll('.country-section');
         const navDots = document.querySelectorAll('.nav-dot');
         const progressBar = document.getElementById('progress-bar');
+        const globeContainer = document.getElementById('journey-globe-container');
         
         // Progress bar
         ScrollTrigger.create({
@@ -569,6 +387,18 @@ class PageController {
             onUpdate: (self) => {
                 progressBar.style.width = `${self.progress * 100}%`;
             }
+        });
+        
+        // Hero fade
+        gsap.to('.hero-content', {
+            scrollTrigger: {
+                trigger: '#hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            },
+            opacity: 0,
+            y: -100
         });
         
         // Section animations
@@ -582,16 +412,20 @@ class PageController {
                 start: 'top center',
                 end: 'bottom center',
                 onEnter: () => {
-                    this.globe.rotateTo(lat, lng);
-                    this.globe.highlightPin(index);
+                    if (this.journeyGlobe) {
+                        this.journeyGlobe.rotateTo(lat, lng);
+                        this.journeyGlobe.highlightPin(index);
+                    }
                     panel.classList.add('visible');
-                    this.updateNavDots(navDots, index);
+                    navDots.forEach((dot, i) => dot.classList.toggle('active', i === index));
                 },
                 onEnterBack: () => {
-                    this.globe.rotateTo(lat, lng);
-                    this.globe.highlightPin(index);
+                    if (this.journeyGlobe) {
+                        this.journeyGlobe.rotateTo(lat, lng);
+                        this.journeyGlobe.highlightPin(index);
+                    }
                     panel.classList.add('visible');
-                    this.updateNavDots(navDots, index);
+                    navDots.forEach((dot, i) => dot.classList.toggle('active', i === index));
                 },
                 onLeave: () => panel.classList.remove('visible'),
                 onLeaveBack: () => panel.classList.remove('visible')
@@ -602,42 +436,19 @@ class PageController {
         navDots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 const sectionIds = ['new-york', 'tashkent', 'rabat', 'bangkok', 'berlin', 'beirut', 'san-francisco', 'hannover', 'granville'];
-                const section = document.getElementById(sectionIds[index]);
-                if (section) {
-                    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
+                document.getElementById(sectionIds[index])?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             });
         });
         
         // Globe fade on today section
         ScrollTrigger.create({
             trigger: '#today',
-            start: 'top 50%',
+            start: 'top 60%',
             end: 'top 20%',
             scrub: true,
             onUpdate: (self) => {
-                this.globeWrapper.style.opacity = 1 - self.progress;
+                globeContainer.style.opacity = 1 - self.progress;
             }
-        });
-    }
-    
-    updateNavDots(navDots, activeIndex) {
-        navDots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === activeIndex);
-        });
-    }
-    
-    setupScrollAnimations() {
-        // Hero fade
-        gsap.to('.hero-content', {
-            scrollTrigger: {
-                trigger: '#hero',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: true
-            },
-            opacity: 0,
-            y: -100
         });
     }
     
@@ -648,47 +459,28 @@ class PageController {
             resume: document.getElementById('resume-modal')
         };
         
-        document.getElementById('nav-projects').addEventListener('click', (e) => {
-            e.preventDefault();
-            modals.projects.classList.add('active');
-        });
-        
-        document.getElementById('nav-interests').addEventListener('click', (e) => {
-            e.preventDefault();
-            modals.interests.classList.add('active');
-        });
-        
-        document.getElementById('nav-resume').addEventListener('click', (e) => {
-            e.preventDefault();
-            modals.resume.classList.add('active');
-        });
+        document.getElementById('nav-projects').addEventListener('click', (e) => { e.preventDefault(); modals.projects.classList.add('active'); });
+        document.getElementById('nav-interests').addEventListener('click', (e) => { e.preventDefault(); modals.interests.classList.add('active'); });
+        document.getElementById('nav-resume').addEventListener('click', (e) => { e.preventDefault(); modals.resume.classList.add('active'); });
         
         // Globe project card
         document.getElementById('globe-project-card').addEventListener('click', () => {
             modals.projects.classList.remove('active');
-            this.enterJourney();
+            setTimeout(() => this.enterJourney(), 100);
         });
         
         // Close buttons
         document.querySelectorAll('.modal-close').forEach(btn => {
-            btn.addEventListener('click', () => {
-                Object.values(modals).forEach(m => m.classList.remove('active'));
-            });
+            btn.addEventListener('click', () => Object.values(modals).forEach(m => m.classList.remove('active')));
         });
         
         // Click outside
         Object.values(modals).forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) modal.classList.remove('active');
-            });
+            modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
         });
         
-        // Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                Object.values(modals).forEach(m => m.classList.remove('active'));
-            }
-        });
+        // Escape
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') Object.values(modals).forEach(m => m.classList.remove('active')); });
     }
 }
 
@@ -697,17 +489,5 @@ class PageController {
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     new SpaceBackground();
-    const globe = new MiniGlobe();
-    new PageController(globe);
-    
-    // Animate nav items
-    gsap.fromTo('.nav-object:not(#nav-earth-placeholder)', 
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 1, stagger: 0.15, ease: 'power2.out', delay: 0.5 }
-    );
-    
-    gsap.fromTo('#globe-wrapper',
-        { opacity: 0, scale: 0.8 },
-        { opacity: 1, scale: 1, duration: 1.2, ease: 'power2.out', delay: 0.3 }
-    );
+    new App();
 });
