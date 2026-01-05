@@ -1,0 +1,426 @@
+/* ==========================================
+   GLOBAL STYLES & VARIABLES
+   ========================================== */
+:root {
+    --color-bg: #0a0a0f;
+    --color-text: #ffffff;
+    --color-text-muted: #8892b0;
+    --color-accent: #00d4ff;
+    --color-accent-glow: rgba(0, 212, 255, 0.3);
+    --color-panel-bg: rgba(15, 15, 25, 0.85);
+    --color-panel-border: rgba(255, 255, 255, 0.1);
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* ==========================================
+   3D GLOBE CONTAINER
+   ========================================== */
+#globe-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: auto;
+}
+
+#globe {
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+}
+
+#globe:active {
+    cursor: grabbing;
+}
+
+/* ==========================================
+   SCROLL PROGRESS BAR
+   ========================================== */
+#scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--color-accent), #00ff88);
+    transition: width 0.1s ease-out;
+}
+
+/* ==========================================
+   NAVIGATION DOTS
+   ========================================== */
+#nav-dots {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.nav-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-dot::before {
+    content: attr(title);
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--color-panel-bg);
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    border: 1px solid var(--color-panel-border);
+}
+
+.nav-dot:hover::before {
+    opacity: 1;
+}
+
+.nav-dot:hover,
+.nav-dot.active {
+    background: var(--color-accent);
+    box-shadow: 0 0 15px var(--color-accent-glow);
+    transform: scale(1.2);
+}
+
+/* ==========================================
+   SECTIONS - GENERAL
+   ========================================== */
+.section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    z-index: 10;
+    padding: 80px;
+    pointer-events: none;
+}
+
+.section > * {
+    pointer-events: auto;
+}
+
+/* ==========================================
+   HERO SECTION
+   ========================================== */
+#hero {
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.hero-content h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #ffffff 0%, var(--color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tagline {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: var(--color-text-muted);
+    margin-bottom: 60px;
+    font-weight: 300;
+}
+
+.scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    color: var(--color-text-muted);
+    font-size: 14px;
+    animation: fadeInUp 1s ease 0.5s both;
+}
+
+.scroll-arrow {
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid var(--color-accent);
+    border-bottom: 2px solid var(--color-accent);
+    transform: rotate(45deg);
+    animation: bounce 2s ease infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: rotate(45deg) translateY(0); }
+    40% { transform: rotate(45deg) translateY(10px); }
+    60% { transform: rotate(45deg) translateY(5px); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+   COUNTRY SECTIONS
+   ========================================== */
+.country-section {
+    justify-content: flex-start;
+    padding-left: 10%;
+}
+
+.content-panel {
+    background: var(--color-panel-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--color-panel-border);
+    border-radius: 20px;
+    padding: 50px;
+    max-width: 500px;
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 0.6s ease;
+}
+
+.content-panel.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.location-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.country-flag {
+    font-size: 20px;
+}
+
+.location-name {
+    color: var(--color-text-muted);
+}
+
+.content-panel h2 {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--color-text);
+}
+
+.years {
+    color: var(--color-accent);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.story {
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.insight {
+    border-top: 1px solid var(--color-panel-border);
+    padding-top: 20px;
+}
+
+.insight-label {
+    display: block;
+    color: var(--color-accent);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.insight p {
+    color: var(--color-text);
+    font-style: italic;
+    font-size: 1rem;
+}
+
+/* ==========================================
+   TODAY SECTION
+   ========================================== */
+#today {
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(to top, rgba(0, 212, 255, 0.05), transparent);
+}
+
+.today-content {
+    max-width: 700px;
+}
+
+.today-content h2 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: var(--color-accent);
+}
+
+.current-role {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.current-focus {
+    color: var(--color-text-muted);
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+}
+
+.interests {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 50px;
+}
+
+.interest-tag {
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.interest-tag:hover {
+    background: var(--color-accent);
+    color: var(--color-bg);
+}
+
+.contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.contact-link {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 16px;
+    padding: 12px 30px;
+    border: 1px solid var(--color-panel-border);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.contact-link:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    box-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+@media (max-width: 768px) {
+    .section {
+        padding: 40px 20px;
+    }
+
+    .country-section {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .content-panel {
+        padding: 30px;
+        max-width: 100%;
+    }
+
+    .content-panel h2 {
+        font-size: 1.8rem;
+    }
+
+    #nav-dots {
+        right: 15px;
+        gap: 10px;
+    }
+
+    .nav-dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    .nav-dot::before {
+        display: none;
+    }
+
+    .contact-links {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .interests {
+        gap: 8px;
+    }
+
+    .interest-tag {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+}
