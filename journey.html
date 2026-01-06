@@ -3,193 +3,518 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tristan Paton | Portfolio</title>
+    <title>Journey · Tristan Paton</title>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <!-- Three.js for 3D Globe -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
-    <!-- GSAP for Scroll Animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     
-    <!-- Our Styles -->
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --bg: #0c0c0c;
+            --text: #e8e8e8;
+            --text-muted: #888;
+            --text-subtle: #555;
+            --accent: #6eb3ff;
+            --border: #222;
+            --font: 'Inter', -apple-system, sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow: hidden;
+            height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        a {
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        /* Back link */
+        .back {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            z-index: 100;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+        
+        .back:hover {
+            color: var(--accent);
+        }
+        
+        .back svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        /* Layout */
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            height: 100vh;
+        }
+        
+        /* Globe */
+        .globe-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        #globe {
+            width: 100%;
+            height: 100%;
+            max-width: 600px;
+            max-height: 600px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            border-left: 1px solid var(--border);
+            padding: 80px 32px 32px;
+            overflow-y: auto;
+            background: var(--bg);
+        }
+        
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+        
+        .sidebar-header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .sidebar-header p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        /* Locations */
+        .locations {
+            list-style: none;
+        }
+        
+        .location {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .location:last-child {
+            border-bottom: none;
+        }
+        
+        .location:hover,
+        .location.active {
+            padding-left: 12px;
+        }
+        
+        .location.active .location-name {
+            color: var(--accent);
+        }
+        
+        .location-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+        }
+        
+        .location-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        
+        .location-years {
+            font-size: 0.8rem;
+            color: var(--text-subtle);
+        }
+        
+        .location-place {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        /* Story panel */
+        .story-panel {
+            position: fixed;
+            bottom: 32px;
+            left: 32px;
+            max-width: 400px;
+            background: rgba(12, 12, 12, 0.95);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .story-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        .story-panel h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .story-panel p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+                grid-template-rows: 50vh 1fr;
+            }
+            
+            .globe-container {
+                border-bottom: 1px solid var(--border);
+            }
+            
+            .sidebar {
+                border-left: none;
+                padding: 24px;
+            }
+            
+            .story-panel {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Fixed 3D Globe Container -->
-    <div id="globe-container">
-        <canvas id="globe"></canvas>
-    </div>
+    <a href="index.html" class="back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back
+    </a>
 
-    <!-- Scroll Progress Indicator -->
-    <div id="scroll-progress">
-        <div id="progress-bar"></div>
-    </div>
-
-    <!-- Navigation Dots -->
-    <nav id="nav-dots">
-        <div class="nav-dot active" data-section="0" title="New York"></div>
-        <div class="nav-dot" data-section="1" title="Tashkent"></div>
-        <div class="nav-dot" data-section="2" title="Rabat"></div>
-        <div class="nav-dot" data-section="3" title="Bangkok"></div>
-        <div class="nav-dot" data-section="4" title="Berlin"></div>
-        <div class="nav-dot" data-section="5" title="Beirut"></div>
-        <div class="nav-dot" data-section="6" title="San Francisco"></div>
-        <div class="nav-dot" data-section="7" title="Hannover"></div>
-        <div class="nav-dot" data-section="8" title="Granville"></div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="hero" class="section">
-        <div class="hero-content">
-            <h1>Tristan Paton</h1>
-            <div class="scroll-hint">
-                <span>Scroll to explore</span>
-                <div class="scroll-arrow"></div>
-            </div>
+    <div class="layout">
+        <div class="globe-container">
+            <canvas id="globe"></canvas>
         </div>
-    </section>
-
-    <!-- Country Sections -->
-    <section id="new-york" class="section country-section" data-lat="40.7128" data-lng="-74.0060">
-        <div class="content-panel">
-            <div class="location-badge">
-                <span class="country-flag">🇺🇸</span>
-                <span class="location-name">New York, USA</span>
+        
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>My Journey</h1>
+                <p>Nine cities. Four continents. Click a location to explore.</p>
             </div>
-            <h2>Where It Began</h2>
-            <div class="years">2001</div>
-            <p class="story">Born in New York. Within months, my family's work would take us across the world—the first of many moves that would shape how I see everything.</p>
-        </div>
-    </section>
-
-    <section id="tashkent" class="section country-section" data-lat="41.2995" data-lng="69.2401">
-        <div class="content-panel">
-            <div class="location-badge">
-                <span class="country-flag">🇺🇿</span>
-                <span class="location-name">Tashkent, Uzbekistan</span>
-            </div>
-            <h2>First Steps</h2>
-            <div class="years">2002 — 2004</div>
-            <p class="story">My first real home. Attended a Russian preschool in a city along the ancient Silk Road. Too young to remember much, but this is where the journey began.</p>
-        </div>
-    </section>
-
-    <section id="rabat" class="section country-section" data-lat="34.0209" data-lng="-6.8416">
-        <div class="content-panel">
-            <div class="location-badge">
-                <span class="country-flag">🇲🇦</span>
-                <span class="location-name">Rabat, Morocco</span>
-            </div>
-            <h2>North Africa</h2>
-            <div class="years">2004 — 2008</div>
-            <p class="story">Started my education in the French system at a local kindergarten. My sister was born here. Four years in Morocco gave me my first real memories of life abroad.</p>
-        </div>
-    </section>
-
-    <section id="bangkok" class="section country-section" data-lat="13.7563" data-lng="100.5018">
-        <div class="content-panel">
-            <div class="location-badge">
-                <span class="country-flag">🇹🇭</span>
-                <span class="location-name">Bangkok, Thailand</span>
-            </div>
-            <h2>Southeast Asia</h2>
-            <div class="years">2008 — 2011</div>
-            <p class="story">Continued in the French school system through second grade. Three years in Bangkok—a city of contrasts that shaped my early childhood.</p>
-        </div>
-    </section>
-
-    <section id="berlin" class="section country-section" data-lat="52.5200" data-lng="13.4050">
-        <div class="content-panel">
-            <div class="location-badge">
-                <span class="country-flag">🇩🇪</span>
-                <span class="location-name">Berlin, Germany</span>
-            </div>
-            <h2>New System</h2>
-            <div class="years">2011 — 2012</div>
-            <p class="story">First transition to an international school after years in the French system. A brief but significant stop that introduced me to Germany—a country I'd return to later.</p>
-        </div>
-    </section>
-
-    <section id="beirut" class="section country-section" data-lat="33.8938" data-lng="35.5018">
-        <div class="content-panel">
-            <div class="location-badge">
-                <span class="country-flag">🇱🇧</span>
-                <span class="location-name">Beirut, Lebanon</span>
-            </div>
-            <h2>Formative Years</h2>
-            <div class="years">2012 — 2015</div>
-            <p class="story">Middle school in one of the world's most complex cities. These three years were formative—where I started to understand the world beyond just living in it.</p>
-        </div>
-    </section>
-
-    <section id="san-francisco" class="section country-section" data-lat="37.7749" data-lng="-122.4194">
-        <div class="content-panel">
-            <div class="location-badge">
-                <span class="country-flag">🇺🇸</span>
-                <span class="location-name">San Francisco, USA</span>
-            </div>
-            <h2>Tech Exposure</h2>
-            <div class="years">2015 — 2017</div>
-            <p class="story">Started 7th grade at AltSchool, a startup school founded by a former Googler. Being around engineers building edtech products sparked my interest in technology. Continued at Berkeley High before moving again.</p>
-        </div>
-    </section>
-
-    <section id="hannover" class="section country-section" data-lat="52.3759" data-lng="9.7320">
-        <div class="content-panel">
-            <div class="location-badge">
-                <span class="country-flag">🇩🇪</span>
-                <span class="location-name">Hannover, Germany</span>
-            </div>
-            <h2>Finishing Strong</h2>
-            <div class="years">2017 — 2020</div>
-            <p class="story">Returned to Germany for high school. Graduated during the pandemic—an unexpected end to an international education that spanned three continents.</p>
-        </div>
-    </section>
-
-    <section id="granville" class="section country-section" data-lat="40.0681" data-lng="-82.5193">
-        <div class="content-panel">
-            <div class="location-badge">
-                <span class="country-flag">🇺🇸</span>
-                <span class="location-name">Granville, Ohio</span>
-            </div>
-            <h2>Denison University</h2>
-            <div class="years">2020 — 2024</div>
-            <p class="story">Studied Computer Science and French—a combination that made sense given my background. Four years to process a lifetime of global experience and build technical foundations.</p>
-        </div>
-    </section>
-
-    <!-- Final Section - Today -->
-    <section id="today" class="section">
-        <div class="today-content">
-            <h2>Today</h2>
-            <p class="current-role">Data Analyst at Chronograph</p>
-            <p class="current-location">Back in New York</p>
-            <p class="current-focus">Working in private markets data. Interested in semiconductors, geopolitics, and the space industry.</p>
             
-            <div class="interests">
-                <span class="interest-tag">Semiconductors</span>
-                <span class="interest-tag">US-China Relations</span>
-                <span class="interest-tag">Space Industry</span>
-                <span class="interest-tag">Export Controls</span>
-            </div>
+            <ul class="locations">
+                <li class="location active" data-index="0" data-lat="40.7128" data-lng="-74.0060">
+                    <div class="location-header">
+                        <span class="location-name">New York</span>
+                        <span class="location-years">2001</span>
+                    </div>
+                    <span class="location-place">USA · Born</span>
+                </li>
+                <li class="location" data-index="1" data-lat="41.2995" data-lng="69.2401">
+                    <div class="location-header">
+                        <span class="location-name">Tashkent</span>
+                        <span class="location-years">2002–04</span>
+                    </div>
+                    <span class="location-place">Uzbekistan · Early childhood</span>
+                </li>
+                <li class="location" data-index="2" data-lat="34.0209" data-lng="-6.8416">
+                    <div class="location-header">
+                        <span class="location-name">Rabat</span>
+                        <span class="location-years">2004–08</span>
+                    </div>
+                    <span class="location-place">Morocco · French school</span>
+                </li>
+                <li class="location" data-index="3" data-lat="13.7563" data-lng="100.5018">
+                    <div class="location-header">
+                        <span class="location-name">Bangkok</span>
+                        <span class="location-years">2008–11</span>
+                    </div>
+                    <span class="location-place">Thailand · Elementary</span>
+                </li>
+                <li class="location" data-index="4" data-lat="52.5200" data-lng="13.4050">
+                    <div class="location-header">
+                        <span class="location-name">Berlin</span>
+                        <span class="location-years">2011–12</span>
+                    </div>
+                    <span class="location-place">Germany · International school</span>
+                </li>
+                <li class="location" data-index="5" data-lat="33.8938" data-lng="35.5018">
+                    <div class="location-header">
+                        <span class="location-name">Beirut</span>
+                        <span class="location-years">2012–15</span>
+                    </div>
+                    <span class="location-place">Lebanon · Middle school</span>
+                </li>
+                <li class="location" data-index="6" data-lat="37.7749" data-lng="-122.4194">
+                    <div class="location-header">
+                        <span class="location-name">San Francisco</span>
+                        <span class="location-years">2015–17</span>
+                    </div>
+                    <span class="location-place">USA · Tech exposure</span>
+                </li>
+                <li class="location" data-index="7" data-lat="52.3759" data-lng="9.7320">
+                    <div class="location-header">
+                        <span class="location-name">Hannover</span>
+                        <span class="location-years">2017–20</span>
+                    </div>
+                    <span class="location-place">Germany · High school</span>
+                </li>
+                <li class="location" data-index="8" data-lat="40.0681" data-lng="-82.5193">
+                    <div class="location-header">
+                        <span class="location-name">Granville</span>
+                        <span class="location-years">2020–24</span>
+                    </div>
+                    <span class="location-place">Ohio · Denison University</span>
+                </li>
+            </ul>
+        </aside>
+    </div>
+    
+    <div class="story-panel" id="story-panel">
+        <h3 id="story-title">New York</h3>
+        <p id="story-text">Born in New York. Within months, my family's work would take us across the world—the first of many moves that would shape how I see everything.</p>
+    </div>
 
-            <div class="contact-links">
-                <a href="https://github.com/tristan333" target="_blank" class="contact-link">GitHub</a>
-                <a href="https://www.linkedin.com/in/tristanpaton/" target="_blank" class="contact-link">LinkedIn</a>
-                <a href="mailto:tristanpaton0@gmail.com" class="contact-link">Email</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Scripts -->
-    <script src="js/globe.js"></script>
-    <script src="js/scroll.js"></script>
-    <script src="js/main.js"></script>
+    <script>
+        // Stories for each location
+        const stories = [
+            { title: "New York", text: "Born in New York. Within months, my family's work would take us across the world—the first of many moves that would shape how I see everything." },
+            { title: "Tashkent", text: "My first real home. A Russian preschool in a city along the ancient Silk Road. Too young to remember much, but this is where the journey began." },
+            { title: "Rabat", text: "Started my education in the French system. My sister was born here. Four years in Morocco gave me my first real memories of life abroad." },
+            { title: "Bangkok", text: "Continued in the French school system through second grade. Three years in Bangkok—a city of contrasts that shaped my early childhood." },
+            { title: "Berlin", text: "First transition to an international school after years in the French system. A brief but significant stop that introduced me to Germany." },
+            { title: "Beirut", text: "Middle school in one of the world's most complex cities. These three years were formative—where I started to understand the world beyond just living in it." },
+            { title: "San Francisco", text: "Started at AltSchool, a startup school founded by a former Google exec. Being around engineers building edtech sparked my interest in technology." },
+            { title: "Hannover", text: "Returned to Germany for high school. Graduated during the pandemic—an unexpected end to an international education spanning three continents." },
+            { title: "Granville", text: "Studied Computer Science and French at Denison—a combination that made sense given my background. Four years to process a lifetime of global experience." }
+        ];
+        
+        // Globe
+        class Globe {
+            constructor() {
+                this.canvas = document.getElementById('globe');
+                this.scene = new THREE.Scene();
+                this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+                this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: true });
+                
+                this.locations = [
+                    { lat: 40.7128, lng: -74.0060 },
+                    { lat: 41.2995, lng: 69.2401 },
+                    { lat: 34.0209, lng: -6.8416 },
+                    { lat: 13.7563, lng: 100.5018 },
+                    { lat: 52.5200, lng: 13.4050 },
+                    { lat: 33.8938, lng: 35.5018 },
+                    { lat: 37.7749, lng: -122.4194 },
+                    { lat: 52.3759, lng: 9.7320 },
+                    { lat: 40.0681, lng: -82.5193 }
+                ];
+                
+                this.rotation = { x: 0, y: 0 };
+                this.targetRotation = { x: 0, y: 0 };
+                this.pins = [];
+                this.activeIndex = 0;
+                
+                this.init();
+            }
+            
+            init() {
+                this.updateSize();
+                this.camera.position.z = 12;
+                
+                this.createGlobe();
+                this.createPins();
+                this.animate();
+                
+                window.addEventListener('resize', () => this.updateSize());
+                
+                // Initial rotation to New York
+                this.rotateTo(0);
+            }
+            
+            updateSize() {
+                const container = this.canvas.parentElement;
+                const size = Math.min(container.clientWidth, container.clientHeight, 600);
+                this.renderer.setSize(size, size);
+                this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            }
+            
+            createGlobe() {
+                const geometry = new THREE.SphereGeometry(4, 64, 64);
+                const textureLoader = new THREE.TextureLoader();
+                
+                textureLoader.load('https://unpkg.com/three-globe/example/img/earth-night.jpg', (texture) => {
+                    this.globe.material.map = texture;
+                    this.globe.material.needsUpdate = true;
+                });
+                
+                const material = new THREE.MeshPhongMaterial({
+                    color: 0x1a1a2e,
+                    shininess: 5
+                });
+                
+                this.globe = new THREE.Mesh(geometry, material);
+                this.scene.add(this.globe);
+                
+                // Atmosphere
+                const atmosGeo = new THREE.SphereGeometry(4.12, 64, 64);
+                const atmosMat = new THREE.ShaderMaterial({
+                    vertexShader: `
+                        varying vec3 vNormal;
+                        void main() {
+                            vNormal = normalize(normalMatrix * normal);
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        }
+                    `,
+                    fragmentShader: `
+                        varying vec3 vNormal;
+                        void main() {
+                            float intensity = pow(0.6 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0);
+                            gl_FragColor = vec4(0.43, 0.7, 1.0, 0.3) * intensity;
+                        }
+                    `,
+                    blending: THREE.AdditiveBlending,
+                    side: THREE.BackSide,
+                    transparent: true
+                });
+                this.scene.add(new THREE.Mesh(atmosGeo, atmosMat));
+                
+                // Lights
+                this.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+                const light = new THREE.DirectionalLight(0xffffff, 0.8);
+                light.position.set(5, 3, 5);
+                this.scene.add(light);
+            }
+            
+            createPins() {
+                this.locations.forEach((loc, i) => {
+                    const pos = this.latLngToVector3(loc.lat, loc.lng);
+                    
+                    const dotGeo = new THREE.SphereGeometry(0.08, 16, 16);
+                    const dotMat = new THREE.MeshBasicMaterial({ 
+                        color: i === 0 ? 0x6eb3ff : 0x888888 
+                    });
+                    const dot = new THREE.Mesh(dotGeo, dotMat);
+                    dot.position.copy(pos);
+                    this.scene.add(dot);
+                    
+                    this.pins.push(dot);
+                });
+            }
+            
+            latLngToVector3(lat, lng) {
+                const phi = (90 - lat) * (Math.PI / 180);
+                const theta = (lng + 180) * (Math.PI / 180);
+                return new THREE.Vector3(
+                    -4 * Math.sin(phi) * Math.cos(theta),
+                    4 * Math.cos(phi),
+                    4 * Math.sin(phi) * Math.sin(theta)
+                );
+            }
+            
+            rotateTo(index) {
+                this.activeIndex = index;
+                const loc = this.locations[index];
+                
+                this.targetRotation.y = -loc.lng * (Math.PI / 180) - Math.PI / 2;
+                this.targetRotation.x = loc.lat * (Math.PI / 180) * 0.3;
+                
+                // Update pin colors
+                this.pins.forEach((pin, i) => {
+                    pin.material.color.setHex(i === index ? 0x6eb3ff : 0x888888);
+                });
+            }
+            
+            animate() {
+                requestAnimationFrame(() => this.animate());
+                
+                // Smooth rotation
+                this.rotation.x += (this.targetRotation.x - this.rotation.x) * 0.05;
+                this.rotation.y += (this.targetRotation.y - this.rotation.y) * 0.05;
+                
+                if (this.globe) {
+                    this.globe.rotation.x = this.rotation.x;
+                    this.globe.rotation.y = this.rotation.y;
+                }
+                
+                // Rotate pins with globe
+                this.pins.forEach((pin, i) => {
+                    const loc = this.locations[i];
+                    const pos = this.latLngToVector3(loc.lat, loc.lng);
+                    
+                    // Apply globe rotation to pin position
+                    pos.applyAxisAngle(new THREE.Vector3(1, 0, 0), this.rotation.x);
+                    pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.rotation.y);
+                    
+                    pin.position.copy(pos);
+                });
+                
+                this.renderer.render(this.scene, this.camera);
+            }
+        }
+        
+        // Initialize
+        const globe = new Globe();
+        const storyPanel = document.getElementById('story-panel');
+        const storyTitle = document.getElementById('story-title');
+        const storyText = document.getElementById('story-text');
+        const locations = document.querySelectorAll('.location');
+        
+        // Location click handlers
+        locations.forEach((loc) => {
+            loc.addEventListener('click', () => {
+                const index = parseInt(loc.dataset.index);
+                
+                // Update active state
+                locations.forEach(l => l.classList.remove('active'));
+                loc.classList.add('active');
+                
+                // Rotate globe
+                globe.rotateTo(index);
+                
+                // Update story panel
+                storyTitle.textContent = stories[index].title;
+                storyText.textContent = stories[index].text;
+                storyPanel.classList.add('visible');
+            });
+        });
+        
+        // Show initial story
+        setTimeout(() => {
+            storyPanel.classList.add('visible');
+        }, 500);
+    </script>
 </body>
 </html>
