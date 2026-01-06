@@ -5,414 +5,186 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tristan Paton</title>
     
-    <!-- Google Fonts -->
+    <!-- Preload critical fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Three.js -->
+    <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
-    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
     
-    <link rel="stylesheet" href="css/hub.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Three.js Canvas for Stars -->
-    <canvas id="space-canvas"></canvas>
+    <!-- Noise Overlay -->
+    <div class="noise"></div>
+    
+    <!-- Custom Cursor -->
+    <div class="cursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-outline"></div>
+    </div>
 
-    <!-- ==================== HUB VIEW ==================== -->
-    <div id="hub-view">
-        <!-- Header -->
-        <header id="hub-header">
-            <h1 class="name">Tristan Paton</h1>
-            <p class="subtitle">Data Analyst & Builder</p>
-        </header>
+    <!-- Progress Line -->
+    <div class="progress-line"></div>
 
-        <!-- Main Navigation Area -->
-        <div id="main-nav-area">
-            <!-- Globe -->
-            <div id="globe-container">
-                <canvas id="mini-globe"></canvas>
-                <div class="globe-label">
-                    <span class="label-title">My Journey</span>
-                    <span class="label-subtitle"> </span>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#" class="nav-logo">TP</a>
+        <div class="nav-links">
+            <a href="#work" class="nav-link" data-text="Work">Work</a>
+            <a href="#journey" class="nav-link" data-text="Journey">Journey</a>
+            <a href="#about" class="nav-link" data-text="About">About</a>
+            <a href="assets/Paton_Tristan_Resume.pdf" class="nav-link" data-text="Resume" download>Resume</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-eyebrow">
+                <span class="line"></span>
+                <span class="text">Data Analyst & Builder</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="title-line"><span class="title-word">Tristan</span></span>
+                <span class="title-line"><span class="title-word">Paton</span></span>
+            </h1>
+            <p class="hero-subtitle">
+                I build systems that turn complexity into clarity.<br>
+                Currently shaping private markets data at Chronograph.
+            </p>
+        </div>
+        <div class="hero-scroll">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Globe Section -->
+    <section class="globe-section" id="journey">
+        <div class="globe-container">
+            <canvas id="globe-canvas"></canvas>
+        </div>
+        <div class="globe-content">
+            <span class="section-number">01</span>
+            <h2 class="section-title">
+                <span class="title-line"><span class="title-word">Nine cities.</span></span>
+                <span class="title-line"><span class="title-word">Four continents.</span></span>
+            </h2>
+            <p class="section-text">
+                From Tashkent to San Francisco, my childhood was a lesson in adaptation. 
+                Each move taught me to see systems—cultural, technical, human—from the outside in.
+            </p>
+            <a href="journey.html" class="magnetic-btn">
+                <span class="btn-text">Explore the journey</span>
+                <span class="btn-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Work Section -->
+    <section class="work-section" id="work">
+        <div class="work-header">
+            <span class="section-number">02</span>
+            <h2 class="section-title">
+                <span class="title-line"><span class="title-word">Selected</span></span>
+                <span class="title-line"><span class="title-word">Work</span></span>
+            </h2>
+        </div>
+        <div class="work-grid">
+            <article class="work-item" data-cursor="view">
+                <div class="work-item-image">
+                    <div class="work-item-overlay"></div>
+                    <div class="work-item-number">01</div>
+                </div>
+                <div class="work-item-content">
+                    <h3>Chronograph</h3>
+                    <p>Data pipelines for 10,000+ portfolio companies. Real-time analytics for institutional investors.</p>
+                    <span class="work-item-tag">Data Engineering</span>
+                </div>
+            </article>
+            <article class="work-item" data-cursor="view">
+                <div class="work-item-image">
+                    <div class="work-item-overlay"></div>
+                    <div class="work-item-number">02</div>
+                </div>
+                <div class="work-item-content">
+                    <h3>Semiconductor Pulse</h3>
+                    <p>Real-time news aggregation with sentiment analysis. Bloomberg-terminal aesthetic.</p>
+                    <span class="work-item-tag">Full Stack</span>
+                </div>
+            </article>
+            <article class="work-item" data-cursor="view">
+                <div class="work-item-image">
+                    <div class="work-item-overlay"></div>
+                    <div class="work-item-number">03</div>
+                </div>
+                <div class="work-item-content">
+                    <h3>This Portfolio</h3>
+                    <p>Interactive 3D globe. Scroll-driven storytelling. Crafted with Three.js and obsessive attention.</p>
+                    <span class="work-item-tag">Creative Dev</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <span class="section-number">03</span>
+            <div class="about-content">
+                <h2 class="about-title">
+                    <span class="title-line"><span class="title-word">I think in</span></span>
+                    <span class="title-line"><span class="title-word">systems.</span></span>
+                </h2>
+                <div class="about-text">
+                    <p>
+                        Whether it's mapping semiconductor supply chains, building data pipelines, 
+                        or understanding geopolitical shifts—I'm drawn to complexity that rewards patience.
+                    </p>
+                    <p>
+                        I studied Computer Science and French at Denison. I've lived in New York, 
+                        Uzbekistan, Morocco, Thailand, Germany, Lebanon, and Ohio. I think this 
+                        explains a lot.
+                    </p>
+                </div>
+                <div class="about-interests">
+                    <span class="interest">Semiconductors</span>
+                    <span class="interest">US-China Relations</span>
+                    <span class="interest">Space Industry</span>
+                    <span class="interest">Export Controls</span>
                 </div>
             </div>
-            
-            <!-- Other Nav Items -->
-            <div id="other-nav-items">
-                <a href="#" class="nav-item" id="nav-projects">
-                    <div class="nav-icon">🛰️</div>
-                    <div class="nav-item-text">
-                        <span class="nav-title">Projects</span>
-                        <span class="nav-subtitle">What I'm building</span>
-                    </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="contact-content">
+            <h2 class="contact-title">
+                <span class="title-line"><span class="title-word">Let's</span></span>
+                <span class="title-line"><span class="title-word">connect.</span></span>
+            </h2>
+            <div class="contact-links">
+                <a href="mailto:tristanpaton0@gmail.com" class="contact-link magnetic-btn">
+                    <span>tristanpaton0@gmail.com</span>
                 </a>
-                
-                <a href="#" class="nav-item" id="nav-interests">
-                    <div class="nav-icon">✨</div>
-                    <div class="nav-item-text">
-                        <span class="nav-title">Interests</span>
-                        <span class="nav-subtitle">What I'm reading</span>
-                    </div>
-                </a>
-                
-                <a href="#" class="nav-item" id="nav-resume">
-                    <div class="nav-icon">📄</div>
-                    <div class="nav-item-text">
-                        <span class="nav-title">Resume</span>
-                        <span class="nav-subtitle">Background & skills</span>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer id="hub-footer">
-            <div class="connect-links">
-                <a href="https://github.com/tristan333" target="_blank" class="connect-link">GitHub</a>
-                <a href="https://www.linkedin.com/in/tristanpaton/" target="_blank" class="connect-link">LinkedIn</a>
-                <a href="mailto:tristanpaton0@gmail.com" class="connect-link">Email</a>
-            </div>
-        </footer>
-    </div>
-
-    <!-- ==================== JOURNEY VIEW ==================== -->
-    <div id="journey-view">
-        <!-- Globe Container for Journey -->
-        <div id="journey-globe-container">
-            <canvas id="journey-globe"></canvas>
-        </div>
-
-        <!-- Back Button -->
-        <button id="back-to-hub">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
-            <span>Back</span>
-        </button>
-
-        <!-- Scroll Progress -->
-        <div id="scroll-progress">
-            <div id="progress-bar"></div>
-        </div>
-
-        <!-- Navigation Dots -->
-        <nav id="nav-dots">
-            <div class="nav-dot active" data-section="0" title="New York"></div>
-            <div class="nav-dot" data-section="1" title="Tashkent"></div>
-            <div class="nav-dot" data-section="2" title="Rabat"></div>
-            <div class="nav-dot" data-section="3" title="Bangkok"></div>
-            <div class="nav-dot" data-section="4" title="Berlin"></div>
-            <div class="nav-dot" data-section="5" title="Beirut"></div>
-            <div class="nav-dot" data-section="6" title="San Francisco"></div>
-            <div class="nav-dot" data-section="7" title="Hannover"></div>
-            <div class="nav-dot" data-section="8" title="Granville"></div>
-        </nav>
-
-        <!-- Journey Sections -->
-        <div id="journey-sections">
-            <!-- Hero Section -->
-            <section id="hero" class="section">
-                <div class="hero-content">
-                    <h1>My Journey</h1>
-                    <p class="tagline"></p>
-                    <div class="scroll-hint">
-                        <span>Scroll to explore</span>
-                        <div class="scroll-arrow"></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Country Sections -->
-            <section id="new-york" class="section country-section" data-lat="40.7128" data-lng="-74.0060">
-                <div class="content-panel">
-                    <div class="location-badge">
-                        <span class="country-flag">🇺🇸</span>
-                        <span class="location-name">New York, USA</span>
-                    </div>
-                    <h2>Where It Began</h2>
-                    <div class="years">2001</div>
-                    <p class="story">Born in New York. Within months, my family's work would take us across the world—the first of many moves that would shape how I see everything.</p>
-                </div>
-            </section>
-
-            <section id="tashkent" class="section country-section" data-lat="41.2995" data-lng="69.2401">
-                <div class="content-panel">
-                    <div class="location-badge">
-                        <span class="country-flag">🇺🇿</span>
-                        <span class="location-name">Tashkent, Uzbekistan</span>
-                    </div>
-                    <h2>First Steps</h2>
-                    <div class="years">2002 — 2004</div>
-                    <p class="story">My first real home. Attended a Russian preschool in a city along the ancient Silk Road. Too young to remember much, but this is where the journey began.</p>
-                </div>
-            </section>
-
-            <section id="rabat" class="section country-section" data-lat="34.0209" data-lng="-6.8416">
-                <div class="content-panel">
-                    <div class="location-badge">
-                        <span class="country-flag">🇲🇦</span>
-                        <span class="location-name">Rabat, Morocco</span>
-                    </div>
-                    <h2>North Africa</h2>
-                    <div class="years">2004 — 2008</div>
-                    <p class="story">Started my education in the French system at a local kindergarten. My sister was born here. Four years in Morocco gave me my first real memories of life abroad.</p>
-                </div>
-            </section>
-
-            <section id="bangkok" class="section country-section" data-lat="13.7563" data-lng="100.5018">
-                <div class="content-panel">
-                    <div class="location-badge">
-                        <span class="country-flag">🇹🇭</span>
-                        <span class="location-name">Bangkok, Thailand</span>
-                    </div>
-                    <h2>Southeast Asia</h2>
-                    <div class="years">2008 — 2011</div>
-                    <p class="story">Continued in the French school system through second grade. Three years in Bangkok—a city of contrasts that shaped my early childhood.</p>
-                </div>
-            </section>
-
-            <section id="berlin" class="section country-section" data-lat="52.5200" data-lng="13.4050">
-                <div class="content-panel">
-                    <div class="location-badge">
-                        <span class="country-flag">🇩🇪</span>
-                        <span class="location-name">Berlin, Germany</span>
-                    </div>
-                    <h2>New System</h2>
-                    <div class="years">2011 — 2012</div>
-                    <p class="story">First transition to an international school after years in the French system. A brief but significant stop that introduced me to Germany—a country I'd return to later.</p>
-                </div>
-            </section>
-
-            <section id="beirut" class="section country-section" data-lat="33.8938" data-lng="35.5018">
-                <div class="content-panel">
-                    <div class="location-badge">
-                        <span class="country-flag">🇱🇧</span>
-                        <span class="location-name">Beirut, Lebanon</span>
-                    </div>
-                    <h2>Formative Years</h2>
-                    <div class="years">2012 — 2015</div>
-                    <p class="story">Middle school in one of the world's most complex cities. These three years were formative—where I started to understand the world beyond just living in it.</p>
-                </div>
-            </section>
-
-            <section id="san-francisco" class="section country-section" data-lat="37.7749" data-lng="-122.4194">
-                <div class="content-panel">
-                    <div class="location-badge">
-                        <span class="country-flag">🇺🇸</span>
-                        <span class="location-name">San Francisco, USA</span>
-                    </div>
-                    <h2>Tech Exposure</h2>
-                    <div class="years">2015 — 2017</div>
-                    <p class="story">Started 7th grade at AltSchool, a startup school founded by a former Google exec. Being around engineers building edtech products sparked my interest in technology. Continued at Berkeley High before moving again.</p>
-                </div>
-            </section>
-
-            <section id="hannover" class="section country-section" data-lat="52.3759" data-lng="9.7320">
-                <div class="content-panel">
-                    <div class="location-badge">
-                        <span class="country-flag">🇩🇪</span>
-                        <span class="location-name">Hannover, Germany</span>
-                    </div>
-                    <h2>Finishing Strong</h2>
-                    <div class="years">2017 — 2020</div>
-                    <p class="story">Returned to Germany for high school. Graduated during the pandemic—an unexpected end to an international education that spanned three continents.</p>
-                </div>
-            </section>
-
-            <section id="granville" class="section country-section" data-lat="40.0681" data-lng="-82.5193">
-                <div class="content-panel">
-                    <div class="location-badge">
-                        <span class="country-flag">🇺🇸</span>
-                        <span class="location-name">Granville, Ohio</span>
-                    </div>
-                    <h2>Denison University</h2>
-                    <div class="years">2020 — 2024</div>
-                    <p class="story">Studied Computer Science and French—a combination that made sense given my background. Four years to process a lifetime of global experience and build technical foundations.</p>
-                </div>
-            </section>
-
-            <!-- Final Section - Today -->
-            <section id="today" class="section">
-                <div class="today-content">
-                    <h2>Today</h2>
-                    <p class="current-role">Data Analyst at Chronograph</p>
-                    <p class="current-location">Back in New York</p>
-                    <p class="current-focus">Working in private markets data. Interested in semiconductors, geopolitics, and the space industry.</p>
-                    
-                    <div class="interests">
-                        <span class="interest-tag">Semiconductors</span>
-                        <span class="interest-tag">US-China Relations</span>
-                        <span class="interest-tag">Space Industry</span>
-                        <span class="interest-tag">Export Controls</span>
-                    </div>
-
-                    <button id="back-to-hub-bottom" class="back-button-bottom">
-                        Back to Home
-                    </button>
-                </div>
-            </section>
-        </div>
-    </div>
-
-    <!-- ==================== MODALS ==================== -->
-    <!-- Projects Modal -->
-    <div id="projects-modal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <h2>Projects</h2>
-            <div class="projects-grid">
-                <a href="https://news-aggregator-ru4n.onrender.com/" target="_blank" class="project-card">
-                    <div class="project-icon">📡</div>
-                    <h3>Semiconductor News Aggregator</h3>
-                    <p>Real-time news aggregation with sentiment analysis. Built with Flask, NewsAPI, and a Bloomberg-inspired terminal interface.</p>
-                    <div class="project-tags">
-                        <span>Python</span>
-                        <span>Flask</span>
-                        <span>API</span>
-                    </div>
-                </a>
-                <div class="project-card" id="globe-project-card">
-                    <div class="project-icon">🌍</div>
-                    <h3>Interactive Globe Portfolio</h3>
-                    <p>3D interactive globe built with Three.js showcasing my journey across 9 locations and 4 continents.</p>
-                    <div class="project-tags">
-                        <span>Three.js</span>
-                        <span>GSAP</span>
-                        <span>JavaScript</span>
-                    </div>
-                </div>
-                <div class="project-card coming-soon">
-                    <div class="project-icon">🔮</div>
-                    <h3>More Coming Soon</h3>
-                    <p>Currently exploring space industry data visualization and geopolitical analysis tools.</p>
+                <div class="contact-social">
+                    <a href="https://github.com/tristan333" target="_blank" class="social-link">GitHub</a>
+                    <a href="https://www.linkedin.com/in/tristanpaton/" target="_blank" class="social-link">LinkedIn</a>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Interests Modal -->
-    <div id="interests-modal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <h2>Interests</h2>
-            <div class="interests-sections">
-                <div class="interest-category">
-                    <h3>📚 Books</h3>
-                    <ul class="interest-list">
-                        <li>
-                            <span class="interest-title">Chip War</span>
-                            <span class="interest-author">Chris Miller</span>
-                        </li>
-                        <li>
-                            <span class="interest-title">The Making of the Atomic Bomb</span>
-                            <span class="interest-author">Richard Rhodes</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="interest-category">
-                    <h3>📰 Substacks & Newsletters</h3>
-                    <ul class="interest-list">
-                        <li>
-                            <span class="interest-title">ChinaTalk</span>
-                            <span class="interest-author">Jordan Schneider</span>
-                        </li>
-                        <li>
-                            <span class="interest-title">SemiAnalysis</span>
-                            <span class="interest-author">Dylan Patel</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="interest-category">
-                    <h3>🎯 Topics I Follow</h3>
-                    <div class="topic-tags">
-                        <span>Semiconductor Geopolitics</span>
-                        <span>US-China Tech Relations</span>
-                        <span>Space Industry</span>
-                        <span>Export Controls</span>
-                        <span>Private Markets</span>
-                    </div>
-                </div>
-            </div>
+        <div class="contact-footer">
+            <span>© 2025 Tristan Paton</span>
+            <span>Built with curiosity</span>
         </div>
-    </div>
+    </section>
 
-    <!-- Resume Modal -->
-    <div id="resume-modal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <h2>Resume</h2>
-            <div class="resume-content">
-                <div class="resume-section">
-                    <h3>Experience</h3>
-                    <div class="resume-item">
-                        <div class="resume-role">Data Analyst</div>
-                        <div class="resume-company">Chronograph</div>
-                        <div class="resume-date">2024 — Present</div>
-                        <p>Building data pipelines and analytics for 10,000+ portfolio companies. Working with PostgreSQL, JavaScript, and TypeScript to deliver real-time insights to institutional clients in private equity.</p>
-                    </div>
-                    <div class="resume-item">
-                        <div class="resume-role">Sustainable Investments Analyst Intern</div>
-                        <div class="resume-company">RevRoad Capital</div>
-                        <div class="resume-date">May 2024 — Sept 2024</div>
-                        <p>Analyzed green tech startups using Python. Built financial models for early-stage climate-tech ventures, contributing to a 20% increase in qualified investment leads.</p>
-                    </div>
-                    <div class="resume-item">
-                        <div class="resume-role">Market Research Intern</div>
-                        <div class="resume-company">National Research Group</div>
-                        <div class="resume-date">Dec 2023 — April 2024</div>
-                        <p>Led a 10-member research team focused on sustainability policy and emerging sustainable markets.</p>
-                    </div>
-                    <div class="resume-item">
-                        <div class="resume-role">Project Manager</div>
-                        <div class="resume-company">Leyline</div>
-                        <div class="resume-date">May 2022 — Sept 2022</div>
-                        <p>Developed monetization strategies for an eco-friendly blockchain platform. Built dashboards and coordinated partnerships for product launch.</p>
-                    </div>
-                </div>
-                <div class="resume-section">
-                    <h3>Education</h3>
-                    <div class="resume-item">
-                        <div class="resume-role">B.A. Computer Science & French</div>
-                        <div class="resume-company">Denison University</div>
-                        <div class="resume-date">2020 — 2024</div>
-                        <p>Relevant coursework: Database Management, Data Analysis, Algorithms, International Business</p>
-                    </div>
-                    <div class="resume-item">
-                        <div class="resume-role">Study Abroad — Computer Science & Business</div>
-                        <div class="resume-company">Queen Mary University of London</div>
-                        <div class="resume-date">Fall 2022</div>
-                    </div>
-                </div>
-                <div class="resume-section">
-                    <h3>Skills</h3>
-                    <div class="skills-grid">
-                        <span>Python</span>
-                        <span>PostgreSQL</span>
-                        <span>JavaScript</span>
-                        <span>TypeScript</span>
-                        <span>C++</span>
-                        <span>Swift</span>
-                        <span>Data Analysis</span>
-                        <span>Financial Modeling</span>
-                    </div>
-                </div>
-                <div class="resume-section">
-                    <h3>Languages</h3>
-                    <div class="skills-grid">
-                        <span>English (Native)</span>
-                        <span>French (Working Proficiency)</span>
-                        <span>German (Working Proficiency)</span>
-                    </div>
-                </div>
-                <a href="assets/Paton_Tristan_Resume.pdf" download class="download-resume">Download PDF Resume</a>
-            </div>
-        </div>
-    </div>
-    <script src="js/hub.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
