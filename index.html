@@ -5,128 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tristan Paton</title>
     
-    <!-- Preload critical fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
     
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Noise Overlay -->
-    <div class="noise"></div>
+    <!-- Stars Background -->
+    <canvas id="stars-canvas"></canvas>
     
-    <!-- Custom Cursor -->
-    <div class="cursor">
-        <div class="cursor-dot"></div>
-        <div class="cursor-outline"></div>
-    </div>
-
-    <!-- Progress Line -->
-    <div class="progress-line"></div>
+    <!-- Gradient Overlay -->
+    <div class="gradient-overlay"></div>
 
     <!-- Navigation -->
     <nav class="nav">
-        <a href="#" class="nav-logo">TP</a>
+        <a href="#" class="nav-logo">Tristan Paton</a>
         <div class="nav-links">
-            <a href="#work" class="nav-link" data-text="Work">Work</a>
-            <a href="#journey" class="nav-link" data-text="Journey">Journey</a>
-            <a href="#about" class="nav-link" data-text="About">About</a>
-            <a href="assets/Paton_Tristan_Resume.pdf" class="nav-link" data-text="Resume" download>Resume</a>
+            <a href="#journey" class="nav-link">Journey</a>
+            <a href="#work" class="nav-link">Work</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="assets/Paton_Tristan_Resume.pdf" class="nav-link nav-cta" download>Resume</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-eyebrow">
-                <span class="line"></span>
-                <span class="text">Data Analyst & Builder</span>
-            </div>
-            <h1 class="hero-title">
-                <span class="title-line"><span class="title-word">Tristan</span></span>
-                <span class="title-line"><span class="title-word">Paton</span></span>
-            </h1>
-            <p class="hero-subtitle">
-                I build systems that turn complexity into clarity.<br>
-                Currently shaping private markets data at Chronograph.
-            </p>
+    <section class="hero" id="home">
+        <div class="hero-globe">
+            <canvas id="hero-globe"></canvas>
         </div>
-        <div class="hero-scroll">
+        <div class="hero-content">
+            <p class="hero-label">Data Analyst & Builder</p>
+            <h1 class="hero-title">
+                <span class="line">Hello, I'm</span>
+                <span class="line highlight">Tristan.</span>
+            </h1>
+            <p class="hero-description">
+                I turn complex data into clear insights. Currently building 
+                data systems at Chronograph. Previously lived across 9 cities 
+                and 4 continents.
+            </p>
+            <div class="hero-cta">
+                <a href="#journey" class="btn btn-primary">
+                    <span>Explore my journey</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                    </svg>
+                </a>
+                <a href="#work" class="btn btn-secondary">View my work</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
             <span>Scroll</span>
             <div class="scroll-line"></div>
         </div>
     </section>
 
-    <!-- Globe Section -->
-    <section class="globe-section" id="journey">
-        <div class="globe-container">
-            <canvas id="globe-canvas"></canvas>
-        </div>
-        <div class="globe-content">
-            <span class="section-number">01</span>
-            <h2 class="section-title">
-                <span class="title-line"><span class="title-word">Nine cities.</span></span>
-                <span class="title-line"><span class="title-word">Four continents.</span></span>
-            </h2>
-            <p class="section-text">
-                From Tashkent to San Francisco, my childhood was a lesson in adaptation. 
-                Each move taught me to see systems—cultural, technical, human—from the outside in.
+    <!-- Journey Section -->
+    <section class="journey-section" id="journey">
+        <div class="section-header">
+            <span class="section-label">01 — Journey</span>
+            <h2 class="section-title">Nine cities.<br>Four continents.</h2>
+            <p class="section-description">
+                From Tashkent to San Francisco, my childhood was a masterclass in adaptation. 
+                Each move shaped how I see systems—cultural, technical, and human.
             </p>
-            <a href="journey.html" class="magnetic-btn">
-                <span class="btn-text">Explore the journey</span>
-                <span class="btn-arrow">→</span>
-            </a>
         </div>
+        <div class="journey-globe-container">
+            <canvas id="journey-globe"></canvas>
+            <div class="journey-locations">
+                <div class="location" data-index="0">
+                    <span class="location-dot"></span>
+                    <span class="location-name">New York</span>
+                    <span class="location-year">2001</span>
+                </div>
+                <div class="location" data-index="1">
+                    <span class="location-dot"></span>
+                    <span class="location-name">Tashkent</span>
+                    <span class="location-year">2002-04</span>
+                </div>
+                <div class="location" data-index="2">
+                    <span class="location-dot"></span>
+                    <span class="location-name">Rabat</span>
+                    <span class="location-year">2004-08</span>
+                </div>
+                <div class="location" data-index="3">
+                    <span class="location-dot"></span>
+                    <span class="location-name">Bangkok</span>
+                    <span class="location-year">2008-11</span>
+                </div>
+                <div class="location" data-index="4">
+                    <span class="location-dot"></span>
+                    <span class="location-name">Berlin</span>
+                    <span class="location-year">2011-12</span>
+                </div>
+                <div class="location" data-index="5">
+                    <span class="location-dot"></span>
+                    <span class="location-name">Beirut</span>
+                    <span class="location-year">2012-15</span>
+                </div>
+                <div class="location" data-index="6">
+                    <span class="location-dot"></span>
+                    <span class="location-name">San Francisco</span>
+                    <span class="location-year">2015-17</span>
+                </div>
+                <div class="location" data-index="7">
+                    <span class="location-dot"></span>
+                    <span class="location-name">Hannover</span>
+                    <span class="location-year">2017-20</span>
+                </div>
+                <div class="location" data-index="8">
+                    <span class="location-dot"></span>
+                    <span class="location-name">Ohio</span>
+                    <span class="location-year">2020-24</span>
+                </div>
+            </div>
+        </div>
+        <a href="journey.html" class="btn btn-primary journey-btn">
+            <span>Full interactive experience</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+            </svg>
+        </a>
     </section>
 
     <!-- Work Section -->
     <section class="work-section" id="work">
-        <div class="work-header">
-            <span class="section-number">02</span>
-            <h2 class="section-title">
-                <span class="title-line"><span class="title-word">Selected</span></span>
-                <span class="title-line"><span class="title-word">Work</span></span>
-            </h2>
+        <div class="section-header">
+            <span class="section-label">02 — Work</span>
+            <h2 class="section-title">Selected projects.</h2>
         </div>
         <div class="work-grid">
-            <article class="work-item" data-cursor="view">
-                <div class="work-item-image">
-                    <div class="work-item-overlay"></div>
-                    <div class="work-item-number">01</div>
+            <article class="work-card">
+                <div class="work-card-image">
+                    <div class="work-card-number">01</div>
                 </div>
-                <div class="work-item-content">
+                <div class="work-card-content">
+                    <span class="work-card-tag">Current Role</span>
                     <h3>Chronograph</h3>
-                    <p>Data pipelines for 10,000+ portfolio companies. Real-time analytics for institutional investors.</p>
-                    <span class="work-item-tag">Data Engineering</span>
+                    <p>Building data pipelines for 10,000+ portfolio companies. PostgreSQL, JavaScript, TypeScript.</p>
                 </div>
             </article>
-            <article class="work-item" data-cursor="view">
-                <div class="work-item-image">
-                    <div class="work-item-overlay"></div>
-                    <div class="work-item-number">02</div>
+            <article class="work-card">
+                <div class="work-card-image">
+                    <div class="work-card-number">02</div>
                 </div>
-                <div class="work-item-content">
+                <div class="work-card-content">
+                    <span class="work-card-tag">Side Project</span>
                     <h3>Semiconductor Pulse</h3>
                     <p>Real-time news aggregation with sentiment analysis. Bloomberg-terminal aesthetic.</p>
-                    <span class="work-item-tag">Full Stack</span>
                 </div>
             </article>
-            <article class="work-item" data-cursor="view">
-                <div class="work-item-image">
-                    <div class="work-item-overlay"></div>
-                    <div class="work-item-number">03</div>
+            <article class="work-card">
+                <div class="work-card-image">
+                    <div class="work-card-number">03</div>
                 </div>
-                <div class="work-item-content">
-                    <h3>This Portfolio</h3>
-                    <p>Interactive 3D globe. Scroll-driven storytelling. Crafted with Three.js and obsessive attention.</p>
-                    <span class="work-item-tag">Creative Dev</span>
+                <div class="work-card-content">
+                    <span class="work-card-tag">This Site</span>
+                    <h3>Interactive Portfolio</h3>
+                    <p>3D globe with Three.js, scroll animations with GSAP. You're looking at it.</p>
                 </div>
             </article>
         </div>
@@ -135,56 +176,88 @@
     <!-- About Section -->
     <section class="about-section" id="about">
         <div class="about-container">
-            <span class="section-number">03</span>
             <div class="about-content">
-                <h2 class="about-title">
-                    <span class="title-line"><span class="title-word">I think in</span></span>
-                    <span class="title-line"><span class="title-word">systems.</span></span>
-                </h2>
+                <span class="section-label">03 — About</span>
+                <h2 class="section-title">I think in systems.</h2>
                 <div class="about-text">
                     <p>
                         Whether it's mapping semiconductor supply chains, building data pipelines, 
                         or understanding geopolitical shifts—I'm drawn to complexity that rewards patience.
                     </p>
                     <p>
-                        I studied Computer Science and French at Denison. I've lived in New York, 
-                        Uzbekistan, Morocco, Thailand, Germany, Lebanon, and Ohio. I think this 
-                        explains a lot.
+                        I studied Computer Science and French at Denison University. I speak English, 
+                        French, and German. I'm currently based in New York.
                     </p>
                 </div>
                 <div class="about-interests">
-                    <span class="interest">Semiconductors</span>
-                    <span class="interest">US-China Relations</span>
-                    <span class="interest">Space Industry</span>
-                    <span class="interest">Export Controls</span>
+                    <h4>Areas of Interest</h4>
+                    <div class="interest-tags">
+                        <span class="interest-tag">Semiconductors</span>
+                        <span class="interest-tag">US-China Relations</span>
+                        <span class="interest-tag">Space Industry</span>
+                        <span class="interest-tag">Export Controls</span>
+                        <span class="interest-tag">Private Markets</span>
+                    </div>
+                </div>
+                <div class="about-skills">
+                    <h4>Technical Skills</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">Three.js</span>
+                        <span class="skill-tag">Data Analysis</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <div class="about-image-placeholder">
+                    <span>TP</span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section class="contact-section">
+    <section class="contact-section" id="contact">
         <div class="contact-content">
-            <h2 class="contact-title">
-                <span class="title-line"><span class="title-word">Let's</span></span>
-                <span class="title-line"><span class="title-word">connect.</span></span>
-            </h2>
+            <span class="section-label">04 — Contact</span>
+            <h2 class="contact-title">Let's connect.</h2>
+            <p class="contact-description">
+                I'm always interested in discussing data, geopolitics, 
+                or interesting opportunities.
+            </p>
+            <a href="mailto:tristanpaton0@gmail.com" class="contact-email">
+                tristanpaton0@gmail.com
+            </a>
             <div class="contact-links">
-                <a href="mailto:tristanpaton0@gmail.com" class="contact-link magnetic-btn">
-                    <span>tristanpaton0@gmail.com</span>
+                <a href="https://github.com/tristan333" target="_blank" class="contact-link">
+                    <span>GitHub</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                    </svg>
                 </a>
-                <div class="contact-social">
-                    <a href="https://github.com/tristan333" target="_blank" class="social-link">GitHub</a>
-                    <a href="https://www.linkedin.com/in/tristanpaton/" target="_blank" class="social-link">LinkedIn</a>
-                </div>
+                <a href="https://www.linkedin.com/in/tristanpaton/" target="_blank" class="contact-link">
+                    <span>LinkedIn</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                    </svg>
+                </a>
+                <a href="assets/Paton_Tristan_Resume.pdf" download class="contact-link">
+                    <span>Resume</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12l7 7 7-7"/>
+                    </svg>
+                </a>
             </div>
         </div>
-        <div class="contact-footer">
+        <footer class="footer">
             <span>© 2025 Tristan Paton</span>
-            <span>Built with curiosity</span>
-        </div>
+            <span>Built with Three.js & GSAP</span>
+        </footer>
     </section>
 
-    <script src="js/app.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
