@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Journey · Tristan Paton</title>
+    <title>My Life · Tristan Paton</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,20 +14,29 @@
     
     <style>
         :root {
-            --bg: #0c0c0c;
+            --bg: #050508;
+            --bg-secondary: #0a0a0f;
             --text: #e8e8e8;
             --text-muted: #888;
             --text-subtle: #555;
             --accent: #6eb3ff;
-            --border: #222;
+            --accent-glow: rgba(110, 179, 255, 0.4);
+            --border: #1a1a1f;
             --font: 'Inter', -apple-system, sans-serif;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        [data-theme="light"] {
+            --bg: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --text: #111;
+            --text-muted: #555;
+            --text-subtle: #999;
+            --accent: #0066cc;
+            --accent-glow: rgba(0, 102, 204, 0.3);
+            --border: #e0e0e0;
         }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: var(--font);
@@ -37,267 +46,486 @@
             overflow: hidden;
             height: 100vh;
             -webkit-font-smoothing: antialiased;
+            transition: background 0.5s ease, color 0.5s ease;
         }
         
-        a {
-            color: var(--text);
-            text-decoration: none;
-        }
+        a { color: var(--text); text-decoration: none; transition: color 0.2s; }
+        a:hover { color: var(--accent); }
         
-        /* Back link */
-        .back {
+        /* Header */
+        .site-header {
             position: fixed;
-            top: 24px;
-            left: 24px;
+            top: 0; left: 0; right: 0;
             z-index: 100;
-            font-size: 0.9rem;
-            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 32px;
+            background: linear-gradient(to bottom, var(--bg) 0%, transparent 100%);
+        }
+        
+        .back-link {
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: color 0.2s;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            transition: color 0.2s, transform 0.2s;
+        }
+        .back-link:hover { 
+            color: var(--text); 
+            transform: translateX(-3px);
+        }
+        .back-link svg { width: 18px; height: 18px; }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
         }
         
-        .back:hover {
-            color: var(--accent);
+        .theme-toggle:hover {
+            color: var(--text);
+            border-color: var(--text-muted);
+            transform: scale(1.05);
+        }
+
+        .theme-icon {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .theme-toggle:hover .theme-icon {
+            transform: rotate(20deg);
+        }
+
+        [data-theme="light"] .theme-icon {
+            transform: rotate(180deg);
         }
         
-        .back svg {
-            width: 16px;
-            height: 16px;
+        [data-theme="light"] .theme-toggle:hover .theme-icon {
+            transform: rotate(200deg);
         }
         
         /* Layout */
         .layout {
             display: grid;
-            grid-template-columns: 1fr 400px;
+            grid-template-columns: 1fr 380px;
             height: 100vh;
         }
         
-        /* Globe */
-        .globe-container {
+        .globe-area {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
+            background: var(--bg);
+            transition: background 0.5s ease;
+            overflow: hidden;
+            cursor: grab;
         }
         
-        #globe {
-            width: 100%;
-            height: 100%;
-            max-width: 600px;
-            max-height: 600px;
+        .globe-area:active {
+            cursor: grabbing;
+        }
+        
+        /* Subtle grid background for globe area */
+        .globe-area::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.3;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        
+        [data-theme="light"] .globe-area::before {
+            opacity: 0.15;
+        }
+        
+        #canvas { 
+            display: block; 
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Drag hint */
+        .drag-hint {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--text-subtle);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .drag-hint svg {
+            width: 14px;
+            height: 14px;
+        }
+        
+        .globe-area:active .drag-hint {
+            opacity: 0;
         }
         
         /* Sidebar */
         .sidebar {
             border-left: 1px solid var(--border);
-            padding: 80px 32px 32px;
+            padding: 100px 28px 28px;
             overflow-y: auto;
-            background: var(--bg);
+            background: var(--bg-secondary);
+            transition: all 0.5s ease;
         }
         
         .sidebar-header {
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
         
-        .sidebar-header h1 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 8px;
+        .sidebar h1 { 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
         }
         
-        .sidebar-header p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
+        .sidebar-subtitle { 
+            font-size: 0.8rem; 
+            color: var(--text-muted); 
         }
         
-        /* Locations */
-        .locations {
-            list-style: none;
+        /* Location List */
+        .locations { 
+            list-style: none; 
         }
         
         .location {
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border);
+            padding: 14px 12px;
+            margin: 0 -12px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
+            border-bottom: 1px solid transparent;
         }
         
-        .location:last-child {
-            border-bottom: none;
+        .location:hover { 
+            background: rgba(110, 179, 255, 0.05);
         }
         
-        .location:hover,
-        .location.active {
-            padding-left: 12px;
+        [data-theme="light"] .location:hover {
+            background: rgba(0, 102, 204, 0.05);
         }
         
-        .location.active .location-name {
-            color: var(--accent);
+        .location.active { 
+            background: rgba(110, 179, 255, 0.1);
         }
         
-        .location-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 4px;
+        [data-theme="light"] .location.active {
+            background: rgba(0, 102, 204, 0.08);
         }
         
-        .location-name {
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.2s;
+        .location.active .loc-name { 
+            color: var(--accent); 
         }
         
-        .location-years {
-            font-size: 0.8rem;
+        .location.active .loc-dot { 
+            background: var(--accent); 
+            box-shadow: 0 0 12px var(--accent-glow);
+            transform: scale(1.3);
+        }
+        
+        .loc-header { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            margin-bottom: 4px; 
+        }
+        
+        .loc-dot { 
+            width: 8px; 
+            height: 8px; 
+            background: var(--text-subtle); 
+            border-radius: 50%; 
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .loc-name { 
+            font-weight: 500; 
+            font-size: 0.95rem; 
+            flex: 1; 
+            transition: color 0.2s; 
+        }
+        
+        .loc-years { 
+            font-size: 0.75rem; 
             color: var(--text-subtle);
+            font-variant-numeric: tabular-nums;
         }
         
-        .location-place {
-            font-size: 0.85rem;
-            color: var(--text-muted);
+        .loc-place { 
+            font-size: 0.8rem; 
+            color: var(--text-muted); 
+            margin-left: 20px;
         }
         
-        /* Story panel */
+        /* Story Panel */
         .story-panel {
             position: fixed;
-            bottom: 32px;
+            bottom: 32px; 
             left: 32px;
-            max-width: 400px;
-            background: rgba(12, 12, 12, 0.95);
+            max-width: 380px;
+            background: var(--bg-secondary);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
+            border-radius: 16px;
+            padding: 24px 28px;
             opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: none;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            z-index: 50;
         }
         
-        .story-panel.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
+        [data-theme="light"] .story-panel {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
         }
         
-        .story-panel h3 {
-            font-size: 1rem;
-            font-weight: 600;
+        .story-panel.visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+            pointer-events: auto; 
+        }
+        
+        .story-panel h3 { 
+            font-size: 1rem; 
+            font-weight: 600; 
+            color: var(--accent); 
             margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        .story-panel p {
-            font-size: 0.9rem;
+        .story-panel h3::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+        
+        .story-panel p { 
+            font-size: 0.9rem; 
+            color: var(--text-muted); 
+            line-height: 1.7; 
+        }
+        
+        /* Loading State */
+        .globe-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             color: var(--text-muted);
-            line-height: 1.6;
+            font-size: 0.85rem;
+            z-index: 0;
+        }
+        
+        .globe-loading::after {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-left: 8px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
         /* Responsive */
         @media (max-width: 900px) {
-            .layout {
-                grid-template-columns: 1fr;
-                grid-template-rows: 50vh 1fr;
+            .layout { 
+                grid-template-columns: 1fr; 
+                grid-template-rows: 50vh 1fr; 
             }
-            
-            .globe-container {
-                border-bottom: 1px solid var(--border);
+            .globe-area { 
+                border-bottom: 1px solid var(--border); 
             }
-            
-            .sidebar {
-                border-left: none;
-                padding: 24px;
+            .sidebar { 
+                border-left: none; 
+                padding: 24px 20px; 
             }
-            
-            .story-panel {
-                display: none;
+            .story-panel { 
+                display: none; 
+            }
+            .site-header {
+                padding: 16px 20px;
+            }
+            .drag-hint {
+                bottom: 16px;
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .sidebar h1 {
+                font-size: 1rem;
+            }
+            .location {
+                padding: 12px 8px;
+                margin: 0 -8px;
             }
         }
     </style>
 </head>
 <body>
-    <a href="index.html" class="back">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-        Back
-    </a>
+    <header class="site-header">
+        <a href="index.html" class="back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>Back</span>
+        </a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+        </button>
+    </header>
 
     <div class="layout">
-        <div class="globe-container">
-            <canvas id="globe"></canvas>
+        <div class="globe-area" id="globe-area">
+            <div class="globe-loading">Loading globe</div>
+            <canvas id="canvas"></canvas>
+            <div class="drag-hint">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/>
+                </svg>
+                Drag to explore
+            </div>
         </div>
         
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h1>My Journey</h1>
-                <p>Nine cities. Four continents. Click a location to explore.</p>
+                <h1>My Life</h1>
+                <p class="sidebar-subtitle">Ten cities across four continents</p>
             </div>
             
-            <ul class="locations">
-                <li class="location active" data-index="0" data-lat="40.7128" data-lng="-74.0060">
-                    <div class="location-header">
-                        <span class="location-name">New York</span>
-                        <span class="location-years">2001</span>
+            <ul class="locations" id="locations-list">
+                <li class="location active" data-index="0">
+                    <div class="loc-header">
+                        <span class="loc-dot"></span>
+                        <span class="loc-name">New York</span>
+                        <span class="loc-years">2001</span>
                     </div>
-                    <span class="location-place">USA · Born</span>
+                    <span class="loc-place">USA · Born</span>
                 </li>
-                <li class="location" data-index="1" data-lat="41.2995" data-lng="69.2401">
-                    <div class="location-header">
-                        <span class="location-name">Tashkent</span>
-                        <span class="location-years">2002–04</span>
+                <li class="location" data-index="1">
+                    <div class="loc-header">
+                        <span class="loc-dot"></span>
+                        <span class="loc-name">Tashkent</span>
+                        <span class="loc-years">2002–04</span>
                     </div>
-                    <span class="location-place">Uzbekistan · Early childhood</span>
+                    <span class="loc-place">Uzbekistan · Early childhood</span>
                 </li>
-                <li class="location" data-index="2" data-lat="34.0209" data-lng="-6.8416">
-                    <div class="location-header">
-                        <span class="location-name">Rabat</span>
-                        <span class="location-years">2004–08</span>
+                <li class="location" data-index="2">
+                    <div class="loc-header">
+                        <span class="loc-dot"></span>
+                        <span class="loc-name">Rabat</span>
+                        <span class="loc-years">2004–08</span>
                     </div>
-                    <span class="location-place">Morocco · French school</span>
+                    <span class="loc-place">Morocco · French school</span>
                 </li>
-                <li class="location" data-index="3" data-lat="13.7563" data-lng="100.5018">
-                    <div class="location-header">
-                        <span class="location-name">Bangkok</span>
-                        <span class="location-years">2008–11</span>
+                <li class="location" data-index="3">
+                    <div class="loc-header">
+                        <span class="loc-dot"></span>
+                        <span class="loc-name">Bangkok</span>
+                        <span class="loc-years">2008–11</span>
                     </div>
-                    <span class="location-place">Thailand · Elementary</span>
+                    <span class="loc-place">Thailand · Elementary</span>
                 </li>
-                <li class="location" data-index="4" data-lat="52.5200" data-lng="13.4050">
-                    <div class="location-header">
-                        <span class="location-name">Berlin</span>
-                        <span class="location-years">2011–12</span>
+                <li class="location" data-index="4">
+                    <div class="loc-header">
+                        <span class="loc-dot"></span>
+                        <span class="loc-name">Berlin</span>
+                        <span class="loc-years">2011–12</span>
                     </div>
-                    <span class="location-place">Germany · International school</span>
+                    <span class="loc-place">Germany · International school</span>
                 </li>
-                <li class="location" data-index="5" data-lat="33.8938" data-lng="35.5018">
-                    <div class="location-header">
-                        <span class="location-name">Beirut</span>
-                        <span class="location-years">2012–15</span>
+                <li class="location" data-index="5">
+                    <div class="loc-header">
+                        <span class="loc-dot"></span>
+                        <span class="loc-name">Beirut</span>
+                        <span class="loc-years">2012–15</span>
                     </div>
-                    <span class="location-place">Lebanon · Middle school</span>
+                    <span class="loc-place">Lebanon · Middle school</span>
                 </li>
-                <li class="location" data-index="6" data-lat="37.7749" data-lng="-122.4194">
-                    <div class="location-header">
-                        <span class="location-name">San Francisco</span>
-                        <span class="location-years">2015–17</span>
+                <li class="location" data-index="6">
+                    <div class="loc-header">
+                        <span class="loc-dot"></span>
+                        <span class="loc-name">San Francisco</span>
+                        <span class="loc-years">2015–17</span>
                     </div>
-                    <span class="location-place">USA · Tech exposure</span>
+                    <span class="loc-place">USA · Tech exposure</span>
                 </li>
-                <li class="location" data-index="7" data-lat="52.3759" data-lng="9.7320">
-                    <div class="location-header">
-                        <span class="location-name">Hannover</span>
-                        <span class="location-years">2017–20</span>
+                <li class="location" data-index="7">
+                    <div class="loc-header">
+                        <span class="loc-dot"></span>
+                        <span class="loc-name">Hannover</span>
+                        <span class="loc-years">2017–20</span>
                     </div>
-                    <span class="location-place">Germany · High school</span>
+                    <span class="loc-place">Germany · High school</span>
                 </li>
-                <li class="location" data-index="8" data-lat="40.0681" data-lng="-82.5193">
-                    <div class="location-header">
-                        <span class="location-name">Granville</span>
-                        <span class="location-years">2020–24</span>
+                <li class="location" data-index="8">
+                    <div class="loc-header">
+                        <span class="loc-dot"></span>
+                        <span class="loc-name">Granville</span>
+                        <span class="loc-years">2020–24</span>
                     </div>
-                    <span class="location-place">Ohio · Denison University</span>
+                    <span class="loc-place">Ohio · Denison University</span>
+                </li>
+                <li class="location" data-index="9">
+                    <div class="loc-header">
+                        <span class="loc-dot"></span>
+                        <span class="loc-name">New York</span>
+                        <span class="loc-years">2025–Present</span>
+                    </div>
+                    <span class="loc-place">USA · Chronograph</span>
                 </li>
             </ul>
         </aside>
@@ -305,216 +533,563 @@
     
     <div class="story-panel" id="story-panel">
         <h3 id="story-title">New York</h3>
-        <p id="story-text">Born in New York. Within months, my family's work would take us across the world—the first of many moves that would shape how I see everything.</p>
+        <p id="story-text">Born in New York. Within months, my family's work would take us across the world.</p>
     </div>
 
     <script>
-        // Stories for each location
-        const stories = [
-            { title: "New York", text: "Born in New York. Within months, my family's work would take us across the world—the first of many moves that would shape how I see everything." },
-            { title: "Tashkent", text: "My first real home. A Russian preschool in a city along the ancient Silk Road. Too young to remember much, but this is where the journey began." },
-            { title: "Rabat", text: "Started my education in the French system. My sister was born here. Four years in Morocco gave me my first real memories of life abroad." },
-            { title: "Bangkok", text: "Continued in the French school system through second grade. Three years in Bangkok—a city of contrasts that shaped my early childhood." },
-            { title: "Berlin", text: "First transition to an international school after years in the French system. A brief but significant stop that introduced me to Germany." },
-            { title: "Beirut", text: "Middle school in one of the world's most complex cities. These three years were formative—where I started to understand the world beyond just living in it." },
-            { title: "San Francisco", text: "Started at AltSchool, a startup school founded by a former Google exec. Being around engineers building edtech sparked my interest in technology." },
-            { title: "Hannover", text: "Returned to Germany for high school. Graduated during the pandemic—an unexpected end to an international education spanning three continents." },
-            { title: "Granville", text: "Studied Computer Science and French at Denison—a combination that made sense given my background. Four years to process a lifetime of global experience." }
+    (function() {
+        'use strict';
+        
+        // ========================================
+        // DATA - Precise coordinates
+        // ========================================
+        const places = [
+            { name: "New York", lat: 40.7128, lng: -74.0060, story: "Born in New York. Within months, my family's work would take us across the world." },
+            { name: "Tashkent", lat: 41.2995, lng: 69.2401, story: "My first real home where I attended a Russian preschool." },
+            { name: "Rabat", lat: 34.0209, lng: -6.8416, story: "Started my education in the French system and my sister Sophie was born." },
+            { name: "Bangkok", lat: 13.7563, lng: 100.5018, story: "Continued in the French school system through second grade." },
+            { name: "Berlin", lat: 52.5200, lng: 13.4050, story: "Moving to Berlin I switched to an international school after years in the French system." },
+            { name: "Beirut", lat: 33.8938, lng: 35.5018, story: "Began 3rd grade at the American School of Beirut where I have some of my fondest and most formative memories." },
+            { name: "San Francisco", lat: 37.7749, lng: -122.4194, story: "Started 7th grade at AltSchool, a startup school founded by a former Googler. Being a guinea pig had its pros and cons, but this was where my interest for tech flourished." },
+            { name: "Hannover", lat: 52.3759, lng: 9.7320, story: "Returned to Germany for high school. Graduated during the pandemic with a drive through graduation." },
+            { name: "Granville", lat: 40.0681, lng: -82.5196, story: "Studied Computer Science and French at Denison University with a stint in London for a study abroad program." },
+            { name: "New York", lat: 40.7128, lng: -74.0060, story: "Back where it all began. Now working as a Data Analyst at Chronograph, maintaining data pipelines for private markets." }
         ];
         
-        // Globe
-        class Globe {
-            constructor() {
-                this.canvas = document.getElementById('globe');
-                this.scene = new THREE.Scene();
-                this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-                this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: true });
-                
-                this.locations = [
-                    { lat: 40.7128, lng: -74.0060 },
-                    { lat: 41.2995, lng: 69.2401 },
-                    { lat: 34.0209, lng: -6.8416 },
-                    { lat: 13.7563, lng: 100.5018 },
-                    { lat: 52.5200, lng: 13.4050 },
-                    { lat: 33.8938, lng: 35.5018 },
-                    { lat: 37.7749, lng: -122.4194 },
-                    { lat: 52.3759, lng: 9.7320 },
-                    { lat: 40.0681, lng: -82.5193 }
-                ];
-                
-                this.rotation = { x: 0, y: 0 };
-                this.targetRotation = { x: 0, y: 0 };
-                this.pins = [];
-                this.activeIndex = 0;
-                
-                this.init();
-            }
+        // ========================================
+        // THEME MANAGEMENT
+        // ========================================
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        function initTheme() {
+            const saved = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             
-            init() {
-                this.updateSize();
-                this.camera.position.z = 12;
-                
-                this.createGlobe();
-                this.createPins();
-                this.animate();
-                
-                window.addEventListener('resize', () => this.updateSize());
-                
-                // Initial rotation to New York
-                this.rotateTo(0);
-            }
-            
-            updateSize() {
-                const container = this.canvas.parentElement;
-                const size = Math.min(container.clientWidth, container.clientHeight, 600);
-                this.renderer.setSize(size, size);
-                this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            }
-            
-            createGlobe() {
-                const geometry = new THREE.SphereGeometry(4, 64, 64);
-                const textureLoader = new THREE.TextureLoader();
-                
-                textureLoader.load('https://unpkg.com/three-globe/example/img/earth-night.jpg', (texture) => {
-                    this.globe.material.map = texture;
-                    this.globe.material.needsUpdate = true;
-                });
-                
-                const material = new THREE.MeshPhongMaterial({
-                    color: 0x1a1a2e,
-                    shininess: 5
-                });
-                
-                this.globe = new THREE.Mesh(geometry, material);
-                this.scene.add(this.globe);
-                
-                // Atmosphere
-                const atmosGeo = new THREE.SphereGeometry(4.12, 64, 64);
-                const atmosMat = new THREE.ShaderMaterial({
-                    vertexShader: `
-                        varying vec3 vNormal;
-                        void main() {
-                            vNormal = normalize(normalMatrix * normal);
-                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-                        }
-                    `,
-                    fragmentShader: `
-                        varying vec3 vNormal;
-                        void main() {
-                            float intensity = pow(0.6 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0);
-                            gl_FragColor = vec4(0.43, 0.7, 1.0, 0.3) * intensity;
-                        }
-                    `,
-                    blending: THREE.AdditiveBlending,
-                    side: THREE.BackSide,
-                    transparent: true
-                });
-                this.scene.add(new THREE.Mesh(atmosGeo, atmosMat));
-                
-                // Lights
-                this.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-                const light = new THREE.DirectionalLight(0xffffff, 0.8);
-                light.position.set(5, 3, 5);
-                this.scene.add(light);
-            }
-            
-            createPins() {
-                this.locations.forEach((loc, i) => {
-                    const pos = this.latLngToVector3(loc.lat, loc.lng);
-                    
-                    const dotGeo = new THREE.SphereGeometry(0.08, 16, 16);
-                    const dotMat = new THREE.MeshBasicMaterial({ 
-                        color: i === 0 ? 0x6eb3ff : 0x888888 
-                    });
-                    const dot = new THREE.Mesh(dotGeo, dotMat);
-                    dot.position.copy(pos);
-                    this.scene.add(dot);
-                    
-                    this.pins.push(dot);
-                });
-            }
-            
-            latLngToVector3(lat, lng) {
-                const phi = (90 - lat) * (Math.PI / 180);
-                const theta = (lng + 180) * (Math.PI / 180);
-                return new THREE.Vector3(
-                    -4 * Math.sin(phi) * Math.cos(theta),
-                    4 * Math.cos(phi),
-                    4 * Math.sin(phi) * Math.sin(theta)
-                );
-            }
-            
-            rotateTo(index) {
-                this.activeIndex = index;
-                const loc = this.locations[index];
-                
-                this.targetRotation.y = -loc.lng * (Math.PI / 180) - Math.PI / 2;
-                this.targetRotation.x = loc.lat * (Math.PI / 180) * 0.3;
-                
-                // Update pin colors
-                this.pins.forEach((pin, i) => {
-                    pin.material.color.setHex(i === index ? 0x6eb3ff : 0x888888);
-                });
-            }
-            
-            animate() {
-                requestAnimationFrame(() => this.animate());
-                
-                // Smooth rotation
-                this.rotation.x += (this.targetRotation.x - this.rotation.x) * 0.05;
-                this.rotation.y += (this.targetRotation.y - this.rotation.y) * 0.05;
-                
-                if (this.globe) {
-                    this.globe.rotation.x = this.rotation.x;
-                    this.globe.rotation.y = this.rotation.y;
-                }
-                
-                // Rotate pins with globe
-                this.pins.forEach((pin, i) => {
-                    const loc = this.locations[i];
-                    const pos = this.latLngToVector3(loc.lat, loc.lng);
-                    
-                    // Apply globe rotation to pin position
-                    pos.applyAxisAngle(new THREE.Vector3(1, 0, 0), this.rotation.x);
-                    pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.rotation.y);
-                    
-                    pin.position.copy(pos);
-                });
-                
-                this.renderer.render(this.scene, this.camera);
+            if (saved === 'light' || (!saved && !prefersDark)) {
+                html.setAttribute('data-theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
             }
         }
         
-        // Initialize
-        const globe = new Globe();
-        const storyPanel = document.getElementById('story-panel');
-        const storyTitle = document.getElementById('story-title');
-        const storyText = document.getElementById('story-text');
-        const locations = document.querySelectorAll('.location');
+        initTheme();
         
-        // Location click handlers
-        locations.forEach((loc) => {
-            loc.addEventListener('click', () => {
-                const index = parseInt(loc.dataset.index);
-                
-                // Update active state
-                locations.forEach(l => l.classList.remove('active'));
-                loc.classList.add('active');
-                
-                // Rotate globe
-                globe.rotateTo(index);
-                
-                // Update story panel
-                storyTitle.textContent = stories[index].title;
-                storyText.textContent = stories[index].text;
-                storyPanel.classList.add('visible');
+        function isDarkMode() {
+            return html.getAttribute('data-theme') !== 'light';
+        }
+        
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            updateGlobeTheme();
+        });
+        
+        // ========================================
+        // THREE.JS SETUP
+        // ========================================
+        const canvas = document.getElementById('canvas');
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas: canvas, 
+            antialias: true, 
+            alpha: true 
+        });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+        camera.position.z = 12;
+        
+        function resize() {
+            const container = canvas.parentElement;
+            const size = Math.min(container.clientWidth - 80, container.clientHeight - 80, 550);
+            renderer.setSize(size, size);
+            camera.aspect = 1;
+            camera.updateProjectionMatrix();
+        }
+        
+        resize();
+        window.addEventListener('resize', resize);
+        
+        // ========================================
+        // GLOBE SETUP
+        // ========================================
+        const GLOBE_RADIUS = 3.5;
+        const earthGroup = new THREE.Group();
+        scene.add(earthGroup);
+        
+        // Main globe sphere
+        const globeGeometry = new THREE.SphereGeometry(GLOBE_RADIUS, 64, 64);
+        const globeMaterial = new THREE.MeshPhongMaterial({
+            color: isDarkMode() ? 0x1a1a2e : 0x4488bb,
+            shininess: 15,
+            specular: 0x333344
+        });
+        const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+        earthGroup.add(globe);
+        
+        // Texture loading
+        const textureLoader = new THREE.TextureLoader();
+        let darkTexture = null;
+        let lightTexture = null;
+        
+        const textureBasePath = 'https://unpkg.com/three-globe/example/img/';
+        
+        textureLoader.load(textureBasePath + 'earth-night.jpg', function(texture) {
+            darkTexture = texture;
+            if (isDarkMode()) {
+                globeMaterial.map = texture;
+                globeMaterial.needsUpdate = true;
+            }
+            hideLoading();
+        });
+        
+        textureLoader.load(textureBasePath + 'earth-blue-marble.jpg', function(texture) {
+            lightTexture = texture;
+            if (!isDarkMode()) {
+                globeMaterial.map = texture;
+                globeMaterial.needsUpdate = true;
+            }
+            hideLoading();
+        });
+        
+        textureLoader.load(textureBasePath + 'earth-topology.png', function(texture) {
+            globeMaterial.bumpMap = texture;
+            globeMaterial.bumpScale = 0.015;
+            globeMaterial.needsUpdate = true;
+        });
+        
+        // City lights layer
+        const lightsGeometry = new THREE.SphereGeometry(GLOBE_RADIUS + 0.005, 64, 64);
+        const lightsMaterial = new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 0,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        const lightsLayer = new THREE.Mesh(lightsGeometry, lightsMaterial);
+        earthGroup.add(lightsLayer);
+        
+        textureLoader.load(textureBasePath + 'earth-night.jpg', function(texture) {
+            lightsMaterial.map = texture;
+            lightsMaterial.opacity = isDarkMode() ? 0.4 : 0;
+            lightsMaterial.needsUpdate = true;
+        });
+        
+        // Clouds layer
+        const cloudsGeometry = new THREE.SphereGeometry(GLOBE_RADIUS + 0.02, 64, 64);
+        const cloudsMaterial = new THREE.MeshPhongMaterial({
+            transparent: true,
+            opacity: 0.15,
+            depthWrite: false
+        });
+        const cloudsLayer = new THREE.Mesh(cloudsGeometry, cloudsMaterial);
+        earthGroup.add(cloudsLayer);
+        
+        textureLoader.load(textureBasePath + 'earth-clouds.png', function(texture) {
+            cloudsMaterial.map = texture;
+            cloudsMaterial.needsUpdate = true;
+        });
+        
+        // Atmosphere
+        const atmosphereGeometry = new THREE.SphereGeometry(GLOBE_RADIUS + 0.2, 64, 64);
+        const atmosphereMaterial = new THREE.ShaderMaterial({
+            vertexShader: `
+                varying vec3 vNormal;
+                void main() {
+                    vNormal = normalize(normalMatrix * normal);
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                varying vec3 vNormal;
+                uniform float uIntensity;
+                uniform vec3 uColor;
+                void main() {
+                    float intensity = pow(0.65 - dot(vNormal, vec3(0, 0, 1.0)), 2.0);
+                    gl_FragColor = vec4(uColor, uIntensity) * intensity;
+                }
+            `,
+            uniforms: {
+                uIntensity: { value: isDarkMode() ? 0.6 : 0.4 },
+                uColor: { value: new THREE.Color(isDarkMode() ? 0x4488ff : 0x88ccff) }
+            },
+            blending: THREE.AdditiveBlending,
+            side: THREE.BackSide,
+            transparent: true
+        });
+        const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+        scene.add(atmosphere);
+        
+        // Stars
+        const starsGeometry = new THREE.BufferGeometry();
+        const starPositions = [];
+        for (let i = 0; i < 2000; i++) {
+            const radius = 40 + Math.random() * 60;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            starPositions.push(
+                radius * Math.sin(phi) * Math.cos(theta),
+                radius * Math.sin(phi) * Math.sin(theta),
+                radius * Math.cos(phi)
+            );
+        }
+        starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starPositions, 3));
+        const starsMaterial = new THREE.PointsMaterial({
+            color: 0xffffff,
+            size: 0.15,
+            transparent: true,
+            opacity: isDarkMode() ? 0.8 : 0,
+            sizeAttenuation: true
+        });
+        const stars = new THREE.Points(starsGeometry, starsMaterial);
+        scene.add(stars);
+        
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, isDarkMode() ? 0.15 : 0.5);
+        scene.add(ambientLight);
+        
+        const sunLight = new THREE.DirectionalLight(0xffffff, isDarkMode() ? 0.8 : 1.2);
+        sunLight.position.set(5, 3, 5);
+        scene.add(sunLight);
+        
+        const fillLight = new THREE.DirectionalLight(0x4488ff, isDarkMode() ? 0.2 : 0.1);
+        fillLight.position.set(-5, -2, -3);
+        scene.add(fillLight);
+        
+        // ========================================
+        // COORDINATE CONVERSION
+        // Standard spherical coordinates for Three.js sphere with equirectangular texture
+        // ========================================
+        function latLngToPosition(lat, lng, radius) {
+            const phi = (90 - lat) * (Math.PI / 180);
+            const theta = (lng + 180) * (Math.PI / 180);
+            
+            return new THREE.Vector3(
+                -radius * Math.sin(phi) * Math.cos(theta),
+                radius * Math.cos(phi),
+                radius * Math.sin(phi) * Math.sin(theta)
+            );
+        }
+        
+        // Calculate rotation to center a location
+        function getRotationForLocation(lat, lng) {
+            // Y rotation: rotate globe so longitude faces camera (+Z direction)
+            const rotY = -(lng + 85) * Math.PI / 180;
+            // X rotation: tilt to show the latitude (0.6 = noticeable vertical movement)
+            const rotX = -lat * Math.PI / 180 * -1;
+            return { x: rotX, y: rotY };
+        }
+        
+        // ========================================
+        // LOCATION PINS
+        // ========================================
+        const ACCENT_DARK = 0x6eb3ff;
+        const ACCENT_LIGHT = 0x0066cc;
+        
+        const pins = [];
+        
+        places.forEach(function(place, index) {
+            const position = latLngToPosition(place.lat, place.lng, GLOBE_RADIUS + 0.02);
+            const isActive = index === 0;
+            const accentColor = isDarkMode() ? ACCENT_DARK : ACCENT_LIGHT;
+            
+            // Pin dot
+            const dotGeometry = new THREE.SphereGeometry(0.05, 16, 16);
+            const dotMaterial = new THREE.MeshBasicMaterial({
+                color: isActive ? accentColor : 0x666666
+            });
+            const dot = new THREE.Mesh(dotGeometry, dotMaterial);
+            dot.position.copy(position);
+            earthGroup.add(dot);
+            
+            // Glow
+            const glowGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+            const glowMaterial = new THREE.MeshBasicMaterial({
+                color: accentColor,
+                transparent: true,
+                opacity: isActive ? 0.6 : 0
+            });
+            const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+            glow.position.copy(position);
+            earthGroup.add(glow);
+            
+            // Pulse ring
+            const pulseGeometry = new THREE.RingGeometry(0.12, 0.15, 32);
+            const pulseMaterial = new THREE.MeshBasicMaterial({
+                color: accentColor,
+                transparent: true,
+                opacity: isActive ? 0.4 : 0,
+                side: THREE.DoubleSide
+            });
+            const pulse = new THREE.Mesh(pulseGeometry, pulseMaterial);
+            pulse.position.copy(position);
+            // Orient ring to face outward from globe center
+            pulse.lookAt(new THREE.Vector3(0, 0, 0));
+            earthGroup.add(pulse);
+            
+            pins.push({
+                dot: dot,
+                glow: glow,
+                pulse: pulse,
+                dotMaterial: dotMaterial,
+                glowMaterial: glowMaterial,
+                pulseMaterial: pulseMaterial,
+                position: position,
+                lat: place.lat,
+                lng: place.lng
             });
         });
         
-        // Show initial story
-        setTimeout(() => {
-            storyPanel.classList.add('visible');
+        // ========================================
+        // ROTATION & NAVIGATION STATE
+        // ========================================
+        let currentRotation = { x: 0, y: 0 };
+        let targetRotation = { x: 0, y: 0 };
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let currentIndex = 0;
+        
+        // Initialize to first location
+        const initialRot = getRotationForLocation(places[0].lat, places[0].lng);
+        currentRotation = { ...initialRot };
+        targetRotation = { ...initialRot };
+        earthGroup.rotation.x = currentRotation.x;
+        earthGroup.rotation.y = currentRotation.y;
+        
+        // ========================================
+        // DRAG CONTROLS
+        // ========================================
+        const globeArea = document.getElementById('globe-area');
+        
+        function onDragStart(e) {
+            isDragging = true;
+            
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            previousMousePosition = { x: clientX, y: clientY };
+        }
+        
+        function onDragMove(e) {
+            if (!isDragging) return;
+            
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            const deltaX = clientX - previousMousePosition.x;
+            const deltaY = clientY - previousMousePosition.y;
+            
+            // Sensitivity
+            const rotationSpeed = 0.005;
+            
+            // Update current rotation directly while dragging
+            currentRotation.y += deltaX * rotationSpeed;
+            currentRotation.x += deltaY * rotationSpeed;
+            
+            // Clamp vertical rotation
+            currentRotation.x = Math.max(-Math.PI / 2.5, Math.min(Math.PI / 2.5, currentRotation.x));
+            
+            // Update target to match (so there's no snap when releasing)
+            targetRotation = { ...currentRotation };
+            
+            previousMousePosition = { x: clientX, y: clientY };
+        }
+        
+        function onDragEnd() {
+            isDragging = false;
+        }
+        
+        // Mouse events
+        globeArea.addEventListener('mousedown', onDragStart);
+        window.addEventListener('mousemove', onDragMove);
+        window.addEventListener('mouseup', onDragEnd);
+        
+        // Touch events
+        globeArea.addEventListener('touchstart', onDragStart, { passive: true });
+        window.addEventListener('touchmove', onDragMove, { passive: true });
+        window.addEventListener('touchend', onDragEnd);
+        
+        // ========================================
+        // NAVIGATION
+        // ========================================
+        function navigateToLocation(index) {
+            if (index === currentIndex && !isDragging) return;
+            
+            const accentColor = isDarkMode() ? ACCENT_DARK : ACCENT_LIGHT;
+            
+            // Deactivate previous pin
+            const prevPin = pins[currentIndex];
+            prevPin.dotMaterial.color.setHex(0x666666);
+            gsap.to(prevPin.glowMaterial, { opacity: 0, duration: 0.3 });
+            gsap.to(prevPin.pulseMaterial, { opacity: 0, duration: 0.3 });
+            
+            currentIndex = index;
+            
+            // Activate new pin
+            const newPin = pins[index];
+            newPin.dotMaterial.color.setHex(accentColor);
+            gsap.to(newPin.glowMaterial, { opacity: 0.6, duration: 0.4, delay: 0.3 });
+            gsap.to(newPin.pulseMaterial, { opacity: 0.4, duration: 0.4, delay: 0.3 });
+            
+            // Pulse animation
+            newPin.glow.scale.set(1, 1, 1);
+            newPin.pulse.scale.set(1, 1, 1);
+            gsap.to(newPin.glow.scale, { 
+                x: 1.8, y: 1.8, z: 1.8, 
+                duration: 0.6, 
+                delay: 0.3,
+                ease: "power2.out"
+            });
+            
+            // Set target rotation to center this location
+            const rot = getRotationForLocation(places[index].lat, places[index].lng);
+            targetRotation = { ...rot };
+            
+            // Update story panel
+            const panel = document.getElementById('story-panel');
+            panel.classList.remove('visible');
+            
+            setTimeout(function() {
+                document.getElementById('story-title').textContent = places[index].name;
+                document.getElementById('story-text').textContent = places[index].story;
+                panel.classList.add('visible');
+            }, 350);
+            
+            // Update sidebar active state
+            document.querySelectorAll('.location').forEach(function(el, i) {
+                el.classList.toggle('active', i === index);
+            });
+        }
+        
+        // ========================================
+        // UPDATE THEME
+        // ========================================
+        function updateGlobeTheme() {
+            const dark = isDarkMode();
+            const accentColor = dark ? ACCENT_DARK : ACCENT_LIGHT;
+            
+            if (dark && darkTexture) {
+                globeMaterial.map = darkTexture;
+            } else if (!dark && lightTexture) {
+                globeMaterial.map = lightTexture;
+            }
+            globeMaterial.color.setHex(dark ? 0x1a1a2e : 0x4488bb);
+            globeMaterial.needsUpdate = true;
+            
+            gsap.to(lightsMaterial, { opacity: dark ? 0.4 : 0, duration: 0.6 });
+            gsap.to(starsMaterial, { opacity: dark ? 0.8 : 0, duration: 0.6 });
+            
+            atmosphereMaterial.uniforms.uIntensity.value = dark ? 0.6 : 0.4;
+            atmosphereMaterial.uniforms.uColor.value.setHex(dark ? 0x4488ff : 0x88ccff);
+            
+            ambientLight.intensity = dark ? 0.15 : 0.5;
+            sunLight.intensity = dark ? 0.8 : 1.2;
+            fillLight.intensity = dark ? 0.2 : 0.1;
+            
+            // Update all pin colors
+            pins.forEach(function(pin, i) {
+                if (i === currentIndex) {
+                    pin.dotMaterial.color.setHex(accentColor);
+                }
+                pin.glowMaterial.color.setHex(accentColor);
+                pin.pulseMaterial.color.setHex(accentColor);
+            });
+        }
+        
+        // ========================================
+        // LOADING
+        // ========================================
+        let texturesLoaded = 0;
+        function hideLoading() {
+            texturesLoaded++;
+            if (texturesLoaded >= 2) {
+                const loadingEl = document.querySelector('.globe-loading');
+                if (loadingEl) {
+                    loadingEl.style.opacity = '0';
+                    setTimeout(function() {
+                        loadingEl.style.display = 'none';
+                    }, 300);
+                }
+            }
+        }
+        
+        // ========================================
+        // ANIMATION LOOP
+        // ========================================
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Smooth rotation interpolation
+            if (!isDragging) {
+                const lerpSpeed = 0.06;
+                currentRotation.x += (targetRotation.x - currentRotation.x) * lerpSpeed;
+                currentRotation.y += (targetRotation.y - currentRotation.y) * lerpSpeed;
+            }
+            
+            earthGroup.rotation.x = currentRotation.x;
+            earthGroup.rotation.y = currentRotation.y;
+            
+            // Clouds rotation
+            cloudsLayer.rotation.y += 0.0002;
+            
+            // Active pin pulse
+            const time = Date.now() * 0.003;
+            const activePin = pins[currentIndex];
+            const pulseScale = 1 + Math.sin(time) * 0.15;
+            activePin.glow.scale.setScalar(pulseScale);
+            
+            // Ring pulse
+            const ringPulse = 1 + ((time * 0.4) % 1) * 1.2;
+            const ringOpacity = 0.4 * (1 - ((time * 0.4) % 1));
+            activePin.pulse.scale.setScalar(ringPulse);
+            if (!isDragging) {
+                activePin.pulseMaterial.opacity = Math.max(0, ringOpacity);
+            }
+            
+            // Stars
+            if (isDarkMode()) {
+                stars.rotation.y += 0.00005;
+            }
+            
+            renderer.render(scene, camera);
+        }
+        
+        animate();
+        
+        // ========================================
+        // EVENT LISTENERS
+        // ========================================
+        
+        document.querySelectorAll('.location').forEach(function(element) {
+            element.addEventListener('click', function() {
+                const index = parseInt(this.dataset.index, 10);
+                navigateToLocation(index);
+            });
+        });
+        
+        // Show initial story panel
+        setTimeout(function() {
+            document.getElementById('story-panel').classList.add('visible');
         }, 500);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                const nextIndex = (currentIndex + 1) % places.length;
+                navigateToLocation(nextIndex);
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const prevIndex = (currentIndex - 1 + places.length) % places.length;
+                navigateToLocation(prevIndex);
+            }
+        });
+        
+    })();
     </script>
 </body>
 </html>

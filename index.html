@@ -12,20 +12,66 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<header class="site-header">
     <a href="#" class="logo" aria-label="Home">
-        <svg viewBox="0 0 40 40" class="logo-mark">
-            <line class="logo-line logo-line-h" x1="8" y1="10" x2="32" y2="10"/>
-            <line class="logo-line logo-line-v" x1="20" y1="10" x2="20" y2="32"/>
-            <circle class="logo-dot" cx="20" cy="10" r="2"/>
-        </svg>
+        <div class="logo-t">
+            <span class="t-vertical"></span>
+            <span class="t-horizontal"></span>
+        </div>
     </a>
-
+    
+    <div class="header-right">
+        <nav class="nav">
+            <a href="#work">Work</a>
+            <a href="journey.html">My Life</a>
+            <a href="assets/Paton_Tristan_Resume.pdf" download>Resume</a>
+        </nav>
+        
+    <div class="icon-links">
+        <a href="https://github.com/tristan333" target="_blank" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/tristanpaton/" target="_blank" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+        </a>
+        <a href="photos.html" aria-label="Photos">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+            </svg>
+        </a>
+        <a href="mailto:tristanpaton0@gmail.com" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+            </svg>
+        </a>
+    </div>        
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+        </button>
+    </div>
+</header>
     <main class="container">
-        <!-- Header -->
-        <header class="header">
+        <!-- Hero -->
+        <section class="hero">
             <h1>Tristan Paton</h1>
             <p class="tagline">Data Analyst at <a href="https://www.chronograph.pe/" target="_blank">Chronograph</a></p>
-        </header>
+        </section>
 
         <!-- Intro -->
         <section class="intro">
@@ -37,27 +83,27 @@
             <p>
                 I grew up in seven different cities across four continents. Tashkent, Rabat, 
                 Bangkok, Berlin, Beirut, San Francisco, Hannover—each one shaped how I think about 
-                systems and adaptation. <a href="journey.html" class="journey-link">Explore that story →</a>
+                systems and adaptation. <a href="journey.html" class="journey-link">Explore my life </a>
             </p>
         </section>
 
         <!-- Work -->
-        <section class="section">
+        <section class="section" id="work">
             <h2>Work</h2>
             <ul class="work-list">
                 <li>
-                    <a href="https://www.chronograph.com/" target="_blank">
+                    <a href="https://www.chronograph.pe/" target="_blank">
                         <span class="work-title">Chronograph</span>
                         <span class="work-meta">Data Analyst · 2024–Present</span>
                     </a>
                     <p class="work-desc">Data pipelines and analytics for 10,000+ portfolio companies in private equity.</p>
                 </li>
                 <li>
-                    <a href="https://github.com/tristan333" target="_blank">
+                    <a href="https://news-aggregator-ru4n.onrender.com/" target="_blank">
                         <span class="work-title">Semiconductor Pulse</span>
                         <span class="work-meta">Side Project</span>
                     </a>
-                    <p class="work-desc">News aggregator tracking the chip industry. Flask, Python, sentiment analysis.</p>
+                    <p class="work-desc">News aggregator tracking the chip industry. Flask, Python, sentiment analysis - Deployed with Render.</p>
                 </li>
                 <li>
                     <a href="journey.html">
@@ -70,7 +116,7 @@
         </section>
 
         <!-- Interests -->
-        <section class="section">
+        <section class="section" id="interests">
             <h2>Interests</h2>
             <p class="interests-text">
                 Semiconductors and supply chains. US-China tech competition. Export controls. 
@@ -80,7 +126,7 @@
         </section>
 
         <!-- Now -->
-        <section class="section">
+        <section class="section" id="now">
             <h2>Now</h2>
             <p class="now-text">
                 Based in New York. Building data systems at Chronograph. 
@@ -90,13 +136,12 @@
         </section>
 
         <!-- Connect -->
-        <section class="section">
+        <section class="section" id="connect">
             <h2>Connect</h2>
             <ul class="link-list">
                 <li><a href="mailto:tristanpaton0@gmail.com">tristanpaton0@gmail.com</a></li>
                 <li><a href="https://github.com/tristan333" target="_blank">GitHub</a></li>
                 <li><a href="https://www.linkedin.com/in/tristanpaton/" target="_blank">LinkedIn</a></li>
-                <li><a href="assets/Paton_Tristan_Resume.pdf" download>Resume (PDF)</a></li>
             </ul>
         </section>
 
@@ -105,5 +150,55 @@
             <p>© 2025 Tristan Paton</p>
         </footer>
     </main>
-</body>
+
+<script>
+        // Theme toggle
+        const toggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        const savedTheme = localStorage.getItem('theme');
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'light' || (!savedTheme && !systemDark)) {
+            html.setAttribute('data-theme', 'light');
+        }
+        
+    toggle.addEventListener('click', () => {
+        const current = html.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+    });        
+// Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Scroll reveal for sections
+        const sections = document.querySelectorAll('.section');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        sections.forEach(section => observer.observe(section));
+
+        
+        </script>
+    </body>
 </html>
