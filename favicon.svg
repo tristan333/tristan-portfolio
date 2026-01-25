@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="#0c0c0c"/>
+  <!-- Blue accent bar -->
+  <rect x="0" y="0" width="32" height="5" rx="6" fill="#6eb3ff"/>
+  <rect x="0" y="3" width="32" height="2" fill="#6eb3ff"/>
+  <!-- Clean serif T -->
+  <path d="M6 8h20v4h-2v-2h-5v15h2v2h-10v-2h2V10h-5v2h-2V8z" fill="#e8e8e8"/>
+</svg>
