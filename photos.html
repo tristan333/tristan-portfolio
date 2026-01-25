@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photos · Tristan Paton</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================
+           VARIABLES
+           ========================================== */
+        :root {
+            --bg: #0c0c0c;
+            --bg-secondary: #111;
+            --text: #e8e8e8;
+            --text-muted: #888;
+            --text-subtle: #555;
+            --accent: #6eb3ff;
+            --border: #222;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --transition: 0.2s ease;
+            --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        [data-theme="light"] {
+            --bg: #fafafa;
+            --bg-secondary: #fff;
+            --text: #111;
+            --text-muted: #555;
+            --text-subtle: #999;
+            --accent: #0066cc;
+            --border: #e0e0e0;
+        }
+
+        /* ==========================================
+           BASE
+           ========================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 17px;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            min-height: 100vh;
+        }
+
+        a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+
+        a:hover {
+            color: var(--accent);
+        }
+
+        /* ==========================================
+           HEADER
+           ========================================== */
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 32px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInDown 0.6s ease forwards;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav a {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            position: relative;
+            padding-bottom: 2px;
+            transition: color var(--transition);
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s var(--bounce);
+        }
+
+        .nav a:hover {
+            color: var(--text);
+        }
+
+        .nav a:hover::after {
+            transform: scaleX(1);
+        }
+
+        .nav a.active {
+            color: var(--text);
+        }
+
+        .nav a.active::after {
+            transform: scaleX(1);
+        }
+
+        /* Logo */
+        .logo {
+            display: block;
+            width: 32px;
+            height: 32px;
+            position: relative;
+        }
+
+        .logo-t {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .t-horizontal,
+        .t-vertical {
+            position: absolute;
+            background: var(--text);
+            border-radius: 2px;
+            transition: background var(--transition), transform 0.4s var(--bounce);
+        }
+
+        .t-horizontal {
+            top: 4px;
+            left: 2px;
+            width: 28px;
+            height: 3px;
+            transform-origin: center;
+        }
+
+        .t-vertical {
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 24px;
+            transform-origin: top center;
+        }
+
+        .logo:hover .t-horizontal {
+            transform: scaleX(0.7);
+        }
+
+        .logo:hover .t-vertical {
+            transform: translateX(-50%) scaleY(1.1);
+        }
+
+        /* Icon links */
+        .icon-links {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-left: 12px;
+            border-left: 1px solid var(--border);
+        }
+
+        .icon-links a {
+            color: var(--text-muted);
+            transition: color 0.2s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            padding: 4px;
+        }
+
+        .icon-links a:hover {
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+
+        .icon-links svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .theme-icon {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.6s var(--bounce);
+        }
+
+        .theme-toggle:hover {
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle:hover .theme-icon {
+            transform: rotate(20deg);
+        }
+
+        [data-theme="light"] .theme-icon {
+            transform: rotate(180deg);
+        }
+
+        [data-theme="light"] .theme-toggle:hover .theme-icon {
+            transform: rotate(200deg);
+        }
+
+        /* ==========================================
+           PAGE CONTENT
+           ========================================== */
+        .page-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .page-header {
+            max-width: 1400px;
+            margin: 0 auto 32px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards 0.1s;
+        }
+
+        .page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* ==========================================
+           PHOTO GRID
+           ========================================== */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards 0.2s;
+        }
+
+        .photo-item {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background: var(--bg-secondary);
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.02);
+            z-index: 2;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Loading placeholder */
+        .photo-item.loading {
+            background: linear-gradient(
+                90deg,
+                var(--bg-secondary) 0%,
+                var(--border) 50%,
+                var(--bg-secondary) 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ==========================================
+           LIGHTBOX
+           ========================================== */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .lightbox.active .lightbox-image {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 12px;
+            opacity: 0.7;
+            transition: opacity 0.2s, transform 0.2s;
+            z-index: 10;
+        }
+
+        .lightbox-close:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .lightbox-close svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 16px 12px;
+            opacity: 0.7;
+            transition: opacity 0.2s, background 0.2s;
+            border-radius: 4px;
+        }
+
+        .lightbox-nav:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .lightbox-nav svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .lightbox-prev {
+            left: 24px;
+        }
+
+        .lightbox-next {
+            right: 24px;
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ==========================================
+           EMPTY STATE
+           ========================================== */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-muted);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards 0.2s;
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 24px;
+            opacity: 0.3;
+        }
+
+        .empty-state h2 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .empty-state p {
+            font-size: 0.95rem;
+        }
+
+        /* ==========================================
+           FOOTER
+           ========================================== */
+        .footer {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 40px;
+            border-top: 1px solid var(--border);
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards 0.4s;
+        }
+
+        .footer p {
+            font-size: 0.8rem;
+            color: var(--text-subtle);
+        }
+
+        /* ==========================================
+           ANIMATIONS
+           ========================================== */
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==========================================
+           RESPONSIVE
+           ========================================== */
+        @media (max-width: 900px) {
+            .photo-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .site-header {
+                padding: 24px;
+            }
+            
+            .page-container {
+                padding: 0 24px 60px;
+            }
+            
+            .nav {
+                gap: 20px;
+            }
+            
+            .nav a {
+                font-size: 0.85rem;
+            }
+
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 4px;
+            }
+
+            .lightbox-prev {
+                left: 12px;
+            }
+
+            .lightbox-next {
+                right: 12px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            html {
+                font-size: 16px;
+            }
+            
+            .site-header {
+                padding: 20px 16px;
+            }
+            
+            .page-container {
+                padding: 0 12px 48px;
+            }
+            
+            .nav {
+                gap: 16px;
+            }
+
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 3px;
+            }
+
+            .footer {
+                padding: 24px 16px;
+            }
+
+            .lightbox-nav {
+                padding: 12px 8px;
+            }
+
+            .lightbox-nav svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <a href="index.html" class="logo" aria-label="Home">
+            <div class="logo-t">
+                <span class="t-vertical"></span>
+                <span class="t-horizontal"></span>
+            </div>
+        </a>
+        
+        <div class="header-right">
+            <nav class="nav">
+                <a href="index.html#work">Work</a>
+                <a href="journey.html">My Life</a>
+                <a href="photos.html" class="active">Photos</a>
+                <a href="assets/Paton_Tristan_Resume.pdf" download>Resume</a>
+            </nav>
+            
+            <div class="icon-links">
+                <a href="https://github.com/tristan333" target="_blank" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/tristanpaton/" target="_blank" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                </a>
+                <a href="mailto:tristanpaton0@gmail.com" aria-label="Email">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="page-container">
+        <div class="page-header">
+            <h1>Photos</h1>
+            <p>Moments from around the world</p>
+        </div>
+        
+        <div class="photo-grid" id="photo-grid">
+            <!-- Photos will be dynamically inserted here -->
+        </div>
+
+        <div class="empty-state" id="empty-state" style="display: none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+            </svg>
+            <h2>No photos yet</h2>
+            <p>Drop images in photos/ and run: python update_photos.py</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2025 Tristan Paton</p>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+        <button class="lightbox-nav lightbox-prev" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"/>
+            </svg>
+        </button>
+        <div class="lightbox-content">
+            <img class="lightbox-image" id="lightbox-image" src="" alt="">
+        </div>
+        <button class="lightbox-nav lightbox-next" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"/>
+            </svg>
+        </button>
+        <div class="lightbox-counter" id="lightbox-counter"></div>
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ==========================================
+        // PHOTO CONFIGURATION
+        // ==========================================
+        // Photos are loaded from photos.json
+        // 
+        // To add photos:
+        //   1. Drop images into the photos/ folder
+        //   2. Run: python update_photos.py
+        //   3. Done! (or manually edit photos.json)
+        // ==========================================
+
+        let photos = [];
+
+        // ==========================================
+        // THEME TOGGLE
+        // ==========================================
+        const toggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        const savedTheme = localStorage.getItem('theme');
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'light' || (!savedTheme && !systemDark)) {
+            html.setAttribute('data-theme', 'light');
+        }
+        
+        toggle.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        });
+
+        // ==========================================
+        // RENDER PHOTO GRID
+        // ==========================================
+        const grid = document.getElementById('photo-grid');
+        const emptyState = document.getElementById('empty-state');
+
+        function renderPhotos() {
+            if (photos.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            grid.style.display = 'grid';
+
+            grid.innerHTML = photos.map((photo, index) => `
+                <div class="photo-item loading" data-index="${index}">
+                    <img 
+                        src="${photo.thumb || photo.src}" 
+                        alt="${photo.alt || ''}"
+                        loading="lazy"
+                        onload="this.parentElement.classList.remove('loading')"
+                        onerror="this.parentElement.style.display='none'"
+                    >
+                </div>
+            `).join('');
+
+            // Add click handlers
+            document.querySelectorAll('.photo-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const index = parseInt(item.dataset.index, 10);
+                    openLightbox(index);
+                });
+            });
+        }
+
+        // Fetch photos from JSON and render
+        fetch('photos.json')
+            .then(response => {
+                if (!response.ok) throw new Error('No photos.json found');
+                return response.json();
+            })
+            .then(data => {
+                photos = data;
+                renderPhotos();
+            })
+            .catch(err => {
+                console.log('Could not load photos.json:', err.message);
+                renderPhotos(); // Show empty state
+            });
+
+        // ==========================================
+        // LIGHTBOX
+        // ==========================================
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const lightboxCounter = document.getElementById('lightbox-counter');
+        let currentIndex = 0;
+
+        function openLightbox(index) {
+            currentIndex = index;
+            updateLightbox();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function updateLightbox() {
+            const photo = photos[currentIndex];
+            lightboxImage.src = photo.src;
+            lightboxImage.alt = photo.alt || '';
+            lightboxCounter.textContent = `${currentIndex + 1} / ${photos.length}`;
+        }
+
+        function nextPhoto() {
+            currentIndex = (currentIndex + 1) % photos.length;
+            updateLightbox();
+        }
+
+        function prevPhoto() {
+            currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+            updateLightbox();
+        }
+
+        // Lightbox event listeners
+        document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+        document.querySelector('.lightbox-next').addEventListener('click', nextPhoto);
+        document.querySelector('.lightbox-prev').addEventListener('click', prevPhoto);
+
+        // Click outside to close
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') nextPhoto();
+            if (e.key === 'ArrowLeft') prevPhoto();
+        });
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        lightbox.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        lightbox.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    nextPhoto();
+                } else {
+                    prevPhoto();
+                }
+            }
+        }, { passive: true });
+
+    })();
+    </script>
+</body>
+</html>
