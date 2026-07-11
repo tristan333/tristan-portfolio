@@ -11,6 +11,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .intro p.intro-hook {
+            color: var(--text);
+            margin-bottom: 24px;
+        }
+        .intro-list {
+            list-style: none;
+            margin: 0 0 24px;
+            padding: 0;
+        }
+        .intro-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .intro-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.7em;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        .intro-list li strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
 <header class="site-header">
@@ -24,6 +58,7 @@
     <div class="header-right">
         <nav class="nav">
             <a href="#work">Work</a>
+            <a href="#writing">Writing</a>
             <a href="journey.html">My Life</a>
             <a href="assets/Paton_Tristan_Resume.pdf" download>Resume</a>
         </nav>
@@ -37,6 +72,11 @@
         <a href="https://www.linkedin.com/in/tristanpaton/" target="_blank" aria-label="LinkedIn">
             <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+        </a>
+        <a href="https://substack.com/@tristanpaton" target="_blank" aria-label="Substack">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
             </svg>
         </a>
         <a href="photos.html" aria-label="Photos">
@@ -71,16 +111,24 @@
         <!-- Hero -->
         <section class="hero">
             <h1>Tristan Paton</h1>
-            <p class="tagline">Data Analyst at <a href="https://www.chronograph.pe/" target="_blank">Chronograph</a></p>
+            <p class="tagline">Solutions Engineer at <a href="https://www.chronograph.pe/" target="_blank">Chronograph</a></p>
         </section>
 
         <!-- Intro -->
         <section class="intro">
-            <p>
-                I work with data in private markets—building pipelines, writing queries, 
-                making sense of messy information. Before that, I studied Computer Science 
-                and French at Denison University.
+            <p class="intro-hook">
+                Designing agentic systems for private markets. The hard part isn't getting an LLM to answer, it's that
+                in private markets a confident wrong answer is worse than a slow right one. I build agentic tooling
+                against real, messy, multi-tenant data, put it in front of the people who depend on it.
             </p>
+            <ul class="intro-list">
+                <li><strong>Agentic tooling for technical ops</strong> — harnesses for identity configuration and multi-tenant data investigations, built on an internal MCP environments.</li>
+                <li><strong>SSO &amp; identity engineering</strong> for institutional LP and GP clients — provisioning, federation, and the configuration work.</li>
+                <li><strong>Evaluating and hardening agents against production financial data</strong>, where a plausible-but-wrong answer is the failure mode that actually costs you.</li>
+                <li><strong>Private-markets domain fluency</strong> — IRR, MOIC, NAV, capital calls, LP/GP reporting — so the tooling understands what the numbers mean, not just their shape.</li>
+                <li><strong>The technical escalation point</strong> — where client problems land when they're technical, weird, and time-sensitive.</li>
+            </ul>
+            <p class="intro-edu">Before all this: Computer Science and French at Denison.</p>
             <p>
                 I grew up in seven different cities across four continents. Tashkent, Rabat, 
                 Bangkok, Berlin, Beirut, San Francisco, Hannover—each one shaped how I think about 
@@ -95,9 +143,9 @@
                 <li>
                     <a href="https://www.chronograph.pe/" target="_blank">
                         <span class="work-title">Chronograph</span>
-                        <span class="work-meta">Data Analyst · 2024–Present</span>
+                        <span class="work-meta">Solutions Engineer · 2024–Present</span>
                     </a>
-                    <p class="work-desc">Data pipelines and analytics for 10,000+ portfolio companies in private equity.</p>
+                    <p class="work-desc">Client-facing solutions engineering across a multi-tenant private markets platform—SSO and identity, SQL data investigations, and agentic tooling.</p>
                 </li>
                 <li>
                     <a href="https://news-aggregator-ru4n.onrender.com/" target="_blank">
@@ -106,23 +154,16 @@
                     </a>
                     <p class="work-desc">News aggregator tracking the chip industry. Flask, Python, sentiment analysis - Deployed with Render.</p>
                 </li>
-                <li>
-                    <a href="journey.html">
-                        <span class="work-title">This Portfolio</span>
-                        <span class="work-meta">2025</span>
-                    </a>
-                    <p class="work-desc">Interactive 3D globe built with Three.js. A visual map of everywhere I've lived.</p>
-                </li>
             </ul>
         </section>
+
 
         <!-- Interests -->
         <section class="section" id="interests">
             <h2>Interests</h2>
             <p class="interests-text">
-                Semiconductors and supply chains. US-China tech competition. Export controls. 
-                Space industry. I read <a href="https://www.chinatalk.media/" target="_blank">ChinaTalk</a>, 
-                <a href="https://semianalysis.com/" target="_blank">SemiAnalysis</a>, and too many policy papers.
+                Outside of work: I play drums - jazz mostly, a bit of funk and rock. I take photos of the places I go and the people I meet, and I read a lot about AI, space, and a good amount of sci-fi.
+                Lately it's been AI policy and safety, semiconductors, and US-China export controls. I speak French and German, love to cook, and need to be outside - hiking, surfing, biking, skiing.
             </p>
         </section>
 
@@ -130,8 +171,7 @@
         <section class="section" id="now">
             <h2>Now</h2>
             <p class="now-text">
-                Based in New York. Maintaining data systems at Chronograph. 
-                
+                Based in New York. Solutions engineering at Chronograph.
             </p>
         </section>
 
@@ -142,12 +182,13 @@
                 <li><a href="mailto:tristanpaton0@gmail.com">tristanpaton0@gmail.com</a></li>
                 <li><a href="https://github.com/tristan333" target="_blank">GitHub</a></li>
                 <li><a href="https://www.linkedin.com/in/tristanpaton/" target="_blank">LinkedIn</a></li>
+                <li><a href="https://substack.com/@tristanpaton" target="_blank">Substack</a></li>
             </ul>
         </section>
 
         <!-- Footer -->
         <footer class="footer">
-            <p>© 2025 Tristan Paton</p>
+            <p>© 2026 Tristan Paton</p>
         </footer>
     </main>
 

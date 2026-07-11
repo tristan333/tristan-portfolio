@@ -267,8 +267,13 @@ a:hover {
 }
 
 /* Rotate sun when switching to light mode */
-[data-theme="light"] .theme-icon {
-    transform: rotate(180deg);
+[data-theme="light"] {
+    --bg: #f4ecd8;
+    --text: #4a3c28
+    --text-muted: #6f5d44;
+    --text-subtle: #a08e72;
+    --accent: #a0562d;
+    --border: #ddd0b3;
 }
 
 [data-theme="light"] .theme-toggle:hover .theme-icon {
