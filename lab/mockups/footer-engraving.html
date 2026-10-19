@@ -1,0 +1,3537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tristan Paton</title>
+    <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <style>
+        .intro p.intro-hook {
+            color: var(--text);
+            margin-bottom: 24px;
+        }
+        .intro-list {
+            list-style: none;
+            margin: 0 0 24px;
+            padding: 0;
+        }
+        .intro-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .intro-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.7em;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        .intro-list li strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        /* ==========================================
+           ENGRAVED FOOTER
+           ========================================== */
+        .site-footer {
+            --engrave: #6eb3ff;
+            --land: clamp(320px, 38vw, 540px);
+            position: relative;
+            margin-top: 32px;
+            padding-bottom: var(--land);
+            border-top: 1px solid var(--border);
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards 0.4s;
+        }
+
+        [data-theme="light"] .site-footer {
+            --engrave: #8c4a26;
+        }
+
+        .footer-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            pointer-events: none;
+        }
+
+        .footer-inner,
+        .footer-base {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Paper grain over the whole footer, echoing printed engravings */
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.07;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .footer-inner {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 72px 40px 40px;
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+            gap: 40px;
+        }
+
+        .footer-mark {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .footer-mark .logo-t {
+            width: 26px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .footer-mark .t-horizontal { top: 3px; left: 1px; width: 24px; }
+        .footer-mark .t-vertical { top: 3px; height: 20px; }
+
+        .footer-name {
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .footer-col h3 {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--text-subtle);
+            margin-bottom: 22px;
+            position: relative;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 22px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li,
+        .footer-col p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .footer-col a,
+        .footer-mail {
+            color: var(--text-muted);
+        }
+
+        .footer-col a:hover,
+        .footer-mail:hover {
+            color: var(--accent);
+        }
+
+        /* The global link rule always shows an underline; the footer reveals it on hover instead */
+        .site-footer a::after {
+            background: var(--accent) !important;
+            transform: scaleX(0) !important;
+            transform-origin: left !important;
+        }
+
+        .site-footer a:hover::after {
+            transform: scaleX(1) !important;
+        }
+
+        .footer-coords {
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.02em;
+        }
+
+        .footer-base {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 0 40px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 24px;
+            font-size: 0.78rem;
+            color: var(--text-subtle);
+        }
+
+        .footer-route [data-city] {
+            cursor: default;
+            outline: none;
+            transition: color var(--transition);
+        }
+
+        .footer-route [data-city]:hover,
+        .footer-route [data-city]:focus-visible,
+        .footer-route [data-city].is-active {
+            color: var(--accent);
+        }
+
+        .site-footer.is-exploring {
+            touch-action: none;
+            user-select: none;
+        }
+
+        @media (max-width: 800px) {
+            .footer-inner {
+                grid-template-columns: 1fr 1fr;
+                padding: 56px 24px 32px;
+                gap: 36px 24px;
+            }
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+            .footer-base {
+                flex-direction: column;
+                padding: 0 24px 24px;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <a href="#" class="logo" aria-label="Home">
+        <div class="logo-t">
+            <span class="t-vertical"></span>
+            <span class="t-horizontal"></span>
+        </div>
+    </a>
+
+    <div class="header-right">
+        <nav class="nav">
+            <a href="#work">Work</a>
+            <a href="#writing">Writing</a>
+            <a href="../../journey.html">My Life</a>
+            <a href="../../assets/Paton_Tristan_Resume.pdf" download>Resume</a>
+        </nav>
+
+    <div class="icon-links">
+        <a href="https://github.com/tristan333" target="_blank" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/tristanpaton/" target="_blank" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+        </a>
+        <a href="https://substack.com/@tristanpaton" target="_blank" aria-label="Substack">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
+            </svg>
+        </a>
+        <a href="../../photos.html" aria-label="Photos">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+            </svg>
+        </a>
+        <a href="mailto:tristanpaton0@gmail.com" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+            </svg>
+        </a>
+    </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+        </button>
+    </div>
+</header>
+    <main class="container">
+        <!-- Hero -->
+        <section class="hero">
+            <h1>Tristan Paton</h1>
+            <p class="tagline">Solutions Engineer at <a href="https://www.chronograph.pe/" target="_blank">Chronograph</a></p>
+        </section>
+
+        <!-- Intro -->
+        <section class="intro">
+            <p class="intro-hook">
+                I help build AI tools for private markets, and spend most of my time making sure they're right when it counts: on real client data, for the people who rely on them.
+            </p>
+            <ul class="intro-list">
+                <li><strong>Agentic tooling for technical ops</strong> — harnesses for identity configuration and multi-tenant data investigations, built on an internal MCP environments.</li>
+                <li><strong>SSO &amp; identity engineering</strong> for institutional LP and GP clients — provisioning, federation, and the configuration work.</li>
+                <li><strong>Evaluating and hardening agents against production financial data</strong>, where a plausible-but-wrong answer is the failure mode that actually costs you.</li>
+                <li><strong>Private-markets domain fluency</strong> — IRR, MOIC, NAV, capital calls, LP/GP reporting — so the tooling understands what the numbers mean, not just their shape.</li>
+                <li><strong>The technical escalation point</strong> — where client problems land when they're technical, weird, and time-sensitive.</li>
+            </ul>
+            <p class="intro-edu">Before all this: Computer Science and French at Denison.</p>
+            <p>
+                I grew up in seven different cities across four continents. Tashkent, Rabat,
+                Bangkok, Berlin, Beirut, San Francisco, Hannover. <a href="../../journey.html" class="journey-link">Explore my life </a>
+            </p>
+        </section>
+
+        <!-- Work -->
+        <section class="section" id="work">
+            <h2>Work</h2>
+            <ul class="work-list">
+                <li>
+                    <a href="https://www.chronograph.pe/" target="_blank">
+                        <span class="work-title">Chronograph</span>
+                        <span class="work-meta">Solutions Engineer · 2024–Present</span>
+                    </a>
+                    <p class="work-desc">Client-facing solutions engineering across a multi-tenant private markets platform—SSO and identity, SQL data investigations, and agentic tooling.</p>
+                </li>
+                <li>
+                    <a href="https://news-aggregator-ru4n.onrender.com/" target="_blank">
+                        <span class="work-title">Semiconductor Pulse</span>
+                        <span class="work-meta">Side Project</span>
+                    </a>
+                    <p class="work-desc">News aggregator tracking the chip industry. Flask, Python, sentiment analysis - Deployed with Render.</p>
+                </li>
+            </ul>
+        </section>
+
+
+        <!-- Interests -->
+        <section class="section" id="interests">
+            <h2>Interests</h2>
+            <p class="interests-text">
+                Outside of work: I play drums - jazz mostly, a bit of funk and rock. I take photos of the places I go and the people I meet, and I read a lot about AI, space, and a good amount of sci-fi.
+                Lately it's been AI policy and safety, semiconductors, and US-China export controls. I speak French and German, love to cook, and need to be outside - hiking, surfing, biking, skiing.
+            </p>
+        </section>
+
+        <!-- Now -->
+        <section class="section" id="now">
+            <h2>Now</h2>
+            <p class="now-text">
+                Based in New York. Solutions engineering at Chronograph.
+            </p>
+        </section>
+
+        <!-- Connect -->
+        <section class="section" id="connect">
+            <h2>Connect</h2>
+            <ul class="link-list">
+                <li><a href="mailto:tristanpaton0@gmail.com">tristanpaton0@gmail.com</a></li>
+                <li><a href="https://github.com/tristan333" target="_blank">GitHub</a></li>
+                <li><a href="https://www.linkedin.com/in/tristanpaton/" target="_blank">LinkedIn</a></li>
+                <li><a href="https://substack.com/@tristanpaton" target="_blank">Substack</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <canvas class="footer-canvas" id="footer-engraving" aria-hidden="true"></canvas>
+        <canvas class="footer-canvas" id="footer-life" aria-hidden="true"></canvas>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-mark">
+                    <div class="logo-t">
+                        <span class="t-vertical"></span>
+                        <span class="t-horizontal"></span>
+                    </div>
+                    <span class="footer-name">Tristan Paton</span>
+                </div>
+                <a href="mailto:tristanpaton0@gmail.com" class="footer-mail">tristanpaton0@gmail.com</a>
+            </div>
+
+            <nav class="footer-col" aria-label="Site">
+                <h3>Site</h3>
+                <ul>
+                    <li><a href="#work">Work</a></li>
+                    <li><a href="#writing">Writing</a></li>
+                    <li><a href="../../journey.html">My Life</a></li>
+                    <li><a href="../../photos.html">Photos</a></li>
+                    <li><a href="../../assets/Paton_Tristan_Resume.pdf" download>Resume</a></li>
+                </ul>
+            </nav>
+
+            <nav class="footer-col" aria-label="Elsewhere">
+                <h3>Elsewhere</h3>
+                <ul>
+                    <li><a href="https://github.com/tristan333" target="_blank">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/tristanpaton/" target="_blank">LinkedIn</a></li>
+                    <li><a href="https://substack.com/@tristanpaton" target="_blank">Substack</a></li>
+                </ul>
+            </nav>
+
+            <div class="footer-col">
+                <h3>Currently</h3>
+                <p>New York</p>
+                <p class="footer-coords">40.71° N, 74.01° W</p>
+                <p class="footer-coords"><span id="ny-time">--:--</span> local</p>
+            </div>
+        </div>
+
+        <div class="footer-base">
+            <span>© 2026 Tristan Paton</span>
+            <span class="footer-route">
+                <span data-city="tashkent" tabindex="0">Tashkent</span> · <span data-city="rabat" tabindex="0">Rabat</span> · <span data-city="bangkok" tabindex="0">Bangkok</span> · <span data-city="berlin" tabindex="0">Berlin</span> · <span data-city="beirut" tabindex="0">Beirut</span> · <span data-city="sanfrancisco" tabindex="0">San Francisco</span> · <span data-city="hannover" tabindex="0">Hannover</span> · <span data-city="newyork" tabindex="0">New York</span>
+            </span>
+        </div>
+    </footer>
+
+<script>
+        // Theme toggle
+        const toggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme');
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme === 'light' || (!savedTheme && !systemDark)) {
+            html.setAttribute('data-theme', 'light');
+        }
+
+    toggle.addEventListener('click', () => {
+        const current = html.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+    });
+// Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Scroll reveal for sections
+        const sections = document.querySelectorAll('.section');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        sections.forEach(section => observer.observe(section));
+
+        // New York clock
+        const nyTime = document.getElementById('ny-time');
+        const nyFormat = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' });
+        const tickClock = () => { nyTime.textContent = nyFormat.format(new Date()); };
+        tickClock();
+        setInterval(tickClock, 30000);
+
+        // Engraved landscape: a heightfield sliced into depth rows and drawn front to back with hidden-line
+        // removal. Each row is a filled ribbon whose width follows the lighting, the way a burin line swells.
+        // Landmarks are composed from shaded primitives and engraved with the same lines, occluding and
+        // reflecting like the terrain. Hovering a city swaps the scene in with an ink-wash reveal.
+        const footer = document.querySelector('.site-footer');
+        const engravingCanvas = document.getElementById('footer-engraving');
+        const lifeCanvas = document.getElementById('footer-life');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        const clamp01 = v => Math.min(1, Math.max(0, v));
+        const smoothstep = (a, b, v) => {
+            const t = clamp01((v - a) / (b - a));
+            return t * t * (3 - 2 * t);
+        };
+        const normalize = v => {
+            const len = Math.hypot(...v);
+            return v.map(c => c / len);
+        };
+
+        function seededRandom(seed) {
+            return () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
+        }
+
+        const hashString = s => [...s].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0, 2166136261);
+        const hash3 = (a, b, c) => ((Math.imul(a, 73856093) ^ Math.imul(b, 19349663) ^ Math.imul(c, 83492791)) >>> 0) % 1000 / 1000;
+
+        const perm = (() => {
+            const rand = seededRandom(1987);
+            const p = Array.from({ length: 256 }, (_, i) => i);
+            for (let i = 255; i > 0; i--) {
+                const j = Math.floor(rand() * (i + 1));
+                [p[i], p[j]] = [p[j], p[i]];
+            }
+            return Uint8Array.from([...p, ...p]);
+        })();
+
+        function noise2(x, y) {
+            const ix = Math.floor(x);
+            const iy = Math.floor(y);
+            const fx = x - ix;
+            const fy = y - iy;
+            const ux = fx * fx * (3 - 2 * fx);
+            const uy = fy * fy * (3 - 2 * fy);
+            const xi = ix & 255, yi = iy & 255, xj = (xi + 1) & 255, yj = (yi + 1) & 255;
+            const a = perm[perm[xi] + yi];
+            const b = perm[perm[xj] + yi];
+            const c = perm[perm[xi] + yj];
+            const d = perm[perm[xj] + yj];
+            return (a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy) / 255;
+        }
+
+        function ridged(x, z, octaves = 5) {
+            let sum = 0, amp = 0.6, freq = 1, weight = 1;
+            for (let o = 0; o < octaves; o++) {
+                let n = 1 - Math.abs(noise2(x * freq + o * 31.7, z * freq) * 2 - 1);
+                n *= n * weight;
+                weight = clamp01(n * 1.6);
+                sum += n * amp;
+                freq *= 2.07;
+                amp *= 0.42;
+            }
+            return sum;
+        }
+
+        const dunes = (x, z) => 0.5 * (noise2(x * 0.15, z * 0.15) - 0.5) + 0.15 * (noise2(x * 0.6 + 9, z * 0.6) - 0.5);
+        const mountains = (x, z, start, amp, scale) => {
+            const m = smoothstep(start, start + 110, z);
+            return m > 0 ? m * (2 + amp * ridged(x / scale, z / scale)) : 0;
+        };
+
+        const CAMERA_HEIGHT = 3;
+        const Z_FAR = 620;
+        const LINE_GAP = 2.4;
+        const LANDMARK_SCALE = 1.25;
+        const LIGHT = normalize([0.65, 0.5, 0.4]);
+        const LANDMARK_LIGHT = normalize([0.8, 0.4, -0.45]);
+        const lambert = (nx, ny, nz) => (nx * LANDMARK_LIGHT[0] + ny * LANDMARK_LIGHT[1] + nz * LANDMARK_LIGHT[2]) / Math.hypot(nx, ny, nz);
+        const FRONT_LIGHT = lambert(-0.12, 0, -1);
+        const SIDE_LIGHT = lambert(1, 0, -0.3);
+
+        // Landmark primitives, in units of the landscape band's height, measured up from the landmark's foot
+        const box = (x, w, y, h, o = {}) => ({ t: 'box', x, w, y, h, ...o });
+        const cyl = (x, w, y, h, o = {}) => ({ t: 'cyl', x, w, y, h, ...o });
+        const taper = (x, w0, w1, y, h, o = {}) => ({ t: 'taper', x, w0, w1, y, h, ...o });
+        const ball = (x, y, r, o = {}) => ({ t: 'ball', x, y, r, ...o });
+        const dome = (x, y, r, k = 1, o = {}) => ({ t: 'dome', x, y, r, k, ...o });
+        const poly = (pts, o = {}) => ({ t: 'poly', pts, ...o });
+        const hole = (x, w, y, h, o = {}) => ({ t: 'hole', x, w, y, h, ...o });
+        const recess = (x, w, y, h, o = {}) => ({ t: 'recess', x, w, y, h, ...o });
+        const blob = (x, y, rx, ry) => ({ t: 'blob', x, y, rx, ry });
+        const lines = (paths, width = 0.9, o = {}) => ({ t: 'lines', paths, width, ...o });
+
+        function partBounds(p) {
+            switch (p.t) {
+                case 'taper': return [p.x - Math.max(p.w0, p.w1) / 2, p.x + Math.max(p.w0, p.w1) / 2, p.y + p.h];
+                case 'ball': return [p.x - p.r, p.x + p.r, p.y + p.r];
+                case 'dome': return [p.x - p.r, p.x + p.r, p.y + p.r * p.k];
+                case 'blob': return [p.x - p.rx * 1.3, p.x + p.rx * 1.3, p.y + p.ry * 1.3];
+                case 'poly': return [Math.min(...p.pts.map(q => q[0])), Math.max(...p.pts.map(q => q[0])), Math.max(...p.pts.map(q => q[1]))];
+                default: return [p.x - p.w / 2, p.x + p.w / 2, p.y + p.h];
+            }
+        }
+
+        // Round arches spring a semicircle off the jambs; pointed ones meet two arcs struck from the opposite jambs
+        const insideArch = (p, lx, ly) => {
+            const r = p.w / 2;
+            if (Math.abs(lx - p.x) > r || ly < p.y || ly > p.y + p.h) return false;
+            if (p.pointed) {
+                const springLine = p.y + p.h - p.w * 0.866;
+                if (ly <= springLine) return true;
+                return Math.hypot(lx - (p.x - r), ly - springLine) <= p.w && Math.hypot(lx - (p.x + r), ly - springLine) <= p.w;
+            }
+            const springLine = p.y + p.h - r;
+            return ly <= springLine || Math.hypot(lx - p.x, ly - springLine) <= r;
+        };
+
+        // Pilasters catch light and the bays between them recede; cornices get a lit lip over a shadow line
+        function relief(p, lx, ly, left, light) {
+            if (p.piers) {
+                const [spacing, width] = p.piers;
+                light += (left / spacing) % 1 < width ? 0.26 : -0.12;
+            }
+            if (p.bands) {
+                for (const b of p.bands) {
+                    const d = ly - (p.y + b);
+                    if (d >= 0 && d < 0.006) light += 0.4;
+                    else if (d < 0 && d > -0.007) light -= 0.35;
+                }
+            }
+            return clamp01(light);
+        }
+
+        const ribbed = (p, dx, dy, light) => {
+            if (!p.ribs) return light;
+            const across = dx / Math.sqrt(Math.max(1e-4, 1 - dy * dy));
+            const rib = Math.abs(Math.sin(Math.asin(Math.max(-1, Math.min(1, across))) * p.ribs / 2));
+            return clamp01(light - 0.45 * Math.pow(1 - rib, 8));
+        };
+
+        function insidePolygon(pts, x, y) {
+            let inside = false;
+            for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+                const [xi, yi] = pts[i];
+                const [xj, yj] = pts[j];
+                if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside;
+            }
+            return inside;
+        }
+
+        // Window kinds: 0 wall, 1 dark window, 2 deep recess, 3 window lit at night, 4 dark band
+        // out.curve is the half-depth of a round form at this point, so hatching can wrap around it
+        function hitPart(p, lx, ly, out) {
+            out.kind = 0;
+            out.curve = 0;
+            switch (p.t) {
+                case 'box':
+                case 'cyl':
+                case 'taper': {
+                    if (ly < p.y || ly > p.y + p.h) return false;
+                    const w = p.t === 'taper' ? p.w0 + (p.w1 - p.w0) * (ly - p.y) / p.h : p.w;
+                    const u = (lx - p.x) / (w / 2);
+                    if (u < -1 || u > 1) return false;
+                    const faceEnd = p.t === 'box' ? 1 - 2 * (p.side ?? 0) : 0.75;
+                    if (p.t === 'box') {
+                        out.light = u > faceEnd ? SIDE_LIGHT : FRONT_LIGHT;
+                    } else if (p.facets) {
+                        const lean = (p.w0 - p.w1) / (2 * p.h);
+                        out.light = u < 0 ? lambert(-0.55, lean, -1) : lambert(0.55, lean, -1);
+                    } else {
+                        const lean = p.t === 'taper' ? (p.w0 - p.w1) / (2 * p.h) * 0.6 : 0;
+                        out.light = lambert(u, lean, -Math.sqrt(1 - u * u));
+                        out.curve = Math.sqrt(1 - u * u) * w / 2;
+                    }
+                    const left = lx - (p.x - w / 2);
+                    if (u < faceEnd) out.light = relief(p, lx, ly, left, out.light);
+                    if (p.dark) out.kind = 4;
+                    if (p.win && u < faceEnd) {
+                        const [cw, ch] = p.win;
+                        const up = ly - p.y;
+                        const fx = (left / cw) % 1;
+                        const fy = (up / ch) % 1;
+                        if (fx > 0.28 && fx < 0.72 && fy > 0.3 && fy < 0.72 && up < p.h - ch * 0.6) {
+                            out.kind = hash3(Math.floor(left / cw), Math.floor(up / ch), p.seed ?? 1) < 0.4 ? 3 : 1;
+                        }
+                    }
+                    return true;
+                }
+                case 'ball': {
+                    const dx = (lx - p.x) / p.r, dy = (ly - p.y) / p.r;
+                    const d2 = dx * dx + dy * dy;
+                    if (d2 > 1) return false;
+                    out.light = ribbed(p, dx, dy, lambert(dx, dy, -Math.sqrt(1 - d2)));
+                    out.curve = Math.sqrt(1 - d2) * p.r;
+                    return true;
+                }
+                case 'dome': {
+                    if (ly < p.y) return false;
+                    const dx = (lx - p.x) / p.r, dy = (ly - p.y) / (p.r * p.k);
+                    const d2 = dx * dx + dy * dy;
+                    if (d2 > 1) return false;
+                    out.light = ribbed(p, dx, dy, lambert(dx, dy, -Math.sqrt(1 - d2)));
+                    out.curve = Math.sqrt(1 - d2) * p.r;
+                    return true;
+                }
+                case 'blob': {
+                    const dx = (lx - p.x) / p.rx, dy = (ly - p.y) / p.ry;
+                    const d2 = dx * dx + dy * dy;
+                    if (d2 > 1 + (noise2(lx * 55, ly * 55) - 0.5) * 0.9) return false;
+                    out.light = clamp01(lambert(dx, dy, -Math.sqrt(Math.max(0.05, 1 - d2))) + (noise2(lx * 120, ly * 120) - 0.5) * 0.9);
+                    out.curve = Math.sqrt(Math.max(0, 1 - d2)) * p.ry * 0.6;
+                    return true;
+                }
+                case 'poly': {
+                    if (!insidePolygon(p.pts, lx, ly)) return false;
+                    out.light = p.n ? lambert(...p.n) : FRONT_LIGHT;
+                    if (p.dark) out.kind = 4;
+                    if (p.rough) {
+                        const cx = p.pts.reduce((s, q) => s + q[0], 0) / p.pts.length;
+                        const flank = clamp01(0.5 + (lx - cx) * 6);
+                        const strata = noise2(lx * 90, ly * 9) - 0.5;
+                        out.light = clamp01(0.02 + 0.55 * flank + strata * 0.5 + (noise2(lx * 25 + 3, ly * 25) - 0.5) * 0.25);
+                    }
+                    return true;
+                }
+                case 'hole':
+                    if (!insideArch(p, lx, ly)) return false;
+                    out.none = true;
+                    return true;
+                case 'recess':
+                    if (!insideArch(p, lx, ly)) return false;
+                    out.light = 0;
+                    out.kind = 2;
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        function hitParts(parts, lx, ly, out) {
+            out.none = false;
+            for (let k = parts.length - 1; k >= 0; k--) {
+                if (hitPart(parts[k], lx, ly, out)) return !out.none;
+            }
+            return false;
+        }
+
+        // Scene builders
+        const mirror = (x, make) => [make(-x, -1), make(x, 1)];
+
+        function waterTower(x, roof) {
+            return [
+                box(x, 0.016, roof, 0.01, { dark: true }),
+                cyl(x, 0.015, roof + 0.01, 0.017, { bands: [0.008] }),
+                taper(x, 0.017, 0.001, roof + 0.027, 0.011),
+            ];
+        }
+
+        function blocks(rand, { z, from, to, count, minW, maxW, minH, maxH, depth = 0, win = [0.011, 0.017], roofs = 0.2 }) {
+            return Array.from({ length: count }, () => {
+                const w = minW + rand() * (maxW - minW);
+                const h = minH + rand() * (maxH - minH);
+                const seed = Math.floor(rand() * 1e6);
+                const parts = [box(0, w, 0, h, { side: 0.2, win, seed, bands: [h - 0.008] })];
+                const roof = rand();
+                if (roof < 0.28) {
+                    parts.push(box(0, w * 0.64, h, h * 0.18, { side: 0.22, win, seed: seed + 1, bands: [h * 0.18 - 0.006] }));
+                } else if (roof < 0.28 + roofs) {
+                    parts.push(...waterTower((rand() - 0.5) * w * 0.5, h));
+                } else if (roof > 0.94) {
+                    parts.push(taper(0, 0.004, 0.0006, h, 0.05));
+                }
+                return { sx: from + rand() * (to - from), z: z + rand() * depth, parts };
+            });
+        }
+
+        function trees(rand, { z, from, to, count, size = 0.03, depth = 10 }) {
+            return Array.from({ length: count }, () => {
+                const s = size * (0.7 + rand() * 0.6);
+                const lean = (rand() - 0.5) * s * 0.3;
+                return {
+                    sx: from + rand() * (to - from),
+                    z: z + rand() * depth,
+                    parts: [
+                        box(0, s * 0.14, 0, s * 0.7, { side: 0.4 }),
+                        blob(lean - s * 0.35, s * 1.0, s * 0.6, s * 0.5),
+                        blob(lean + s * 0.4, s * 1.05, s * 0.55, s * 0.5),
+                        blob(lean, s * 1.35, s * (0.75 + rand() * 0.3), s * (0.6 + rand() * 0.25)),
+                    ],
+                };
+            });
+        }
+
+        function palm(h, lean) {
+            const fronds = [];
+            const leaflets = [];
+            for (let k = 0; k < 11; k++) {
+                const a = Math.PI * (1.1 - k * 1.2 / 10);
+                const len = 0.07 + 0.018 * Math.sin(k * 1.7);
+                const reach = Math.abs(Math.cos(a));
+                const pts = [];
+                for (let s = 0; s <= 6; s++) {
+                    const t = s / 6;
+                    pts.push([lean + Math.cos(a) * len * t, h + Math.sin(a) * len * t * 0.7 + 0.02 * t - 0.055 * t * t * (reach + 0.25)]);
+                }
+                fronds.push(pts);
+                for (let s = 1; s < 6; s++) {
+                    const [px, py] = pts[s];
+                    const l = 0.016 * (1 - s / 7);
+                    leaflets.push([[px, py], [px - 0.004, py - l]], [[px, py], [px + 0.004, py - l]]);
+                }
+            }
+            const trunkLeft = [], trunkRight = [];
+            for (let s = 0; s <= 8; s++) {
+                const t = s / 8;
+                const cx = lean * t * t;
+                const half = 0.0075 * (1 - 0.35 * t);
+                trunkLeft.push([cx - half, h * t]);
+                trunkRight.unshift([cx + half, h * t]);
+            }
+            return [
+                poly([...trunkLeft, ...trunkRight], { rough: true }),
+                lines(fronds, 1.5),
+                lines(leaflets, 0.7),
+                ball(lean, h, 0.008),
+            ];
+        }
+
+        function prang(x, s, y0) {
+            const tiers = [[0.15, 0.125, 0.05], [0.125, 0.095, 0.06], [0.095, 0.07, 0.06], [0.07, 0.05, 0.055], [0.05, 0.032, 0.05], [0.032, 0.014, 0.045]];
+            const parts = [];
+            let y = y0;
+            for (const [w0, w1, h] of tiers) {
+                parts.push(taper(x, w0 * s, w1 * s, y, h * s, { piers: [0.011 * s, 0.4], bands: [h * s * 0.82] }));
+                parts.push(box(x, w1 * s * 1.18, y + h * s - 0.005 * s, 0.007 * s, { side: 0.12 }));
+                y += h * s;
+            }
+            parts.push(taper(x, 0.012 * s, 0.0015, y, 0.07 * s));
+            return parts;
+        }
+
+        function sala(x, s) {
+            return [
+                box(x, 0.17 * s, 0, 0.05 * s, { side: 0.1, piers: [0.022 * s, 0.25] }),
+                poly([[x - 0.115 * s, 0.05 * s], [x + 0.115 * s, 0.05 * s], [x + 0.06 * s, 0.088 * s], [x - 0.06 * s, 0.088 * s]], { n: [0.3, 1, -0.7] }),
+                poly([[x - 0.08 * s, 0.088 * s], [x + 0.08 * s, 0.088 * s], [x + 0.03 * s, 0.125 * s], [x - 0.03 * s, 0.125 * s]], { n: [0.3, 1, -0.6] }),
+                lines([
+                    [[x - 0.115 * s, 0.05 * s], [x - 0.13 * s, 0.066 * s]], [[x + 0.115 * s, 0.05 * s], [x + 0.13 * s, 0.066 * s]],
+                    [[x - 0.08 * s, 0.088 * s], [x - 0.094 * s, 0.102 * s]], [[x + 0.08 * s, 0.088 * s], [x + 0.094 * s, 0.102 * s]],
+                    [[x, 0.125 * s], [x, 0.15 * s]],
+                ], 1.2),
+            ];
+        }
+
+        // Catenary main cable between two tower tops plus side spans falling to anchorages; hangers drop to the deck
+        function suspension(towerX, towerTop, deckY, reach, every = 0.02) {
+            const cable = [];
+            const hangers = [];
+            const sag = deckY + 0.015;
+            for (let x = -reach; x <= reach + 1e-9; x += 0.005) {
+                let y;
+                if (Math.abs(x) <= towerX) {
+                    y = sag + (towerTop - sag) * (x / towerX) ** 2;
+                } else {
+                    const t = (Math.abs(x) - towerX) / (reach - towerX);
+                    y = towerTop - (towerTop - deckY - 0.05) * (2 * t - t * t);
+                }
+                cable.push([x, y]);
+                const step = Math.round(x / 0.005);
+                if (Math.abs(Math.abs(x) - towerX) > 0.012 && step % Math.round(every / 0.005) === 0) hangers.push([[x, y], [x, deckY + 0.016]]);
+            }
+            return [lines([cable], 1.6), lines(hangers, 0.5)];
+        }
+
+        function goldenGateTower(x) {
+            const parts = [];
+            for (const side of [-1, 1]) {
+                const legX = x + side * 0.026;
+                [[0, 0.13, 0.022], [0.13, 0.1, 0.019], [0.23, 0.08, 0.016], [0.31, 0.048, 0.013]].forEach(([y, h, w]) => {
+                    parts.push(box(legX, w, y, h, { side: 0.32, piers: [w / 3, 0.45] }));
+                });
+            }
+            [[0.11, 0.016], [0.2, 0.013], [0.278, 0.011], [0.336, 0.01]].forEach(([y, h]) => {
+                parts.push(box(x, 0.074, y, h, { side: 0.08, bands: [h * 0.55] }));
+            });
+            parts.push(box(x, 0.078, 0.354, 0.008, { side: 0.08 }));
+            return parts;
+        }
+
+        function brooklynTower(x) {
+            return [
+                box(x, 0.17, 0, 0.3, { side: 0.12, bands: [0.13, 0.27] }),
+                box(x, 0.185, 0.3, 0.014, { side: 0.1 }),
+                recess(x - 0.04, 0.016, 0.255, 0.035, { pointed: true }),
+                recess(x + 0.04, 0.016, 0.255, 0.035, { pointed: true }),
+                hole(x - 0.04, 0.046, 0.0, 0.2, { pointed: true }),
+                hole(x + 0.04, 0.046, 0.0, 0.2, { pointed: true }),
+            ];
+        }
+
+        // Two Gothic towers, main span between them, side spans dropping to anchorages, and the diagonal stays
+        // that fan from each tower top: the web that makes the bridge recognisable at a glance
+        function brooklynBridge(span, sideSpan) {
+            const top = 0.3, deck = 0.1;
+            const towers = [0, span];
+            const cableY = x => {
+                if (x < 0) {
+                    const t = -x / sideSpan;
+                    return top - (top - deck - 0.02) * (2 * t - t * t);
+                }
+                if (x > span) {
+                    const t = (x - span) / sideSpan;
+                    return top - (top - deck - 0.02) * (2 * t - t * t);
+                }
+                const u = x / span * 2 - 1;
+                return deck + 0.022 + (top - deck - 0.022) * u * u;
+            };
+            const cable = [], hangers = [], stays = [];
+            for (let x = -sideSpan; x <= span + sideSpan + 1e-9; x += 0.005) {
+                const y = cableY(x);
+                cable.push([x, y]);
+                const nearTower = towers.some(t => Math.abs(x - t) < 0.1);
+                if (!nearTower && Math.round(x / 0.005) % 4 === 0) hangers.push([[x, y], [x, deck + 0.012]]);
+            }
+            for (const t of towers) {
+                for (let k = 1; k <= 9; k++) {
+                    stays.push([[t + 0.02, top - 0.012], [t + 0.02 + k * 0.042, deck + 0.012]]);
+                    stays.push([[t - 0.02, top - 0.012], [t - 0.02 - k * 0.042, deck + 0.012]]);
+                }
+            }
+            return [
+                ...brooklynTower(0),
+                ...brooklynTower(span),
+                box(span / 2, span + sideSpan * 2, deck, 0.012, { side: 0, piers: [0.008, 0.3] }),
+                box(span + sideSpan + 0.03, 0.1, 0, 0.125, { side: 0.18, bands: [0.098, 0.118] }),
+                recess(span + sideSpan + 0.02, 0.03, 0, 0.06),
+                lines([cable], 1.6, { lights: 0.03 }),
+                lines(hangers, 0.4),
+                lines(stays, 0.4),
+            ];
+        }
+
+        // A Manhattan tower in one of four idioms: Art Deco wedding cake, glass slab, rooftop water tank, pyramid crown
+        function skyscraper(rand, sx, z, h) {
+            const w = 0.026 + rand() * 0.038;
+            const seed = Math.floor(rand() * 1e6);
+            const win = rand() < 0.5 ? [0.009, 0.014] : [0.011, 0.017];
+            const style = rand();
+            let parts;
+            if (style < 0.32) {
+                parts = [
+                    box(0, w, 0, h * 0.68, { side: 0.2, piers: [0.008, 0.35], win, seed, bands: [h * 0.68 - 0.007] }),
+                    box(0, w * 0.74, h * 0.68, h * 0.17, { side: 0.22, piers: [0.007, 0.35], win, seed: seed + 1, bands: [h * 0.17 - 0.006] }),
+                    box(0, w * 0.48, h * 0.85, h * 0.1, { side: 0.24, piers: [0.006, 0.4] }),
+                ];
+                if (rand() < 0.5) parts.push(taper(0, 0.005, 0.0006, h * 0.95, 0.04));
+            } else if (style < 0.58) {
+                parts = [box(0, w, 0, h, { side: 0.26, win: [0.008, 0.011], seed, bands: [h - 0.006] })];
+            } else if (style < 0.8) {
+                parts = [box(0, w, 0, h, { side: 0.2, win, seed, bands: [h - 0.008] }), ...waterTower((rand() - 0.5) * w * 0.5, h)];
+            } else {
+                parts = [box(0, w, 0, h * 0.88, { side: 0.2, win, seed, bands: [h * 0.88 - 0.007] }), taper(0, w * 1.04, 0.002, h * 0.88, h * 0.12, { facets: true })];
+            }
+            return { sx, z, parts };
+        }
+
+        function libertyStatue() {
+            const rays = [];
+            for (let k = 0; k < 7; k++) {
+                const a = Math.PI * (0.15 + k * 0.7 / 6);
+                rays.push([[Math.cos(a) * 0.006, 0.23 + Math.sin(a) * 0.006], [Math.cos(a) * 0.016, 0.23 + Math.sin(a) * 0.016]]);
+            }
+            return [
+                box(0, 0.24, 0, 0.012, { side: 0 }),
+                poly([[-0.075, 0.012], [0.075, 0.012], [0.062, 0.034], [-0.062, 0.034]], { n: [0.2, 0.6, -1] }),
+                box(0, 0.06, 0.034, 0.072, { side: 0.2, piers: [0.012, 0.3], bands: [0.022, 0.066] }),
+                recess(-0.006, 0.014, 0.05, 0.03),
+                box(0, 0.048, 0.106, 0.012, { side: 0.2 }),
+                poly([[-0.017, 0.118], [0.017, 0.118], [0.014, 0.16], [0.012, 0.198], [0.007, 0.222], [-0.007, 0.222], [-0.013, 0.192], [-0.016, 0.15]], { n: [0.5, 0.15, -1] }),
+                poly([[-0.02, 0.172], [-0.011, 0.17], [-0.009, 0.196], [-0.018, 0.198]], { n: [-0.4, 0.2, -1] }),
+                poly([[0.005, 0.21], [0.012, 0.212], [0.018, 0.256], [0.012, 0.257]], { n: [0.6, 0.2, -1] }),
+                poly([[0.01, 0.256], [0.021, 0.256], [0.019, 0.264], [0.012, 0.264]], { n: [0.6, 0.6, -1] }),
+                ball(0.0155, 0.27, 0.0055),
+                ball(0, 0.229, 0.0072),
+                lines(rays, 1),
+            ];
+        }
+
+        function minaret(x, h, w, cap = 'cone') {
+            return [
+                cyl(x, w, 0, h, { bands: [h * 0.62, h * 0.86] }),
+                cyl(x, w * 1.5, h * 0.62, w * 0.35, { side: 0 }),
+                cyl(x, w * 1.4, h * 0.86, w * 0.3),
+                cap === 'cone' ? taper(x, w * 1.05, 0.001, h, w * 3) : dome(x, h, w * 0.65, 1.4),
+            ];
+        }
+
+        const homeTrail = g => z => g.toWorldX(g.W * (0.42 + 0.06 * Math.sin(z * 0.03 + 0.8) + 0.025 * Math.sin(z * 0.09)), z);
+
+        // Everything above the dunes. It is defined everywhere, so the explorer can walk on forever: past the home
+        // view's horizon the range breaks into massifs, passes and high plateaus on a broad noise field.
+        function homeRelief(g) {
+            const peakX = g.toWorldX(g.W * 0.66, 320);
+            return (x, z) => {
+                let h = 0;
+                const foothills = smoothstep(60, 150, z);
+                if (foothills > 0) h += foothills * (1 + 6 * ridged(x / 30 + 40, z / 30, 4));
+                const range = smoothstep(170, 280, z);
+                if (range > 0) {
+                    const beyond = smoothstep(640, 820, z);
+                    const massif = 1 - beyond + beyond * (0.15 + 1.1 * smoothstep(0.3, 0.72, noise2(x / 260 + 11, z / 260 + 5)));
+                    const dx = (x - peakX) / 42;
+                    const dz = (z - 320) / 45;
+                    h += range * massif * (2 + 15 * ridged(x / 80, z / 80)) + 22 * Math.exp(-(dx * dx + dz * dz) / 2);
+                }
+                return h;
+            };
+        }
+
+        const SCENES = {
+            home: {
+                sun: 0.8,
+                walker: true,
+                grass: 1,
+                terrain(g) {
+                    const relief = homeRelief(g);
+                    return { trailX: homeTrail(g), relief, height: (x, z) => dunes(x, z) + relief(x, z) };
+                },
+            },
+            tashkent: {
+                label: 'Tashkent', coords: '41.30° N, 69.24° E', sun: 0.14, grass: 0.6,
+                terrain: () => ({ height: (x, z) => dunes(x, z) * 0.5 + mountains(x, z, 300, 22, 95) }),
+                landmarks(g, rand) {
+                    const niches = [];
+                    for (let k = -6; k <= 6; k++) {
+                        if (Math.abs(k) < 2) continue;
+                        niches.push(recess(k * 0.042, 0.022, 0.014, 0.04, { pointed: true }));
+                        niches.push(recess(k * 0.042, 0.02, 0.064, 0.026, { pointed: true }));
+                    }
+                    const tvStripes = [0, 1, 2, 3, 4].map(k => taper(0, 0.007 - k * 0.001, 0.006 - k * 0.001, 0.5 + k * 0.022, 0.022, { dark: k % 2 === 1 }));
+                    return [
+                        ...blocks(rand, { z: 190, depth: 80, from: 0, to: 1, count: 26, minW: 0.03, maxW: 0.08, minH: 0.02, maxH: 0.08, roofs: 0 }),
+                        {
+                            sx: 0.8, z: 250, beacon: [0, 0.63],
+                            parts: [
+                                poly([[-0.08, 0], [-0.062, 0], [-0.008, 0.16], [-0.018, 0.16]], { n: [-0.6, 0, -0.8] }),
+                                poly([[0.08, 0], [0.062, 0], [0.008, 0.16], [0.018, 0.16]], { n: [1, 0, -0.4] }),
+                                poly([[-0.012, 0], [0.012, 0], [0.004, 0.14], [-0.004, 0.14]]),
+                                taper(0, 0.024, 0.014, 0.1, 0.27, { piers: [0.006, 0.5] }),
+                                cyl(0, 0.056, 0.36, 0.016, { bands: [0.012] }),
+                                cyl(0, 0.04, 0.376, 0.026, { win: [0.007, 0.009], seed: 9 }),
+                                cyl(0, 0.062, 0.402, 0.01),
+                                taper(0, 0.012, 0.008, 0.412, 0.088, { piers: [0.004, 0.5] }),
+                                ...tvStripes,
+                                taper(0, 0.002, 0.0006, 0.61, 0.03),
+                            ],
+                        },
+                        {
+                            sx: 0.37, z: 108,
+                            parts: [
+                                ...mirror(0.17, x => [cyl(x, 0.1, 0.1, 0.038, { piers: [0.009, 0.4] }), dome(x, 0.138, 0.056, 1.25, { ribs: 16 }), cyl(x, 0.008, 0.207, 0.012), ball(x, 0.222, 0.005)]).flat(),
+                                box(0, 0.62, 0, 0.1, { side: 0.03, bands: [0.092] }),
+                                ...niches,
+                                box(0, 0.18, 0, 0.23, { side: 0.06, bands: [0.215] }),
+                                recess(0, 0.11, 0.015, 0.19, { pointed: true }),
+                                box(0, 0.06, 0.015, 0.075, { side: 0 }),
+                                recess(0, 0.04, 0.015, 0.06),
+                                ...mirror(0.085, x => [cyl(x, 0.018, 0.23, 0.03, { piers: [0.004, 0.5] }), dome(x, 0.26, 0.012, 1.5)]).flat(),
+                                ...mirror(0.31, x => minaret(x, 0.21, 0.03, 'dome')).flat(),
+                            ],
+                        },
+                        ...trees(rand, { z: 82, from: 0, to: 0.18, count: 6, size: 0.036 }),
+                        ...trees(rand, { z: 82, from: 0.58, to: 1, count: 10, size: 0.036 }),
+                    ];
+                },
+            },
+            rabat: {
+                label: 'Rabat', coords: '34.02° N, 6.84° W', sun: 0.13, grass: 0.4,
+                boats: [{ type: 'sail', z: 85, speed: 0.012, offset: 0.1, range: [0, 0.32] }],
+                terrain: g => ({
+                    water: (x, z) => g.screenFrac(x, z) < 0.35 + 0.04 * Math.sin(z * 0.02),
+                    height: (x, z) => dunes(x, z) * 0.4,
+                }),
+                landmarks(g, rand) {
+                    const merlons = (x0, x1, y, w = 0.011, gap = 0.021) => {
+                        const out = [];
+                        for (let x = x0; x <= x1 + 1e-9; x += gap) out.push(box(x, w, y, w * 1.15, { side: 0.2 }));
+                        return out;
+                    };
+                    const columns = (sx, z, count, offset) => ({
+                        sx, z,
+                        parts: Array.from({ length: count }, (_, k) => {
+                            const h = 0.025 + rand() * 0.035;
+                            return [cyl(k * 0.046 + offset, 0.016, 0, h, { piers: [0.004, 0.5] }), cyl(k * 0.046 + offset, 0.02, h, 0.006)];
+                        }).flat(),
+                    });
+                    return [
+                        {
+                            sx: 0.45, z: 175,
+                            parts: [
+                                box(0, 0.34, 0, 0.075, { side: 0.04, bands: [0.07] }),
+                                ...merlons(-0.165, 0.165, 0.075),
+                                box(0.06, 0.085, 0, 0.12, { side: 0.12, bands: [0.11] }),
+                                ...merlons(0.026, 0.094, 0.12, 0.01, 0.017),
+                                recess(0.054, 0.04, 0, 0.08, { pointed: true }),
+                                box(-0.15, 0.05, 0, 0.1, { side: 0.18 }),
+                                ...merlons(-0.17, -0.13, 0.1, 0.009, 0.016),
+                            ],
+                        },
+                        {
+                            sx: 0.86, z: 112,
+                            parts: [
+                                box(0, 0.2, 0, 0.1, { side: 0.12, piers: [0.02, 0.3], bands: [0.09] }),
+                                ...[-0.06, 0, 0.06].map(x => recess(x - 0.012, 0.03, 0.012, 0.065)),
+                                poly([[-0.105, 0.1], [0.105, 0.1], [0.04, 0.16], [-0.04, 0.16]], { n: [0.35, 1, -0.55] }),
+                                ...mirror(0.09, x => [taper(x, 0.012, 0.004, 0.1, 0.03), ball(x, 0.135, 0.004)]).flat(),
+                                taper(0, 0.006, 0.001, 0.16, 0.035),
+                            ],
+                        },
+                        {
+                            sx: 0.66, z: 98,
+                            parts: [
+                                box(0, 0.12, 0, 0.37, { side: 0.28, bands: [0.12, 0.25, 0.355] }),
+                                recess(-0.017, 0.056, 0.03, 0.075, { pointed: true }),
+                                recess(-0.033, 0.018, 0.145, 0.07, { pointed: true }),
+                                recess(-0.001, 0.018, 0.145, 0.07, { pointed: true }),
+                                ...[-0.04, -0.017, 0.006].map(x => recess(x, 0.014, 0.27, 0.055, { pointed: true })),
+                                ...merlons(-0.052, 0.052, 0.37, 0.013, 0.026),
+                                box(-0.017, 0.042, 0.37, 0.04, { side: 0.3 }),
+                                recess(-0.022, 0.016, 0.375, 0.028, { pointed: true }),
+                            ],
+                        },
+                        columns(0.47, 90, 9, 0),
+                        columns(0.46, 97, 9, 0.023),
+                        { sx: 0.98, z: 52, parts: palm(0.32, -0.03) },
+                        { sx: 0.4, z: 64, parts: palm(0.26, 0.02) },
+                        { sx: 0.5, z: 70, parts: palm(0.22, -0.015) },
+                    ];
+                },
+            },
+            bangkok: {
+                label: 'Bangkok', coords: '13.76° N, 100.50° E', sun: 0.84,
+                boats: [{ type: 'longtail', z: 62, speed: 0.03, offset: 0.4 }],
+                terrain: () => ({ water: (x, z) => z < 118, height: (x, z) => dunes(x, z) * 0.3 }),
+                landmarks(g, rand) {
+                    return [
+                        ...blocks(rand, { z: 330, depth: 40, from: 0.0, to: 0.24, count: 7, minW: 0.03, maxW: 0.055, minH: 0.12, maxH: 0.22, roofs: 0 }),
+                        ...blocks(rand, { z: 330, depth: 40, from: 0.74, to: 1, count: 7, minW: 0.03, maxW: 0.055, minH: 0.1, maxH: 0.2, roofs: 0 }),
+                        {
+                            sx: 0.9, z: 310,
+                            parts: [taper(0, 0.05, 0.03, 0, 0.3, { piers: [0.008, 0.5], win: [0.009, 0.014], seed: 21 }), box(0.012, 0.016, 0.24, 0.05, { dark: true })],
+                        },
+                        {
+                            sx: 0.5, z: 132,
+                            parts: [
+                                box(0, 0.5, 0, 0.026, { side: 0.03, piers: [0.012, 0.3], bands: [0.02] }),
+                                box(0, 0.38, 0.026, 0.026, { side: 0.04, piers: [0.012, 0.3], bands: [0.02] }),
+                                box(0, 0.26, 0.052, 0.024, { side: 0.05, piers: [0.012, 0.3], bands: [0.018] }),
+                                ...prang(-0.215, 0.38, 0.026),
+                                ...prang(0.215, 0.38, 0.026),
+                                ...prang(-0.13, 0.48, 0.052),
+                                ...prang(0.13, 0.48, 0.052),
+                                ...prang(0, 1.02, 0.076),
+                            ],
+                        },
+                        { sx: 0.17, z: 126, parts: sala(0, 1) },
+                        { sx: 0.28, z: 128, parts: sala(0, 0.6) },
+                        ...trees(rand, { z: 124, from: 0, to: 0.12, count: 5, size: 0.032 }),
+                        ...trees(rand, { z: 124, from: 0.72, to: 1, count: 9, size: 0.032 }),
+                    ];
+                },
+            },
+            berlin: {
+                label: 'Berlin', coords: '52.52° N, 13.40° E', sun: 0.13, grass: 0.45,
+                terrain: () => ({ height: (x, z) => dunes(x, z) * 0.3 }),
+                landmarks(g, rand) {
+                    const columnsX = [-0.15, -0.09, -0.03, 0.03, 0.09, 0.15];
+                    const horse = hx => poly([[hx - 0.01, 0.192], [hx + 0.008, 0.192], [hx + 0.009, 0.204], [hx + 0.013, 0.214], [hx + 0.009, 0.22], [hx + 0.004, 0.212], [hx - 0.008, 0.209], [hx - 0.012, 0.2]], { n: [0.4, 0.3, -1] });
+                    const antenna = [0, 1, 2, 3, 4].map(k => taper(0, 0.0085 - k * 0.0013, 0.0072 - k * 0.0013, 0.5 + k * 0.022, 0.022, { dark: k % 2 === 1 }));
+                    return [
+                        ...blocks(rand, { z: 250, depth: 60, from: 0, to: 1, count: 32, minW: 0.04, maxW: 0.09, minH: 0.03, maxH: 0.09, roofs: 0 }),
+                        {
+                            sx: 0.12, z: 185,
+                            parts: [
+                                box(0, 0.32, 0, 0.085, { side: 0.04, piers: [0.014, 0.35], bands: [0.075] }),
+                                ...mirror(0.14, x => [box(x, 0.05, 0, 0.11, { side: 0.15, piers: [0.012, 0.35], bands: [0.1] })]).flat(),
+                                box(0, 0.11, 0, 0.095, { side: 0.05, piers: [0.016, 0.45] }),
+                                poly([[-0.06, 0.095], [0.06, 0.095], [0, 0.118]], { n: [0.1, 1, -0.8] }),
+                                dome(0, 0.085, 0.05, 1.05, { ribs: 18 }),
+                            ],
+                        },
+                        {
+                            sx: 0.89, z: 215,
+                            parts: [
+                                box(0, 0.24, 0, 0.09, { side: 0.08, piers: [0.016, 0.35], bands: [0.08] }),
+                                box(0, 0.1, 0.09, 0.03, { side: 0.1, piers: [0.01, 0.4] }),
+                                cyl(0, 0.088, 0.12, 0.03, { piers: [0.008, 0.4], bands: [0.025] }),
+                                dome(0, 0.15, 0.052, 1.25, { ribs: 14 }),
+                                cyl(0, 0.013, 0.214, 0.02, { piers: [0.003, 0.5] }),
+                                dome(0, 0.234, 0.008, 1.6),
+                                taper(0, 0.003, 0.0005, 0.246, 0.02),
+                                ...mirror(0.1, x => [box(x, 0.032, 0.09, 0.045, { side: 0.2, bands: [0.04] }), dome(x, 0.135, 0.018, 1.4, { ribs: 6 }), taper(x, 0.004, 0.0005, 0.16, 0.018)]).flat(),
+                            ],
+                        },
+                        {
+                            sx: 0.69, z: 190, beacon: [0, 0.63],
+                            parts: [
+                                box(0, 0.14, 0, 0.022, { side: 0.1, piers: [0.014, 0.4] }),
+                                taper(0, 0.038, 0.019, 0.022, 0.34),
+                                cyl(0, 0.03, 0.332, 0.014, { bands: [0.01] }),
+                                ball(0, 0.385, 0.048, { ribs: 22 }),
+                                cyl(0, 0.07, 0.38, 0.012, { win: [0.006, 0.012], seed: 4 }),
+                                taper(0, 0.014, 0.011, 0.433, 0.067, { bands: [0.03] }),
+                                ...antenna,
+                                taper(0, 0.0022, 0.0006, 0.61, 0.03),
+                            ],
+                        },
+                        ...trees(rand, { z: 112, from: 0, to: 1, count: 30, size: 0.036, depth: 18 }),
+                        {
+                            sx: 0.32, z: 76,
+                            parts: [
+                                box(0, 0.56, 0, 0.012, { side: 0.02, bands: [0.008] }),
+                                ...mirror(0.25, x => [
+                                    box(x, 0.11, 0.012, 0.072, { side: 0.12, piers: [0.022, 0.35], bands: [0.064] }),
+                                    poly([[x - 0.06, 0.084], [x + 0.06, 0.084], [x, 0.104]], { n: [0.1, 1, -0.8] }),
+                                    recess(x, 0.028, 0.012, 0.05),
+                                ]).flat(),
+                                ...columnsX.map(x => cyl(x, 0.022, 0.012, 0.114, { piers: [0.0045, 0.5] })),
+                                ...columnsX.map(x => box(x, 0.03, 0.126, 0.006, { side: 0.1 })),
+                                box(0, 0.37, 0.132, 0.03, { side: 0.02, piers: [0.012, 0.3], bands: [0.024] }),
+                                box(0, 0.28, 0.162, 0.01, { side: 0.03 }),
+                                box(0, 0.18, 0.172, 0.022, { side: 0.04, bands: [0.017] }),
+                                box(0, 0.11, 0.176, 0.012, { dark: true }),
+                                ...[-0.03, -0.012, 0.012, 0.03].map(horse),
+                                poly([[-0.008, 0.194], [0.008, 0.194], [0.005, 0.225], [0, 0.232], [-0.005, 0.225]], { n: [0.4, 0.3, -1] }),
+                                lines([[[0.005, 0.222], [0.01, 0.262]]], 1),
+                                ball(0.01, 0.266, 0.005),
+                            ],
+                        },
+                    ];
+                },
+            },
+            beirut: {
+                label: 'Beirut', coords: '33.89° N, 35.50° E', sun: 0.15,
+                boats: [{ type: 'sail', z: 120, speed: 0.008, offset: 0.6, range: [0, 0.6] }],
+                terrain: g => ({
+                    water: (x, z) => z < 40 || (z < 165 && g.screenFrac(x, z) < 0.66 + 0.05 * Math.sin(z * 0.04)),
+                    height: (x, z) => dunes(x, z) * 0.4 + mountains(x, z, 270, 24, 90),
+                }),
+                landmarks(g, rand) {
+                    return [
+                        ...blocks(rand, { z: 190, depth: 60, from: 0.64, to: 1, count: 28, minW: 0.028, maxW: 0.055, minH: 0.05, maxH: 0.18, roofs: 0 }),
+                        {
+                            sx: 0.8, z: 175, beacon: [0.1, 0.29],
+                            parts: [
+                                box(0, 0.17, 0, 0.075, { side: 0.1, bands: [0.068], win: [0.022, 0.035], seed: 31 }),
+                                cyl(0, 0.095, 0.075, 0.02, { piers: [0.01, 0.4] }),
+                                dome(0, 0.095, 0.062, 1.12),
+                                taper(0, 0.004, 0.0005, 0.164, 0.025),
+                                ...mirror(0.1, x => minaret(x, 0.26, 0.016)).flat(),
+                            ],
+                        },
+                        { sx: 0.22, z: 86, parts: [poly([[-0.05, 0], [-0.049, 0.09], [-0.035, 0.15], [-0.008, 0.172], [0.022, 0.15], [0.045, 0.085], [0.052, 0]], { rough: true })] },
+                        {
+                            sx: 0.37, z: 70,
+                            parts: [
+                                poly([[-0.13, 0], [-0.128, 0.08], [-0.112, 0.17], [-0.09, 0.235], [-0.05, 0.262], [-0.01, 0.25], [0.03, 0.27], [0.07, 0.235], [0.095, 0.16], [0.112, 0.07], [0.125, 0]], { rough: true }),
+                                hole(-0.045, 0.07, 0, 0.12),
+                            ],
+                        },
+                        { sx: 0.68, z: 60, parts: palm(0.24, 0.02) },
+                        { sx: 0.975, z: 54, parts: palm(0.3, -0.03) },
+                    ];
+                },
+            },
+            sanfrancisco: {
+                label: 'San Francisco', coords: '37.77° N, 122.42° W', sun: 0.86,
+                boats: [{ type: 'sail', z: 90, speed: 0.01, offset: 0.2 }],
+                terrain: () => ({
+                    water: (x, z) => z < 235,
+                    height: (x, z) => dunes(x, z) * 0.3 + smoothstep(235, 290, z) * (1 + 10 * ridged(x / 60 + 7, z / 60, 4)),
+                }),
+                landmarks(g, rand) {
+                    const reach = g.span * 0.6;
+                    return [
+                        ...blocks(rand, { z: 300, depth: 30, from: 0.76, to: 1, count: 12, minW: 0.02, maxW: 0.04, minH: 0.03, maxH: 0.1, roofs: 0 }),
+                        { sx: 0.88, z: 300, parts: [taper(0, 0.045, 0.004, 0, 0.16, { facets: true }), taper(0, 0.004, 0.0005, 0.16, 0.04)] },
+                        {
+                            sx: 0.46, z: 150, beacon: [-0.5, 0.37], beacon2: [0.5, 0.37],
+                            parts: [
+                                ...goldenGateTower(-0.5),
+                                ...goldenGateTower(0.5),
+                                box(0, reach * 2, 0.08, 0.02, { side: 0, piers: [0.008, 0.35], bands: [0.016] }),
+                                ...suspension(0.5, 0.354, 0.1, reach),
+                            ],
+                        },
+                    ];
+                },
+            },
+            hannover: {
+                label: 'Hannover', coords: '52.38° N, 9.73° E', sun: 0.15,
+                boats: [{ type: 'row', z: 58, speed: 0.006, offset: 0.7 }],
+                terrain: () => ({ water: (x, z) => z < 122, height: (x, z) => dunes(x, z) * 0.3 }),
+                landmarks(g, rand) {
+                    const win = [0.018, 0.028];
+                    const dormers = [];
+                    for (let x = -0.28; x <= 0.28 + 1e-9; x += 0.05) if (Math.abs(x) > 0.11) dormers.push(box(x, 0.012, 0.086, 0.012, { side: 0.25 }));
+                    return [
+                        ...trees(rand, { z: 175, from: 0, to: 1, count: 26, size: 0.034, depth: 30 }),
+                        {
+                            sx: 0.5, z: 140,
+                            parts: [
+                                box(0, 0.74, 0, 0.08, { side: 0.02, win, seed: 3, bands: [0.035, 0.074] }),
+                                poly([[-0.37, 0.08], [0.37, 0.08], [0.355, 0.098], [-0.355, 0.098]], { n: [0.2, 1, -0.5] }),
+                                ...dormers,
+                                ...mirror(0.34, x => [
+                                    box(x, 0.075, 0, 0.12, { side: 0.15, win, seed: 5, bands: [0.035, 0.074, 0.112] }),
+                                    poly([[x - 0.04, 0.12], [x + 0.04, 0.12], [x + 0.03, 0.14], [x - 0.03, 0.14]], { n: [0.2, 1, -0.5] }),
+                                    dome(x, 0.14, 0.022, 1.6, { ribs: 6 }),
+                                    taper(x, 0.004, 0.0005, 0.175, 0.02),
+                                ]).flat(),
+                                box(0, 0.21, 0, 0.15, { side: 0.08, win, seed: 7, bands: [0.035, 0.074, 0.112, 0.142] }),
+                                recess(0, 0.045, 0, 0.065),
+                                box(0, 0.12, 0.15, 0.062, { side: 0.15, win: [0.016, 0.03], seed: 8, bands: [0.056] }),
+                                ...mirror(0.056, x => [cyl(x, 0.014, 0.15, 0.08, { bands: [0.07] }), dome(x, 0.23, 0.009, 1.6)]).flat(),
+                                cyl(0, 0.094, 0.212, 0.042, { piers: [0.01, 0.4], win: [0.01, 0.03], seed: 9, bands: [0.036] }),
+                                dome(0, 0.254, 0.066, 1.3, { ribs: 14 }),
+                                cyl(0, 0.02, 0.338, 0.034, { piers: [0.005, 0.45] }),
+                                dome(0, 0.372, 0.013, 1.5),
+                                taper(0, 0.004, 0.0005, 0.39, 0.04),
+                            ],
+                        },
+                        ...trees(rand, { z: 126, from: 0, to: 0.2, count: 12, size: 0.042 }),
+                        ...trees(rand, { z: 126, from: 0.8, to: 1, count: 12, size: 0.042 }),
+                    ];
+                },
+            },
+            newyork: {
+                label: 'New York', coords: '40.71° N, 74.01° W', sun: 0.585,
+                boats: [{ type: 'ferry', z: 112, speed: 0.014, offset: 0.3 }, { type: 'sail', z: 140, speed: 0.006, offset: 0.75 }],
+                terrain: () => ({ water: (x, z) => z < 178, height: (x, z) => dunes(x, z) * 0.2 }),
+                landmarks(g, rand) {
+                    const win = [0.009, 0.014];
+                    // Manhattan's two-humped silhouette: Downtown and Midtown rise, the Village sags between them
+                    const envelope = sx => 0.05 + 0.2 * Math.exp(-(((sx - 0.44) / 0.08) ** 2)) + 0.25 * Math.exp(-(((sx - 0.74) / 0.12) ** 2));
+                    const district = (z, depth, count, scale) => Array.from({ length: count }, () => {
+                        const sx = rand();
+                        return skyscraper(rand, sx, z + rand() * depth, envelope(sx) * scale * (0.55 + rand() * 0.6));
+                    });
+                    return [
+                        ...district(262, 40, 46, 0.75),
+                        ...district(206, 22, 58, 1),
+                        {
+                            sx: 0.4, z: 204,
+                            parts: Array.from({ length: 9 }, (_, k) => box(Math.sin(k * 2.3) * 0.006, 0.034, k * 0.03, 0.03, { side: 0.22, win: [0.008, 0.01], seed: 40 + k, bands: [0.026] })),
+                        },
+                        {
+                            sx: 0.49, z: 203,
+                            parts: [
+                                box(0, 0.052, 0, 0.17, { side: 0.2, piers: [0.0065, 0.4], win, seed: 41 }),
+                                ...mirror(0.02, x => [taper(x, 0.008, 0.002, 0.17, 0.03)]).flat(),
+                                box(0, 0.034, 0.17, 0.05, { side: 0.22, piers: [0.006, 0.4], bands: [0.045] }),
+                                taper(0, 0.036, 0.003, 0.22, 0.06, { facets: true }),
+                            ],
+                        },
+                        {
+                            sx: 0.445, z: 198, beacon: [0, 0.43],
+                            parts: [
+                                box(0, 0.09, 0, 0.04, { side: 0.2, bands: [0.035] }),
+                                taper(0, 0.082, 0.038, 0.04, 0.33, { facets: true, win: [0.007, 0.011], seed: 11 }),
+                                box(0, 0.042, 0.37, 0.008, { side: 0.2 }),
+                                taper(0, 0.005, 0.0008, 0.378, 0.12),
+                            ],
+                        },
+                        {
+                            sx: 0.7, z: 196,
+                            parts: [
+                                taper(0, 0.064, 0.04, 0, 0.27, { facets: true, win: [0.008, 0.011], seed: 42 }),
+                                taper(0, 0.04, 0.03, 0.27, 0.025, { facets: true }),
+                                taper(0, 0.03, 0.018, 0.295, 0.02, { facets: true }),
+                                taper(0, 0.004, 0.0006, 0.315, 0.06),
+                            ],
+                        },
+                        {
+                            sx: 0.81, z: 202,
+                            parts: [box(0, 0.03, 0, 0.37, { side: 0.22, win: [0.0075, 0.0075], seed: 43, bands: [0.12, 0.24, 0.364] })],
+                        },
+                        {
+                            sx: 0.765, z: 194, scale: 0.94,
+                            parts: [
+                                box(0, 0.068, 0, 0.25, { side: 0.2, piers: [0.0085, 0.35], win, seed: 15 }),
+                                box(0, 0.054, 0.25, 0.022, { side: 0.2, piers: [0.008, 0.35] }),
+                                dome(0, 0.272, 0.027, 0.9, { ribs: 8 }),
+                                dome(0, 0.288, 0.02, 1.0, { ribs: 8 }),
+                                dome(0, 0.302, 0.013, 1.2, { ribs: 6 }),
+                                taper(0, 0.008, 0.0008, 0.316, 0.08),
+                            ],
+                        },
+                        {
+                            sx: 0.645, z: 190, scale: 0.92, beacon: [0, 0.42],
+                            parts: [
+                                box(0, 0.16, 0, 0.05, { side: 0.18, win, seed: 12, bands: [0.045] }),
+                                box(0, 0.105, 0.05, 0.2, { side: 0.2, piers: [0.0095, 0.35], win, seed: 13 }),
+                                box(0, 0.08, 0.25, 0.045, { side: 0.2, piers: [0.009, 0.35], win, seed: 14, bands: [0.04] }),
+                                box(0, 0.06, 0.295, 0.03, { side: 0.2, piers: [0.008, 0.35], bands: [0.026] }),
+                                box(0, 0.042, 0.325, 0.02, { side: 0.2, piers: [0.007, 0.4] }),
+                                cyl(0, 0.028, 0.345, 0.026, { piers: [0.005, 0.45] }),
+                                taper(0, 0.016, 0.008, 0.371, 0.03),
+                                taper(0, 0.006, 0.0008, 0.401, 0.08),
+                            ],
+                        },
+                        { sx: 0.6, z: 176, parts: [box(0, 0.9, 0, 0.01, { side: 0, piers: [0.035, 0.12] })] },
+                        { sx: 0.9, z: 96, scale: 1.45, glow: [0.0155, 0.27], parts: libertyStatue() },
+                        { sx: 0.06, z: 72, parts: brooklynBridge(0.62, 0.45) },
+                    ];
+                },
+            },
+        };
+        const CITY_KEYS = Object.keys(SCENES).filter(k => k !== 'home');
+
+        let geometry = null;
+
+        function measureGeometry() {
+            const W = footer.clientWidth;
+            const H = footer.clientHeight;
+            const land = parseFloat(getComputedStyle(footer).paddingBottom);
+            const horizonY = H - land * 0.5;
+            const focal = land * 3.4;
+            const cols = Math.ceil(W / 2) + 1;
+            const toWorldX = (sx, z) => (sx - W / 2) * z / focal;
+            const rand = seededRandom(42);
+            const stars = Array.from({ length: Math.floor(W * H / 2600) }, () => ({
+                x: rand() * W, y: rand() * H, r: rand() < 0.08 ? 1.3 : 0.7, base: 0.2 + rand() * 0.6, speed: 0.6 + rand() * 2, phase: rand() * 7,
+            }));
+            return {
+                W, H, land, horizonY, focal, cols, stars,
+                xs: Float32Array.from({ length: cols }, (_, i) => i * 2),
+                span: W / (land * LANDMARK_SCALE),
+                toWorldX,
+                screenFrac: (x, z) => (W / 2 + x * focal / z) / W,
+                project: (x, z, h) => [W / 2 + x * focal / z, horizonY + (CAMERA_HEIGHT - h) * focal / z],
+            };
+        }
+
+        function* sceneBuilder(key, spec = SCENES[key]) {
+            const g = geometry;
+            const { W, H, cols, xs, horizonY, focal, toWorldX } = g;
+            const terrain = spec.terrain(g);
+            const water = terrain.water ?? null;
+            const height = water ? (x, z) => (water(x, z) ? 0.03 * (noise2(x * 2, z * 0.7) - 0.5) : terrain.height(x, z)) : terrain.height;
+            const rand = seededRandom(hashString(key));
+            const plan = (spec.landmarks ? spec.landmarks(g, rand) : []).sort((a, b) => a.z - b.z);
+
+            const horizon = new Float32Array(cols).fill(H + 10);
+            const top = new Float32Array(cols).fill(H + 10);
+            const reflectAxis = new Float32Array(cols);
+            const occupancy = plan.length ? new Uint8Array(cols * H) : null;
+            const landmarks = [];
+            const beacons = [];
+            const lamps = [];
+            const glints = [];
+            const rows = [];
+            const sample = {};
+
+            function rasterize(lm) {
+                const x = toWorldX(W * lm.sx, lm.z);
+                const groundY = horizonY + (CAMERA_HEIGHT - height(x, lm.z)) * focal / lm.z;
+                const baseX = W * lm.sx;
+                const solids = lm.parts.filter(p => p.t !== 'lines' && p.t !== 'hole');
+                const bounds = solids.map(partBounds);
+                const minX = Math.min(...bounds.map(b => b[0]));
+                const maxX = Math.max(...bounds.map(b => b[1]));
+                const maxY = Math.max(...bounds.map(b => b[2]));
+                const ceiling = H - g.land + 28;
+                const unit = Math.min(g.land * LANDMARK_SCALE * (lm.scale ?? 1), (groundY - ceiling) / maxY);
+                const i0 = Math.max(0, Math.floor((baseX + minX * unit) / 2));
+                const i1 = Math.min(cols - 1, Math.ceil((baseX + maxX * unit) / 2));
+                const haze = 1 - 0.55 * smoothstep(160, 420, lm.z);
+                const out = { i0, haze, lines: [], strokes: [] };
+
+                if (i1 >= i0) {
+                    let n = -1;
+                    for (let sy = groundY - LINE_GAP / 2; sy > groundY - maxY * unit - LINE_GAP; sy -= LINE_GAP) {
+                        n++;
+                        const ly = (groundY - sy) / unit;
+                        const light = new Float32Array(i1 - i0 + 1).fill(-1);
+                        const kind = new Uint8Array(i1 - i0 + 1);
+                        const ys = new Float32Array(i1 - i0 + 1).fill(sy);
+                        // Above eye level a ring's near side rises on screen, below it the near side drops
+                        const bulge = (sy < horizonY ? -1 : 1) * unit * 0.22;
+                        let any = false;
+                        const yi = sy | 0;
+                        for (let i = i0; i <= i1; i++) {
+                            if (!hitParts(lm.parts, (xs[i] - baseX) / unit, ly, sample)) continue;
+                            const column = i * H;
+                            const visible = yi >= 0 && yi < H && sy < horizon[i] - 0.3 && occupancy[column + yi] === 0;
+                            const code = sample.kind === 3 ? 255 : 1 + Math.round(clamp01(sample.light) * 250);
+                            for (let yy = Math.max(0, Math.floor(sy - LINE_GAP / 2)); yy < Math.min(H, Math.ceil(sy + LINE_GAP / 2)); yy++) {
+                                if (occupancy[column + yy] === 0) occupancy[column + yy] = code;
+                            }
+                            top[i] = Math.min(top[i], sy - LINE_GAP / 2);
+                            reflectAxis[i] = Math.max(reflectAxis[i], groundY);
+                            if (visible) {
+                                light[i - i0] = sample.light;
+                                kind[i - i0] = sample.kind;
+                                ys[i - i0] = sy + sample.curve * bulge;
+                                any = true;
+                            }
+                        }
+                        if (any) out.lines.push({ n, ys, ly, light, kind });
+                    }
+                }
+
+                for (const p of lm.parts) {
+                    if (p.t !== 'lines') continue;
+                    out.strokes.push({ width: p.width, paths: p.paths.map(path => path.map(([px, py]) => [baseX + px * unit, groundY - py * unit])) });
+                }
+                for (const b of [lm.beacon, lm.beacon2]) if (b) beacons.push({ x: baseX + b[0] * unit, y: groundY - b[1] * unit });
+                if (lm.glow) lamps.push({ x: baseX + lm.glow[0] * unit, y: groundY - lm.glow[1] * unit, size: 14, phase: 0 });
+                for (const p of lm.parts) {
+                    if (p.t !== 'lines' || !p.lights) continue;
+                    for (const path of p.paths) {
+                        let travelled = 0;
+                        for (let k = 1; k < path.length; k++) {
+                            travelled += Math.hypot(path[k][0] - path[k - 1][0], path[k][1] - path[k - 1][1]);
+                            if (travelled < p.lights) continue;
+                            travelled = 0;
+                            lamps.push({ x: baseX + path[k][0] * unit, y: groundY - path[k][1] * unit, size: 3.5, phase: k * 0.7 });
+                        }
+                    }
+                }
+                landmarks.push(out);
+            }
+
+            let z = CAMERA_HEIGHT * focal / (H + 20 - horizonY);
+            let next = 0;
+            let snapshot = null;
+            let previous = null;
+            while (z < Z_FAR && rows.length < 1200) {
+                while (next < plan.length && plan[next].z <= z) rasterize(plan[next++]);
+                if (terrain.snapshotZ !== undefined && snapshot === null && z >= terrain.snapshotZ) snapshot = horizon.slice();
+
+                const heights = new Float32Array(cols);
+                const sy = new Float32Array(cols);
+                for (let i = 0; i < cols; i++) {
+                    heights[i] = height(toWorldX(xs[i], z), z);
+                    sy[i] = horizonY + (CAMERA_HEIGHT - heights[i]) * focal / z;
+                }
+
+                const light = new Float32Array(cols);
+                const gap = new Float32Array(cols);
+                const wet = water ? new Uint8Array(cols) : null;
+                const trail = terrain.trailX || terrain.trailMark ? new Float32Array(cols).fill(1) : null;
+                const dxWorld = 2 * z / focal;
+                const trailZ = z + (terrain.zOffset ?? 0);
+                const trailCenter = terrain.trailX && trailZ < 230 ? terrain.trailX(z) : null;
+                const trailFade = smoothstep(150, 230, trailZ);
+
+                for (let i = 0; i < cols; i++) {
+                    const x = toWorldX(xs[i], z);
+                    const left = heights[Math.max(0, i - 1)];
+                    const right = heights[Math.min(cols - 1, i + 1)];
+                    const hx = (right - left) / (dxWorld * (i > 0 && i < cols - 1 ? 2 : 1));
+                    // Interactive scenes read the depth slope off the previous row rather than sampling again
+                    const hz = spec.fastNormals && previous
+                        ? (heights[i] - previous.heights[i]) / (z - previous.z)
+                        : (height(x, z + 0.6) - heights[i]) / 0.6;
+                    light[i] = (-hx * LIGHT[0] + LIGHT[1] - hz * LIGHT[2]) / Math.sqrt(hx * hx + 1 + hz * hz);
+
+                    const yi = sy[i] | 0;
+                    const behindLandmark = occupancy !== null && yi >= 0 && yi < H && occupancy[i * H + yi] !== 0;
+                    if (sy[i] < horizon[i] - 0.3 && !behindLandmark) {
+                        gap[i] = horizon[i] - sy[i];
+                        horizon[i] = sy[i];
+                    }
+                    if (wet) {
+                        wet[i] = water(x, z) ? 1 : 0;
+                        if (wet[i] && gap[i] > 0 && glints.length < 320 && rand() < 0.006) {
+                            glints.push({ x: xs[i], y: sy[i], len: 2 + Math.min(10, gap[i] * 1.4), phase: rand() * 7, speed: 0.8 + rand() * 1.6 });
+                        }
+                    }
+                    if (terrain.trailMark) {
+                        trail[i] = terrain.trailMark(x, z);
+                    } else if (trailCenter !== null) {
+                        const d = Math.abs(x - trailCenter) / 0.38;
+                        if (d < 1) trail[i] = trailFade + (1 - trailFade) * (d > 0.78 ? 1.5 : 0.15);
+                    }
+                }
+
+                rows.push({
+                    z, sy, light, gap, wet, trail,
+                    haze: 1 - 0.75 * smoothstep(380, Z_FAR, z),
+                    horizon: spec.walker ? horizon.slice() : null,
+                });
+
+                // Keep screen spacing between rows near a target that widens toward the viewer, halving the
+                // depth step wherever a slope facing the camera would otherwise leave a gap in the engraving
+                const nearness = clamp01(CAMERA_HEIGHT * focal / z / (H - horizonY));
+                const targetGap = (2.3 + 5 * Math.pow(nearness, 1.6)) * (spec.rowSpacing ?? 1);
+                let dz = targetGap * z * z / (CAMERA_HEIGHT * focal);
+                for (let tries = 0; tries < (spec.refinements ?? 7); tries++) {
+                    const zNext = z + dz;
+                    let maxRise = 0;
+                    for (let i = 0; i < cols; i += 5) {
+                        const syNext = horizonY + (CAMERA_HEIGHT - height(toWorldX(xs[i], zNext), zNext)) * focal / zNext;
+                        maxRise = Math.max(maxRise, sy[i] - syNext);
+                    }
+                    if (maxRise <= targetGap * 1.6) break;
+                    dz *= 0.55;
+                }
+                previous = { z, heights };
+                z += Math.max(dz, 0.01);
+                yield;
+            }
+            while (next < plan.length) rasterize(plan[next++]);
+
+            const tufts = [];
+            if (spec.grass) {
+                const zNear = rows[0].z;
+                for (let i = 0; i < W / 7 * spec.grass; i++) {
+                    const tz = zNear * (1 + Math.pow(rand(), 1.6) * 2.4);
+                    const sx = rand() * W;
+                    const x = toWorldX(sx, tz);
+                    if (terrain.trailX && Math.abs(x - terrain.trailX(tz)) < 0.6) continue;
+                    if (water && water(x, tz)) continue;
+                    const [, ty] = g.project(x, tz, height(x, tz));
+                    const size = focal / tz * (0.22 + rand() * 0.18);
+                    const blades = Array.from({ length: 5 + Math.floor(rand() * 7) }, () => ({
+                        angle: -Math.PI / 2 + (rand() - 0.5) * 1.9,
+                        len: size * (0.45 + rand() * 0.55),
+                        offset: (rand() - 0.5) * size * 0.35,
+                        flex: 0.6 + rand() * 0.8,
+                    }));
+                    tufts.push({ sx, sy: ty, z: tz, size, blades });
+                }
+                tufts.sort((a, b) => b.z - a.z);
+            }
+
+            // Cumulus banks: overlapping puffs over a shared flat underside
+            const skyTop = H - g.land + 10;
+            const clouds = [];
+            const bankCount = 3 + Math.floor(rand() * 2);
+            for (let b = 0; b < bankCount; b++) {
+                const base = skyTop + (0.22 + rand() * 0.4) * (horizonY - skyTop);
+                const centerX = (b + 0.2 + rand() * 0.6) / bankCount * W;
+                const spread = g.land * (0.3 + rand() * 0.45);
+                const puffs = Array.from({ length: 5 + Math.floor(rand() * 5) }, () => {
+                    const rx = g.land * (0.04 + rand() * 0.07);
+                    const ry = rx * (0.45 + rand() * 0.3);
+                    return { x: centerX + (rand() - 0.5) * spread, y: base - ry * (0.25 + rand() * 0.6), rx, ry };
+                });
+                clouds.push({
+                    base, puffs,
+                    x0: Math.min(...puffs.map(p => p.x - p.rx)) - 6,
+                    x1: Math.max(...puffs.map(p => p.x + p.rx)) + 6,
+                    y0: Math.min(...puffs.map(p => p.y - p.ry)) - 6,
+                });
+            }
+
+            return {
+                key, spec, rows, landmarks, beacons, lamps, glints, tufts, occupancy, reflectAxis, height, clouds, snapshot,
+                trailX: terrain.trailX,
+                skyline: horizon.map((h, i) => Math.min(h, top[i])),
+            };
+        }
+
+        // Rendering
+        function readColors() {
+            return {
+                ink: getComputedStyle(footer).getPropertyValue('--engrave').trim(),
+                paper: getComputedStyle(document.documentElement).getPropertyValue('--bg').trim(),
+                dark: html.getAttribute('data-theme') !== 'light',
+            };
+        }
+        let colors = readColors();
+
+        // Adds horizontal ribbons for every run of samples whose width clears the minimum
+        function addRibbons(ctx, xs, ys, widths, minWidth) {
+            const yAt = k => (typeof ys === 'number' ? ys : ys[k]);
+            let start = -1;
+            for (let i = 0; i <= widths.length; i++) {
+                const on = i < widths.length && widths[i] >= minWidth;
+                if (on && start < 0) start = i;
+                if (!on && start >= 0) {
+                    if (i - start > 1) {
+                        ctx.moveTo(xs[start], yAt(start) - widths[start] / 2);
+                        for (let k = start + 1; k < i; k++) ctx.lineTo(xs[k], yAt(k) - widths[k] / 2);
+                        for (let k = i - 1; k >= start; k--) ctx.lineTo(xs[k], yAt(k) + widths[k] / 2);
+                        ctx.closePath();
+                    }
+                    start = -1;
+                }
+            }
+        }
+
+        function celestialBody(scene) {
+            const { W, H, land } = geometry;
+            const radius = land * (colors.dark ? 0.07 : 0.085);
+            const x = W * (colors.dark ? Math.min(0.9, scene.spec.sun + 0.04) : scene.spec.sun);
+            const ridge = scene.skyline[Math.round(x / 2)];
+            const y = colors.dark ? Math.min(H - land + land * 0.14, ridge - radius * 1.8) : ridge - radius * 0.05;
+            return { x, y, radius };
+        }
+
+        let cloudDensity = 0;
+        let cloudShade = 0;
+
+        // Sets cloudDensity (how far inside the nearest puff) and cloudShade (0 at a crown, 1 at the underside)
+        function cloudAt(clouds, x, y) {
+            cloudDensity = 0;
+            for (const c of clouds) {
+                if (x < c.x0 || x > c.x1 || y < c.y0 || y > c.base) continue;
+                for (const p of c.puffs) {
+                    const dx = (x - p.x) / p.rx, dy = (y - p.y) / p.ry;
+                    const d = 1 - dx * dx - dy * dy + (noise2(x / 7, y / 7) - 0.5) * 0.3;
+                    if (d > cloudDensity) {
+                        cloudDensity = d;
+                        const crown = p.y - p.ry;
+                        cloudShade = clamp01((y - crown) / (c.base - crown));
+                    }
+                }
+            }
+            return cloudDensity > 0;
+        }
+
+        function landmarkTone(lit, kind) {
+            if (colors.dark) {
+                if (kind === 3) return 1.3;
+                if (kind === 1 || kind === 2) return 0;
+                if (kind === 4) return 0.15;
+                return 0.1 + Math.pow(clamp01(lit), 1.5) * 0.95;
+            }
+            if (kind === 2) return 1.15;
+            if (kind === 1 || kind === 3) return 0.9;
+            if (kind === 4) return 1;
+            return Math.pow(1 - clamp01(lit), 1.2) * 0.95 + 0.18;
+        }
+
+        function reflectionTone(code) {
+            if (code === 255) return colors.dark ? 1.2 : 0.85;
+            const lit = (code - 1) / 250;
+            return colors.dark ? 0.06 + Math.pow(lit, 1.5) * 0.7 : 0.2 + (1 - lit) * 0.8;
+        }
+
+        function skyPathFor(skyline) {
+            const { W, cols, xs } = geometry;
+            const path = new Path2D();
+            path.moveTo(0, 0);
+            for (let i = 0; i < cols; i++) path.lineTo(xs[i], skyline[i] - 1);
+            path.lineTo(W, 0);
+            path.closePath();
+            return path;
+        }
+
+        function renderScene(ctx, scene) {
+            const { W, H } = geometry;
+            ctx.clearRect(0, 0, W, H);
+            const sun = renderSky(ctx, scene, scene.skyline);
+            renderTerrain(ctx, scene, sun);
+            renderLandmarks(ctx, scene);
+        }
+
+        // Sky: an etched gradient that darkens upward by day and glows toward the horizon at night. The sun or
+        // moon is placed from the scene's own skyline; strokes stop at the skyline passed in.
+        function renderSky(ctx, scene, skyline, { noSun = false } = {}) {
+            const { H, land, cols, xs, horizonY } = geometry;
+            ctx.fillStyle = colors.ink;
+            const sun = noSun ? { x: -1e5, y: -1e5, radius: 1 } : celestialBody(scene);
+            const skyTop = H - land + 10;
+            const lowestSky = Math.max(...skyline);
+            const widths = new Float32Array(cols);
+            const highestSky = Math.min(noSun ? Infinity : sun.y - sun.radius * 2.4, ...scene.clouds.map(c => c.y0));
+            const firstSkyRow = skyTop - Math.ceil(Math.max(0, skyTop - highestSky) / 3) * 3;
+            for (let y = firstSkyRow; y < lowestSky; y += 3) {
+                const s = (y - skyTop) / (horizonY - skyTop);
+                const fadeIn = smoothstep(-0.05, 0.5, s);
+                for (let i = 0; i < cols; i++) {
+                    if (y > skyline[i] - 1.5) { widths[i] = 0; continue; }
+                    const x = xs[i];
+                    const dx = x - sun.x, dy = y - sun.y;
+                    const dist = Math.hypot(dx, dy);
+                    let w;
+                    if (cloudAt(scene.clouds, x, y)) {
+                        // Light catches the crowns; undersides take the hatching, with a silver lining near the sun
+                        const nearSun = 1 - smoothstep(sun.radius, sun.radius * 7, dist);
+                        if (colors.dark) {
+                            w = (0.04 + 1.05 * Math.pow(1 - cloudShade, 2.4)) * (0.45 + 0.55 * nearSun);
+                            if (cloudDensity < 0.14 && cloudShade < 0.55) w = Math.max(w, 0.85);
+                        } else {
+                            w = smoothstep(0.55, 1, cloudShade) * 1.3 * (1 - 0.6 * nearSun);
+                            if (cloudDensity < 0.1) w = Math.max(w, 1.05 * (1 - 0.5 * nearSun));
+                        }
+                        widths[i] = w * (0.85 + 0.3 * noise2(x / 11, y / 2));
+                        continue;
+                    }
+                    if (colors.dark) {
+                        w = fadeIn * (0.12 + 0.6 * s * s) + 0.9 * fadeIn * (1 - smoothstep(sun.radius, sun.radius * 5, dist));
+                        if (dist < sun.radius) {
+                            const nx = dx / sun.radius, ny = dy / sun.radius;
+                            const nz = Math.sqrt(Math.max(0, 1 - nx * nx - ny * ny));
+                            const lit = clamp01(-0.5 * nx - 0.1 * ny + 0.85 * nz);
+                            w = 2.1 * lit * (0.75 + 0.5 * noise2(x / 9 + 50, y / 9) - 0.35 * smoothstep(0.55, 0.75, noise2(x / 16 + 9, y / 16)));
+                        }
+                    } else {
+                        w = 1.2 * fadeIn * (1 - 0.65 * s);
+                        w *= 0.2 + 0.8 * smoothstep(sun.radius * 1.15, sun.radius * 4.5, dist);
+                        const ray = Math.pow(Math.abs(Math.cos(Math.atan2(dy, dx) * 9)), 10);
+                        w *= 1 - 0.7 * ray * (1 - smoothstep(sun.radius, sun.radius * 8, dist));
+                        if (dist < sun.radius * 1.12) w = 0;
+                    }
+                    // The sky's upper edge dissolves into broken strokes instead of stopping at a ruled line
+                    const dissolved = dist > sun.radius * 1.2 && noise2(x / 23, y / 4) > fadeIn * 1.35;
+                    widths[i] = dissolved ? 0 : w * (0.85 + 0.3 * noise2(x / 14, y));
+                }
+                ctx.beginPath();
+                addRibbons(ctx, xs, y, widths, 0.3);
+                ctx.fill();
+            }
+
+            scene.starHidden = Uint8Array.from(geometry.stars, star => (cloudAt(scene.clouds, star.x, star.y) ? 1 : 0));
+
+            // The sun gets a crisp rim; the moon a pair of faint halo rings, both tucked behind the skyline
+            ctx.save();
+            ctx.clip(skyPathFor(skyline));
+            ctx.strokeStyle = colors.ink;
+            if (colors.dark) {
+                ctx.lineWidth = 0.7;
+                [[1.7, 0.35], [2.5, 0.18]].forEach(([ring, alpha]) => {
+                    ctx.globalAlpha = alpha;
+                    ctx.beginPath();
+                    ctx.arc(sun.x, sun.y, sun.radius * ring, 0, Math.PI * 2);
+                    ctx.stroke();
+                });
+                ctx.globalAlpha = 1;
+            } else {
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(sun.x, sun.y, sun.radius, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            ctx.restore();
+            return sun;
+        }
+
+        // Terrain: ink follows shadow by day; at night the lines are the moonlight itself. Water breaks into
+        // ripples, mirrors the landmarks above it, and carries a glitter path under the sun or moon.
+        function renderTerrain(ctx, scene, sun) {
+            const { H, land, cols, xs, horizonY } = geometry;
+            const { rows, occupancy, reflectAxis } = scene;
+            const widths = new Float32Array(cols);
+            ctx.fillStyle = colors.ink;
+            for (const row of rows) {
+                const moonlitNear = colors.dark ? 0.55 + 0.45 * smoothstep(40, 170, row.z) : 1;
+                for (let i = 0; i < cols; i++) {
+                    if (row.gap[i] === 0) { widths[i] = 0; continue; }
+                    const maxWidth = Math.min(3.4, row.gap[i] * 0.82);
+                    const y = row.sy[i];
+                    if (row.wet && row.wet[i]) {
+                        const ripple = noise2(xs[i] / 18 + row.z * 0.3, row.z * 2.1) > 0.38 ? 1 : 0.2;
+                        let tone = (colors.dark ? 0.2 : 0.55) * ripple;
+                        const axis = reflectAxis[i];
+                        if (axis > 0 && y > axis) {
+                            const wobble = Math.round(Math.sin(y * 0.35 + i * 0.05) * 1.5);
+                            const column = Math.min(cols - 1, Math.max(0, i + wobble));
+                            const source = Math.round(2 * axis - y);
+                            const code = source >= 0 && source < H ? occupancy[column * H + source] : 0;
+                            if (code) {
+                                const strength = 0.85 * (1 - smoothstep(0, land * 0.4, y - axis)) * (noise2(xs[i] / 6, y * 0.5) > 0.3 ? 1 : 0.35);
+                                tone = tone * (1 - strength) + reflectionTone(code) * strength;
+                            }
+                        }
+                        const spread = 6 + (y - horizonY) * 0.4;
+                        const off = Math.abs(xs[i] - sun.x);
+                        if (off < spread && noise2(xs[i] / 5, row.z * 3) > 0.45) {
+                            tone = colors.dark ? Math.max(tone, 1.2 * (1 - off / spread)) : tone * 0.1;
+                        }
+                        widths[i] = maxWidth * tone * row.haze;
+                        continue;
+                    }
+                    const lit = clamp01(row.light[i]);
+                    const tone = colors.dark ? 0.14 + Math.pow(lit, 1.7) * 1.05 : Math.pow(1 - lit, 1.35) * 1.15;
+                    const grain = 0.8 + 0.4 * noise2(i * 0.09, row.z * 0.5);
+                    widths[i] = maxWidth * tone * row.haze * (row.trail ? row.trail[i] : 1) * grain * moonlitNear;
+                }
+                ctx.beginPath();
+                addRibbons(ctx, xs, row.sy, widths, 0.32);
+                ctx.fill();
+            }
+        }
+
+        // Landmarks: base mist where they meet ground or water, and cross-hatching laid over the deepest tones
+        function renderLandmarks(ctx, scene) {
+            const { xs } = geometry;
+            ctx.fillStyle = colors.ink;
+            const crossHatch = new Path2D();
+            for (const lm of scene.landmarks) {
+                ctx.strokeStyle = colors.ink;
+                ctx.lineWidth = 0.75;
+                ctx.globalAlpha = (colors.dark ? 0.7 : 0.95) * lm.haze;
+                ctx.stroke(contour(lm));
+                ctx.globalAlpha = 1;
+                lm.lines.forEach((line, n) => {
+                    const mist = 0.3 + 0.7 * smoothstep(0, 0.07, line.ly);
+                    const lineWidths = new Float32Array(line.light.length);
+                    for (let k = 0; k < line.light.length; k++) {
+                        if (line.light[k] < 0) continue;
+                        const tone = landmarkTone(line.light[k], line.kind[k]) * mist;
+                        lineWidths[k] = 2 * tone * lm.haze;
+                        if (tone > 0.82 && n % 2 === 0 && (lm.i0 + k) % 2 === 0) {
+                            const x = xs[lm.i0 + k];
+                            const y = line.ys[k];
+                            crossHatch.moveTo(x - 1.3, y + LINE_GAP * 0.55);
+                            crossHatch.lineTo(x + 1.3, y - LINE_GAP * 0.55);
+                        }
+                    }
+                    ctx.beginPath();
+                    addRibbons(ctx, xs.subarray(lm.i0), line.ys, lineWidths, 0.3);
+                    ctx.fill();
+                });
+                ctx.strokeStyle = colors.ink;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                for (const stroke of lm.strokes) {
+                    ctx.globalAlpha = colors.dark ? 0.8 * lm.haze : lm.haze;
+                    ctx.lineWidth = stroke.width;
+                    ctx.beginPath();
+                    for (const path of stroke.paths) path.forEach(([x, y], k) => (k ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+                    ctx.stroke();
+                }
+                ctx.globalAlpha = 1;
+            }
+            ctx.strokeStyle = colors.ink;
+            ctx.lineWidth = 0.55;
+            ctx.globalAlpha = 0.85;
+            ctx.stroke(crossHatch);
+            ctx.globalAlpha = 1;
+        }
+
+        // The engraver's outline: silhouette edges plus creases where two faces meet at a sharp change in light
+        function contour(lm) {
+            const { xs } = geometry;
+            const path = new Path2D();
+            const half = LINE_GAP / 2;
+            const byIndex = new Map(lm.lines.map(line => [line.n, line]));
+            for (const line of lm.lines) {
+                const above = byIndex.get(line.n + 1);
+                const grounded = line.ly < 0.025;
+                for (let k = 0; k < line.light.length; k++) {
+                    const lit = line.light[k];
+                    if (lit < 0) continue;
+                    const x = xs[lm.i0 + k];
+                    const y = line.ys[k];
+                    const leftOpen = k === 0 || line.light[k - 1] < 0;
+                    const right = k + 1 < line.light.length ? line.light[k + 1] : -1;
+                    if (!grounded && leftOpen) { path.moveTo(x - 1, y - half); path.lineTo(x - 1, y + half); }
+                    if (!grounded && right < 0) { path.moveTo(x + 1, y - half); path.lineTo(x + 1, y + half); }
+                    const crease = right >= 0 && line.kind[k] === 0 && line.kind[k + 1] === 0 && Math.abs(right - lit) > 0.3;
+                    if (!grounded && crease) { path.moveTo(x + 1, y - half); path.lineTo(x + 1, y + half); }
+                    if (!above || above.light[k] < 0) { path.moveTo(x - 1, y - half); path.lineTo(x + 1, y - half); }
+                }
+            }
+            return path;
+        }
+
+        // Life: grass in the wind, a walker on the trail, birds by day, stars by night, glints on water
+        const pointer = { x: -1e4, y: -1e4, targetX: -1e4, targetY: -1e4 };
+        footer.addEventListener('pointermove', e => {
+            const r = footer.getBoundingClientRect();
+            pointer.targetX = e.clientX - r.left;
+            pointer.targetY = e.clientY - r.top;
+        });
+        footer.addEventListener('pointerleave', () => {
+            pointer.targetX = pointer.targetY = -1e4;
+        });
+
+        // Two-bone reach: the joint between a root and an end point, bent toward one side (+1 bends toward +x)
+        function joint(root, end, upper, lower, side) {
+            const dx = end[0] - root[0], dy = end[1] - root[1];
+            const reach = Math.max(0.01, Math.min(Math.hypot(dx, dy), upper + lower - 0.01));
+            const cos = (upper * upper + reach * reach - lower * lower) / (2 * upper * reach);
+            const angle = Math.atan2(dy, dx) - side * Math.acos(Math.max(-1, Math.min(1, cos)));
+            return [root[0] + Math.cos(angle) * upper, root[1] + Math.sin(angle) * upper];
+        }
+
+        const limb = (ctx, a, b, c, upper, lower) => {
+            ctx.lineWidth = upper;
+            ctx.beginPath();
+            ctx.moveTo(...a);
+            ctx.lineTo(...b);
+            ctx.stroke();
+            ctx.lineWidth = lower;
+            ctx.beginPath();
+            ctx.moveTo(...b);
+            ctx.lineTo(...c);
+            ctx.stroke();
+        };
+
+        // Fills a shape and, on the halo pass, grows it by stroking the same outline in paper
+        const solid = (ctx, path, halo) => {
+            ctx.fill(path);
+            if (halo) ctx.stroke(path);
+        };
+
+        // The hiker in local units, 26 tall with feet at the origin, facing +x. Drawn twice: a paper halo, then ink.
+        function drawFigure(ctx, { x, y, scale, facing = 1, stride = 0, moving = 0, wave = 0, lantern = false, alpha = 1 }) {
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.translate(x, y);
+            ctx.scale(scale * facing, scale);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            const bob = -Math.abs(Math.sin(stride)) * 0.5 * moving;
+            const hip = [0, -12.6 + bob];
+            const shoulder = [0.9, -20.4 + bob];
+            const head = [shoulder[0] + 0.7, shoulder[1] - 3.2];
+            const feet = [0, Math.PI].map(offset => {
+                const p = stride + offset;
+                return [0.4 + Math.sin(p) * 3.6 * moving, -Math.max(0, Math.cos(p)) * 1.8 * moving];
+            });
+            const knees = feet.map(foot => joint(hip, foot, 6.6, 6.6, 1));
+            const hands = [stride + Math.PI, stride].map(p => [shoulder[0] + 0.6 + Math.sin(p) * 2.8 * moving, shoulder[1] + 8]);
+            if (wave) hands[1] = [shoulder[0] + 3 + Math.sin(wave) * 1.4, shoulder[1] - 7.6];
+            const elbows = hands.map((hand, n) => joint(shoulder, hand, 4.4, 4.4, n === 1 && wave ? 1 : -1));
+            const carriesLantern = lantern && !wave;
+
+            if (carriesLantern) {
+                const glow = ctx.createRadialGradient(hands[1][0], hands[1][1], 0, hands[1][0], hands[1][1], 16);
+                glow.addColorStop(0, 'rgba(255, 196, 120, 0.55)');
+                glow.addColorStop(1, 'rgba(255, 196, 120, 0)');
+                ctx.fillStyle = glow;
+                ctx.fillRect(hands[1][0] - 16, hands[1][1] - 16, 32, 32);
+            }
+
+            const torso = new Path2D();
+            torso.moveTo(hip[0] - 1.6, hip[1] + 0.4);
+            torso.lineTo(hip[0] + 1.5, hip[1] + 0.4);
+            torso.lineTo(shoulder[0] + 1.8, shoulder[1] + 0.6);
+            torso.lineTo(shoulder[0] + 1.2, shoulder[1] - 0.4);
+            torso.lineTo(shoulder[0] - 1.8, shoulder[1] - 0.2);
+            torso.closePath();
+            const pack = new Path2D();
+            pack.roundRect(shoulder[0] - 5.4, shoulder[1] - 0.6, 3.6, 8.6, 1.2);
+            pack.ellipse(shoulder[0] - 3.6, shoulder[1] - 1.4, 2.3, 1.15, 0, 0, Math.PI * 2);
+            const hat = new Path2D();
+            hat.ellipse(head[0], head[1] - 1.2, 3.5, 0.65, -0.05, 0, Math.PI * 2);
+            hat.roundRect(head[0] - 1.8, head[1] - 3.7, 3.6, 2.6, 0.9);
+
+            const paint = (color, halo) => {
+                const extra = halo ? 2.2 : 0;
+                ctx.strokeStyle = color;
+                ctx.fillStyle = color;
+                ctx.lineWidth = extra;
+                limb(ctx, hip, knees[1], feet[1], 2 + extra, 1.7 + extra);
+                limb(ctx, shoulder, elbows[0], hands[0], 1.5 + extra, 1.3 + extra);
+                ctx.lineWidth = 0.85 + extra;
+                ctx.beginPath();
+                ctx.moveTo(hands[0][0] - 0.3, hands[0][1] - 2.8);
+                ctx.lineTo(hands[0][0] + 2.4, -0.2);
+                ctx.stroke();
+                ctx.lineWidth = extra;
+                solid(ctx, pack, halo);
+                limb(ctx, hip, knees[0], feet[0], 2.1 + extra, 1.8 + extra);
+                for (const foot of feet) {
+                    ctx.lineWidth = 1.6 + extra;
+                    ctx.beginPath();
+                    ctx.moveTo(foot[0] - 0.4, foot[1]);
+                    ctx.lineTo(foot[0] + 1.5, foot[1]);
+                    ctx.stroke();
+                }
+                ctx.lineWidth = extra;
+                solid(ctx, torso, halo);
+                ctx.beginPath();
+                ctx.arc(head[0], head[1], 2.15 + extra / 2, 0, Math.PI * 2);
+                ctx.fill();
+                solid(ctx, hat, halo);
+                limb(ctx, shoulder, elbows[1], hands[1], 1.5 + extra, 1.3 + extra);
+                if (carriesLantern) ctx.fillRect(hands[1][0] - 1.2 - extra / 2, hands[1][1] - 0.4 - extra / 2, 2.4 + extra, 3 + extra);
+            };
+            paint(colors.paper, true);
+            paint(colors.ink, false);
+            ctx.restore();
+        }
+
+        // Gaits as leg timing: offsets are each leg's phase within the stride, ordered [LH, RH, LF, RF]
+        const GAITS = {
+            stand: { stride: 2.6, stance: 1, offsets: [0, 0, 0, 0], lift: 0, bob: 0, beats: 2 },
+            walk: { stride: 2.6, stance: 0.62, offsets: [0, 0.5, 0.25, 0.75], lift: 2.2, bob: 0.35, beats: 2 },
+            trot: { stride: 3.6, stance: 0.5, offsets: [0, 0.5, 0.5, 0], lift: 3.6, bob: 0.9, beats: 2 },
+            canter: { stride: 5.4, stance: 0.42, offsets: [0.33, 0, 0.66, 0.33], lift: 4.2, bob: 1.3, beats: 1 },
+        };
+
+        // Which gaits a speed falls between, and how far toward the faster one
+        function gaitMix(speed) {
+            const s = Math.abs(speed);
+            if (s < 3) return [GAITS.stand, GAITS.walk, s / 3];
+            if (s < 9) return [GAITS.walk, GAITS.walk, 0];
+            if (s < 12) return [GAITS.walk, GAITS.trot, (s - 9) / 3];
+            if (s < 18) return [GAITS.trot, GAITS.trot, 0];
+            if (s < 22) return [GAITS.trot, GAITS.canter, (s - 18) / 4];
+            return [GAITS.canter, GAITS.canter, 0];
+        }
+
+        const strideLength = speed => {
+            const [a, b, w] = gaitMix(speed);
+            return a.stride + (b.stride - a.stride) * w;
+        };
+
+        function hoof(gait, leg, cycle) {
+            const p = ((cycle + gait.offsets[leg]) % 1 + 1) % 1;
+            const reach = gait.stride * 0.9;
+            if (p < gait.stance) return [reach / 2 - reach * (p / gait.stance), 0];
+            const u = (p - gait.stance) / (1 - gait.stance);
+            return [-reach / 2 + reach * u, -gait.lift * Math.sin(Math.PI * u)];
+        }
+
+        // An engraved horse, side on, facing +x with hooves at the origin; optionally carrying the hiker
+        function drawHorse(ctx, { x, y, scale, facing = 1, cycle = 0, speed = 0, rider = false, time = 0, alpha = 1 }) {
+            const [gaitA, gaitB, w] = gaitMix(speed);
+            const mixHoof = leg => {
+                const a = hoof(gaitA, leg, cycle);
+                const b = hoof(gaitB, leg, cycle);
+                return [a[0] + (b[0] - a[0]) * w, a[1] + (b[1] - a[1]) * w];
+            };
+            const bobAmount = gaitA.bob + (gaitB.bob - gaitA.bob) * w;
+            const beats = w < 0.5 ? gaitA.beats : gaitB.beats;
+            const bob = -Math.abs(Math.sin(Math.PI * cycle * beats)) * bobAmount;
+            const canter = (gaitA === GAITS.canter ? 1 - w : 0) + (gaitB === GAITS.canter ? w : 0);
+            const trot = (gaitA === GAITS.trot ? 1 - w : 0) + (gaitB === GAITS.trot ? w : 0);
+            const pitch = Math.sin(Math.PI * 2 * cycle) * 0.06 * canter;
+            const idle = Math.abs(speed) < 0.5 ? Math.sin(time * 0.7) * 0.04 : 0;
+            const nod = Math.sin(Math.PI * 2 * cycle * beats) * (0.03 + 0.05 * canter) * Math.min(1, Math.abs(speed) / 4) + idle;
+            const tailSway = Math.sin(time * 1.7) * 0.12 + Math.sin(Math.PI * 2 * cycle) * 0.1 * Math.min(1, Math.abs(speed) / 10);
+
+            const hips = { hind: [-10, -15.6], fore: [9.4, -15.2] };
+            const legs = [0, 1, 2, 3].map(leg => {
+                const fore = leg >= 2;
+                const far = leg % 2 === 1;
+                const root = [hips[fore ? 'fore' : 'hind'][0] + (far ? 1.4 : 0), hips[fore ? 'fore' : 'hind'][1] + bob];
+                const [hx, hy] = mixHoof(leg);
+                const end = [root[0] + hx + (fore ? 0.6 : -0.4), hy];
+                return { far, root, knee: joint(root, end, 8.2, 7.9, fore ? 1 : -1), end };
+            });
+
+            const body = new Path2D();
+            body.moveTo(-14, -15.4);
+            body.bezierCurveTo(-17.4, -18.8, -15.6, -24.2, -10.4, -23.8);
+            body.bezierCurveTo(-4.4, -23.2, 2.6, -22.6, 7.6, -23.6);
+            body.bezierCurveTo(13.6, -23, 15.4, -17.6, 12.4, -14.6);
+            body.bezierCurveTo(5.4, -12.8, -6.4, -12.6, -14, -15.4);
+            const neck = new Path2D();
+            neck.moveTo(6.6, -22.8);
+            neck.bezierCurveTo(9.8, -27.2, 13.2, -31.8, 17, -34.2);
+            neck.lineTo(19.2, -34.5);
+            neck.lineTo(26.6, -28.8);
+            neck.quadraticCurveTo(27.8, -26.6, 26, -25.7);
+            neck.lineTo(21.6, -26.3);
+            neck.quadraticCurveTo(19, -26.6, 17.4, -25.4);
+            neck.bezierCurveTo(15, -22.2, 14, -19.2, 12.6, -16.4);
+            neck.closePath();
+            const ears = new Path2D();
+            ears.moveTo(17.6, -34.2);
+            ears.lineTo(17.4, -37.2);
+            ears.lineTo(19.2, -34.6);
+            ears.closePath();
+            const tail = new Path2D();
+            tail.moveTo(-15.4, -21.4);
+            tail.bezierCurveTo(-19 - tailSway * 8, -19, -19.6 - tailSway * 14, -13, -17.4 - tailSway * 16, -7.4);
+            const saddle = new Path2D();
+            saddle.moveTo(-6.2, -23.3);
+            saddle.quadraticCurveTo(-1.4, -21.4, 3.6, -23.4);
+            saddle.lineTo(3.2, -24.6);
+            saddle.quadraticCurveTo(-1.4, -23.2, -5.8, -24.8);
+            saddle.closePath();
+            const bit = [25.4, -26.6];
+
+            // The rider posts at the trot: up out of the saddle on one diagonal beat, down on the next
+            const rise = trot * Math.max(0, Math.sin(Math.PI * 2 * cycle * 2)) * 0.9;
+            const seat = [-1.4, -24.4 - rise];
+            const shoulder = [-0.2 + Math.min(1.6, Math.abs(speed) * 0.06), -32.8 - rise];
+            const riderHead = [shoulder[0] + 0.8, shoulder[1] - 3.2];
+            const riderKnee = [3, -19.8];
+            const riderFoot = [1.4, -14.6];
+            const riderHand = [6.4, -27.6 - rise * 0.4];
+            const riderElbow = joint(shoulder, riderHand, 4.4, 4.4, -1);
+
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.translate(x, y);
+            ctx.scale(scale * facing, scale);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            const hatch = (path, top, bottom) => {
+                ctx.save();
+                ctx.clip(path);
+                for (let ly = top; ly < bottom; ly += 1.5) {
+                    const depth = clamp01((ly - top) / (bottom - top));
+                    const weight = colors.dark ? 0.3 + 0.7 * (1 - depth) : 0.3 + 0.85 * depth;
+                    ctx.fillRect(-30, ly - weight / 2, 70, weight);
+                }
+                ctx.restore();
+            };
+
+            const withHead = draw => {
+                ctx.save();
+                ctx.translate(8, -21 + bob);
+                ctx.rotate(nod + pitch);
+                ctx.translate(-8, 21);
+                draw();
+                ctx.restore();
+            };
+
+            const paint = (color, halo) => {
+                const extra = halo ? 2.4 : 0;
+                ctx.strokeStyle = color;
+                ctx.fillStyle = color;
+                ctx.globalAlpha = alpha;
+                for (const leg of legs.filter(l => l.far)) {
+                    if (!halo) ctx.globalAlpha = alpha * 0.7;
+                    limb(ctx, leg.root, leg.knee, leg.end, 2.6 + extra, 1.5 + extra);
+                }
+                ctx.globalAlpha = alpha;
+                ctx.lineWidth = 2.2 + extra;
+                ctx.stroke(tail);
+                ctx.lineWidth = 0.7 + extra;
+                for (let k = 1; k <= 3; k++) {
+                    ctx.beginPath();
+                    ctx.moveTo(-15.6, -20.8);
+                    ctx.quadraticCurveTo(-19.4 - tailSway * 12 - k, -15, -16.8 - tailSway * 16 - k * 0.8, -7.6 + k * 0.6);
+                    ctx.stroke();
+                }
+
+                ctx.save();
+                ctx.translate(0, bob);
+                ctx.rotate(pitch);
+                if (halo) {
+                    ctx.lineWidth = extra;
+                    solid(ctx, body, true);
+                } else {
+                    ctx.fillStyle = colors.paper;
+                    ctx.fill(body);
+                    ctx.fillStyle = color;
+                    hatch(body, -24.5, -12.6);
+                    ctx.lineWidth = 0.85;
+                    ctx.stroke(body);
+                }
+                ctx.restore();
+
+                for (const leg of legs.filter(l => !l.far)) limb(ctx, leg.root, leg.knee, leg.end, 2.7 + extra, 1.6 + extra);
+                for (const leg of legs) {
+                    ctx.lineWidth = 1.9 + extra;
+                    ctx.beginPath();
+                    ctx.moveTo(leg.end[0] - 0.6, leg.end[1]);
+                    ctx.lineTo(leg.end[0] + 0.9, leg.end[1]);
+                    ctx.stroke();
+                }
+
+                ctx.save();
+                ctx.translate(0, bob);
+                ctx.rotate(pitch);
+                if (rider) {
+                    ctx.lineWidth = extra;
+                    solid(ctx, saddle, halo);
+                    limb(ctx, seat, riderKnee, riderFoot, 2.1 + extra, 1.7 + extra);
+                    ctx.lineWidth = 1.6 + extra;
+                    ctx.beginPath();
+                    ctx.moveTo(riderFoot[0] - 0.4, riderFoot[1]);
+                    ctx.lineTo(riderFoot[0] + 1.5, riderFoot[1]);
+                    ctx.stroke();
+                }
+                withHead(() => {
+                    if (halo) {
+                        ctx.lineWidth = extra;
+                        solid(ctx, neck, true);
+                        solid(ctx, ears, true);
+                    } else {
+                        ctx.fillStyle = colors.paper;
+                        ctx.fill(neck);
+                        ctx.fillStyle = color;
+                        hatch(neck, -34.5, -16);
+                        ctx.lineWidth = 0.85;
+                        ctx.stroke(neck);
+                        ctx.fill(ears);
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        for (let k = 0; k < 6; k++) {
+                            const t = k / 5;
+                            const mx = 7.6 + t * 9.4;
+                            const my = -23.4 - t * 10.6;
+                            ctx.moveTo(mx, my);
+                            ctx.quadraticCurveTo(mx - 2.2, my + 0.6, mx - 3 - Math.sin(time * 2 + k) * 0.4, my + 2.4);
+                        }
+                        ctx.stroke();
+                        ctx.fillStyle = colors.paper;
+                        ctx.beginPath();
+                        ctx.arc(20.4, -31.2, 0.55, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.fillStyle = color;
+                    }
+                });
+                if (rider) {
+                    const torso = new Path2D();
+                    torso.moveTo(seat[0] - 1.7, seat[1] + 0.4);
+                    torso.lineTo(seat[0] + 1.6, seat[1] + 0.4);
+                    torso.lineTo(shoulder[0] + 1.8, shoulder[1] + 0.6);
+                    torso.lineTo(shoulder[0] - 1.8, shoulder[1] - 0.2);
+                    torso.closePath();
+                    const pack = new Path2D();
+                    pack.roundRect(shoulder[0] - 5.4, shoulder[1] - 0.4, 3.6, 8.2, 1.2);
+                    pack.ellipse(shoulder[0] - 3.6, shoulder[1] - 1.2, 2.3, 1.15, 0, 0, Math.PI * 2);
+                    const hat = new Path2D();
+                    hat.ellipse(riderHead[0], riderHead[1] - 1.2, 3.5, 0.65, -0.05, 0, Math.PI * 2);
+                    hat.roundRect(riderHead[0] - 1.8, riderHead[1] - 3.7, 3.6, 2.6, 0.9);
+                    ctx.lineWidth = extra;
+                    solid(ctx, pack, halo);
+                    solid(ctx, torso, halo);
+                    ctx.beginPath();
+                    ctx.arc(riderHead[0], riderHead[1], 2.15 + extra / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                    solid(ctx, hat, halo);
+                    limb(ctx, shoulder, riderElbow, riderHand, 1.5 + extra, 1.3 + extra);
+                    if (!halo) {
+                        // The bit swings with the head (about the withers, by nod + pitch); bring it into this
+                        // body frame (raised by bob, turned by pitch) by undoing the body's own lift and turn
+                        const swing = nod + pitch;
+                        const bx = bit[0] - 8, by = bit[1] + 21;
+                        const headX = 8 + bx * Math.cos(swing) - by * Math.sin(swing);
+                        const headY = -21 + bob + bx * Math.sin(swing) + by * Math.cos(swing) - bob;
+                        const reinX = headX * Math.cos(pitch) + headY * Math.sin(pitch);
+                        const reinY = -headX * Math.sin(pitch) + headY * Math.cos(pitch);
+                        ctx.lineWidth = 0.55;
+                        ctx.beginPath();
+                        ctx.moveTo(...riderHand);
+                        ctx.quadraticCurveTo((riderHand[0] + reinX) / 2, Math.max(riderHand[1], reinY) + 1.6, reinX, reinY);
+                        ctx.stroke();
+                    }
+                }
+                ctx.restore();
+            };
+            paint(colors.paper, true);
+            paint(colors.ink, false);
+            ctx.restore();
+        }
+
+        // The hiker keeps its own clock so it can stop mid-stride to wave when the pointer finds it
+        const hiker = { clock: 0, lastTime: 0, hover: false, hit: null };
+
+        // Clicking the hiker: a whistle, a horse galloping in from the far side, and a swing up into the saddle
+        const summon = { active: false, start: 0, x: 0, y: 0, scale: 1, from: 0, target: 0, facing: 1, cycle: 0, lastX: 0, lastTime: 0, world: null };
+        const SUMMON = { call: 0.7, arrive: 2.2, mount: 0.75, settle: 0.35 };
+
+        function drawWalker(ctx, scene, t, alpha) {
+            if (summon.active) {
+                drawSummon(ctx, t, alpha);
+                return;
+            }
+            const { focal, project } = geometry;
+            const { rows, trailX, height } = scene;
+            const cycle = 95;
+            const progress = ((hiker.clock / 1000) % cycle) / cycle;
+            const z = 58 + progress * 150;
+            const fade = smoothstep(0, 0.03, progress) * (1 - smoothstep(0.88, 1, progress));
+            const x = trailX(z);
+            const [sx, sy] = project(x, z, height(x, z));
+            const [aheadX] = project(trailX(z + 2), z + 2, 0);
+            const scale = focal / z * 1.75 / 26;
+            hiker.hit = fade > 0.5 ? { x: sx, y: sy - 11 * scale, r: Math.max(24, 20 * scale), feet: sy, scale, worldX: x, worldZ: z } : null;
+
+            let lo = 0, hi = rows.length - 1;
+            while (lo < hi) {
+                const mid = (lo + hi + 1) >> 1;
+                if (rows[mid].z < z - 0.4) lo = mid; else hi = mid - 1;
+            }
+            const occluder = rows[lo].horizon;
+            const reach = 40 * scale;
+            const i0 = Math.max(0, Math.floor((sx - reach) / 2));
+            const i1 = Math.min(geometry.cols - 1, Math.ceil((sx + reach) / 2));
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(i0 * 2, 0);
+            for (let i = i0; i <= i1; i++) ctx.lineTo(i * 2, occluder[i]);
+            ctx.lineTo(i1 * 2, 0);
+            ctx.clip();
+            drawFigure(ctx, {
+                x: sx,
+                y: sy,
+                scale,
+                facing: hiker.hover ? 1 : aheadX >= sx ? 1 : -1,
+                stride: z * 2.4,
+                moving: hiker.hover ? 0 : 1,
+                wave: hiker.hover ? t / 1000 * 9 : 0,
+                lantern: colors.dark,
+                alpha: fade * alpha,
+            });
+            ctx.restore();
+        }
+
+        function startSummon() {
+            const hit = hiker.hit;
+            const fromLeft = hit.x > geometry.W / 2;
+            Object.assign(summon, {
+                active: true,
+                start: performance.now(),
+                x: hit.x,
+                y: hit.feet,
+                scale: hit.scale,
+                from: fromLeft ? -120 : geometry.W + 120,
+                target: hit.x + (fromLeft ? -13 : 13) * hit.scale,
+                facing: fromLeft ? 1 : -1,
+                cycle: 0,
+                lastX: fromLeft ? -120 : geometry.W + 120,
+                lastTime: 0,
+                world: { x: hit.worldX, z: hit.worldZ },
+            });
+            hiker.hover = false;
+            footer.style.cursor = '';
+            footer.scrollIntoView({ block: 'end', behavior: reduceMotion ? 'auto' : 'smooth' });
+            startLoop();
+        }
+
+        function drawSummon(ctx, t, alpha) {
+            const elapsed = (t - summon.start) / 1000;
+            const dt = summon.lastTime ? Math.min(0.05, (t - summon.lastTime) / 1000) : 0;
+            summon.lastTime = t;
+            const { call, arrive, mount, settle } = SUMMON;
+            const s = summon.scale;
+
+            const arrival = clamp01((elapsed - call) / arrive);
+            const horseX = summon.from + (summon.target - summon.from) * (1 - Math.pow(1 - arrival, 3));
+            const speed = dt ? Math.abs(horseX - summon.lastX) / s / dt : 0;
+            summon.lastX = horseX;
+            summon.cycle += speed * dt / strideLength(speed);
+
+            const mounting = clamp01((elapsed - call - arrive) / mount);
+            const seated = mounting >= 1;
+            if (elapsed > call) {
+                drawHorse(ctx, { x: horseX, y: summon.y, scale: s, facing: summon.facing, cycle: summon.cycle, speed, rider: seated, time: t / 1000, alpha });
+            }
+            if (!seated) {
+                // The hiker hops in an arc from the trail up into the saddle
+                const saddleX = horseX + summon.facing * -1.4 * s;
+                const hopX = summon.x + (saddleX - summon.x) * mounting;
+                const hopY = summon.y - Math.sin(Math.PI * mounting) * 12 * s - mounting * 10 * s;
+                drawFigure(ctx, {
+                    x: hopX,
+                    y: hopY,
+                    scale: s,
+                    facing: mounting > 0 ? summon.facing : -summon.facing,
+                    wave: elapsed < call + arrive * 0.6 ? t / 1000 * 9 : 0,
+                    lantern: colors.dark,
+                    alpha: alpha * (1 - smoothstep(0.75, 1, mounting)),
+                });
+            }
+            if (elapsed > call + arrive + mount + settle) {
+                summon.active = false;
+                enterExplore();
+            }
+        }
+
+        // Riding: the horse is steered like a horse, turning with the reins while the camera swings round behind.
+        // The engraving is re-cut every frame from the same endless terrain the home view shows.
+        const FOLLOW = 62;
+        const EXPLORE_EYE = 5;
+        const RIDE = { maxSpeed: 26, turnRate: 1.5, accel: 2.6 };
+        const TILE = 64;
+        const TILE_SAMPLES = TILE + 1;
+        const reliefTiles = new Map();
+        let worldRelief = null;
+        let lastTileKey = NaN;
+        let lastTile = null;
+
+        // The mountains are costly noise, so they are sampled once per unit into tiles and interpolated after
+        function reliefTile(tx, tz) {
+            const key = (tx + 32768) * 65536 + (tz + 32768);
+            if (key === lastTileKey) return lastTile;
+            let tile = reliefTiles.get(key);
+            if (!tile) {
+                tile = new Float32Array(TILE_SAMPLES * TILE_SAMPLES);
+                for (let j = 0; j < TILE_SAMPLES; j++) {
+                    for (let i = 0; i < TILE_SAMPLES; i++) tile[j * TILE_SAMPLES + i] = worldRelief(tx * TILE + i, tz * TILE + j);
+                }
+                reliefTiles.set(key, tile);
+            }
+            lastTileKey = key;
+            lastTile = tile;
+            return tile;
+        }
+
+        function reliefAt(x, z) {
+            const tx = Math.floor(x / TILE);
+            const tz = Math.floor(z / TILE);
+            const tile = reliefTile(tx, tz);
+            const fx = x - tx * TILE;
+            const fz = z - tz * TILE;
+            const i = Math.min(TILE - 1, Math.floor(fx));
+            const j = Math.min(TILE - 1, Math.floor(fz));
+            const u = fx - i, v = fz - j;
+            const a = tile[j * TILE_SAMPLES + i];
+            const b = tile[j * TILE_SAMPLES + i + 1];
+            const c = tile[(j + 1) * TILE_SAMPLES + i];
+            const d = tile[(j + 1) * TILE_SAMPLES + i + 1];
+            return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+        }
+
+        // The broad swell of the dunes is cached with the mountains; only the fine ripple is computed live
+        const broadDunes = (x, z) => 0.5 * (noise2(x * 0.15, z * 0.15) - 0.5);
+        const groundAt = (x, z) => 0.15 * (noise2(x * 0.6 + 9, z * 0.6) - 0.5) + reliefAt(x, z);
+        const wrapAngle = a => Math.atan2(Math.sin(a), Math.cos(a));
+
+        const explorer = {
+            active: false, x: 0, z: 0, heading: 0, speed: 0, cycle: 0,
+            camX: 0, camZ: 0, camY: CAMERA_HEIGHT, camYaw: 0, glide: 1, facing: 1,
+            keys: new Set(), holding: false, dust: [],
+            scene: null, sky: null, screen: null, dirty: true, lastTime: 0, lastCut: 0,
+        };
+
+        // Camera space: x to the right of the view, z straight ahead
+        const toCamera = (x, z) => {
+            const dx = x - explorer.camX, dz = z - explorer.camZ;
+            const c = Math.cos(explorer.camYaw), s = Math.sin(explorer.camYaw);
+            return [dx * c - dz * s, dx * s + dz * c];
+        };
+        const toWorld = (xr, zr) => {
+            const c = Math.cos(explorer.camYaw), s = Math.sin(explorer.camYaw);
+            return [explorer.camX + xr * c + zr * s, explorer.camZ - xr * s + zr * c];
+        };
+
+        const exploreSpec = {
+            sun: 0.8,
+            rowSpacing: 1.5,
+            refinements: 3,
+            fastNormals: true,
+            terrain: () => {
+                const lift = explorer.camY - CAMERA_HEIGHT;
+                const trail = homeTrail(geometry);
+                const { camX, camZ } = explorer;
+                const c = Math.cos(explorer.camYaw), s = Math.sin(explorer.camYaw);
+                const nearTrail = camZ < 260 && Math.abs(camX) < 300;
+                return {
+                    trailMark: nearTrail ? (x, z) => {
+                        const wx = camX + x * c + z * s, wz = camZ - x * s + z * c;
+                        if (wz > 230 || wz < 0) return 1;
+                        const d = Math.abs(wx - trail(wz)) / 0.38;
+                        if (d >= 1) return 1;
+                        const fade = smoothstep(150, 230, wz);
+                        return fade + (1 - fade) * (d > 0.78 ? 1.5 : 0.15);
+                    } : undefined,
+                    height: (x, z) => groundAt(camX + x * c + z * s, camZ - x * s + z * c) - lift,
+                };
+            },
+        };
+
+        // The sky stays put as the camera travels; only the sun or moon wheels round as the rider turns
+        function cutSky() {
+            const layer = explorer.sky ?? document.createElement('canvas');
+            layer.width = Math.round(geometry.W * dpr);
+            layer.height = Math.round(geometry.H * dpr);
+            const ctx = layer.getContext('2d');
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            renderSky(ctx, buildNow('home'), new Float32Array(geometry.cols).fill(geometry.H + 10), { noSun: true });
+            explorer.sky = layer;
+        }
+
+        function cutExploreFrame() {
+            const steps = sceneBuilder('explore', exploreSpec);
+            let step = steps.next();
+            while (!step.done) step = steps.next();
+            const scene = step.value;
+            const home = buildNow('home');
+            scene.clouds = home.clouds;
+            scene.starHidden = home.starHidden;
+            explorer.scene = scene;
+
+            const ctx = engravingCtx;
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.clearRect(0, 0, engravingCanvas.width, engravingCanvas.height);
+            ctx.save();
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.clip(skyPathFor(scene.skyline));
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.drawImage(explorer.sky, 0, 0);
+            ctx.restore();
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            renderTerrain(ctx, scene, celestialBody(home));
+
+            // Peaks that rear up close to the camera dissolve into the paper before reaching the footer's text
+            const top = geometry.H - geometry.land;
+            const fade = ctx.createLinearGradient(0, top - 10, 0, top + 70);
+            fade.addColorStop(0, 'rgba(0, 0, 0, 1)');
+            fade.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = fade;
+            ctx.fillRect(0, 0, geometry.W, top + 70);
+            ctx.globalCompositeOperation = 'source-over';
+        }
+
+        function updateExplorer(t) {
+            const dt = explorer.lastTime ? Math.min(0.05, (t - explorer.lastTime) / 1000) : 0;
+            explorer.lastTime = t;
+
+            const keys = explorer.keys;
+            let turn = (keys.has('ArrowRight') || keys.has('KeyD') ? 1 : 0) - (keys.has('ArrowLeft') || keys.has('KeyA') ? 1 : 0);
+            let throttle = keys.has('ArrowUp') || keys.has('KeyW') ? 1 : 0;
+            const braking = keys.has('ArrowDown') || keys.has('KeyS');
+            if (explorer.holding && explorer.screen) {
+                turn = Math.max(-1, Math.min(1, (pointer.targetX - explorer.screen.x) / 160));
+                throttle = clamp01((explorer.screen.y + 30 - pointer.targetY) / 120 + 0.35);
+            }
+
+            // Steepness ahead slows the horse to a walk however hard it is pushed
+            const here = groundAt(explorer.x, explorer.z);
+            const ahead = groundAt(explorer.x + Math.sin(explorer.heading) * 2, explorer.z + Math.cos(explorer.heading) * 2);
+            const effort = 0.35 + 0.65 * clamp01(1 - Math.max(0, ahead - here) * 0.35);
+            const target = braking ? 0 : throttle * RIDE.maxSpeed * effort;
+            explorer.speed += (target - explorer.speed) * (1 - Math.exp(-dt * (braking ? 4 : RIDE.accel)));
+            explorer.heading = wrapAngle(explorer.heading + turn * RIDE.turnRate * dt * (0.45 + 0.55 * Math.min(1, explorer.speed / 8)));
+            explorer.x += Math.sin(explorer.heading) * explorer.speed * dt;
+            explorer.z += Math.cos(explorer.heading) * explorer.speed * dt;
+            explorer.cycle += Math.max(Math.abs(explorer.speed), Math.abs(turn) * 2.5) * dt / strideLength(explorer.speed);
+
+            const before = [explorer.camX, explorer.camZ, explorer.camY, explorer.camYaw];
+            if (explorer.glide < 1) {
+                explorer.glide = Math.min(1, explorer.glide + dt / 1.8);
+                const e = easeInOut(explorer.glide);
+                explorer.camYaw = explorer.heading * e;
+                explorer.camX = (explorer.x - Math.sin(explorer.camYaw) * FOLLOW) * e;
+                explorer.camZ = (explorer.z - Math.cos(explorer.camYaw) * FOLLOW) * e;
+            } else {
+                explorer.camYaw = wrapAngle(explorer.camYaw + wrapAngle(explorer.heading - explorer.camYaw) * (1 - Math.exp(-dt * 2.2)));
+                const follow = 1 - Math.exp(-dt * 6);
+                explorer.camX += (explorer.x - Math.sin(explorer.camYaw) * FOLLOW - explorer.camX) * follow;
+                explorer.camZ += (explorer.z - Math.cos(explorer.camYaw) * FOLLOW - explorer.camZ) * follow;
+            }
+
+            // The camera rides above the horse, lifting whenever ground between them would block the view
+            let eye = Math.max(here + EXPLORE_EYE, groundAt(explorer.camX, explorer.camZ) + 2.5);
+            const head = here + 3;
+            for (let s = 1; s <= 8; s++) {
+                const f = s / 9;
+                const ground = groundAt(explorer.camX + (explorer.x - explorer.camX) * f, explorer.camZ + (explorer.z - explorer.camZ) * f) + 0.6;
+                eye = Math.max(eye, (ground - f * head) / (1 - f));
+            }
+            eye = Math.min(eye, here + EXPLORE_EYE + 3);
+            explorer.camY += (eye - explorer.camY) * (1 - Math.exp(-dt * 3));
+
+            const moved = Math.hypot(explorer.camX - before[0], explorer.camZ - before[1], explorer.camY - before[2]) + Math.abs(explorer.camYaw - before[3]) * 40;
+            if (moved > 0.002) explorer.dirty = true;
+
+            for (const d of explorer.dust) {
+                d.x += d.vx * dt;
+                d.y += d.vy * dt;
+                d.vy += 30 * dt;
+                d.life -= dt * 1.4;
+            }
+            explorer.dust = explorer.dust.filter(d => d.life > 0);
+            if (explorer.screen && explorer.speed > 11 && Math.random() < explorer.speed * dt * 0.9) {
+                const s = explorer.screen.scale;
+                explorer.dust.push({
+                    x: explorer.screen.x + (Math.random() - 0.5) * 26 * s,
+                    y: explorer.screen.feet - Math.random() * 2,
+                    vx: -explorer.facing * (8 + Math.random() * 16),
+                    vy: -6 - Math.random() * 10,
+                    r: (0.8 + Math.random() * 1.6) * Math.min(1.6, s),
+                    life: 1,
+                });
+            }
+        }
+
+        function groundVisible(rows, z, sx) {
+            let lo = 0, hi = rows.length - 1;
+            while (lo < hi) {
+                const mid = (lo + hi + 1) >> 1;
+                if (rows[mid].z <= z) lo = mid; else hi = mid - 1;
+            }
+            const col = Math.round(sx / 2);
+            return col >= 0 && col < geometry.cols && rows[lo].gap[col] > 0;
+        }
+
+        // Grass sits on a jittered world grid, so tufts stay put on the ground and stream past as the horse moves
+        function drawExploreGrass(ctx, scene, t) {
+            const { W, focal, horizonY } = geometry;
+            const { rows } = scene;
+            const seconds = t / 1000;
+            const cell = 2.6;
+            const near = rows[0].z;
+            const far = 130;
+            const corners = [[-1, near], [1, near], [-1, far], [1, far]].map(([side, zr]) => toWorld(side * (W / 2 + 40) * zr / focal, zr));
+            const minX = Math.min(...corners.map(c => c[0])), maxX = Math.max(...corners.map(c => c[0]));
+            const minZ = Math.min(...corners.map(c => c[1])), maxZ = Math.max(...corners.map(c => c[1]));
+            const tufts = [];
+            for (let cz = Math.floor(minZ / cell); cz <= Math.ceil(maxZ / cell); cz++) {
+                for (let cx = Math.floor(minX / cell); cx <= Math.ceil(maxX / cell); cx++) {
+                    if (hash3(cx, cz, 7) > 0.3) continue;
+                    const wx = (cx + hash3(cx, cz, 8)) * cell;
+                    const wz = (cz + hash3(cx, cz, 9)) * cell;
+                    const [xr, zr] = toCamera(wx, wz);
+                    if (zr < near || zr > far || Math.abs(xr) > (W / 2 + 40) * zr / focal || reliefAt(wx, wz) > 3) continue;
+                    tufts.push({ cx, cz, wx, xr, zr, ground: groundAt(wx, wz) });
+                }
+            }
+            tufts.sort((a, b) => b.zr - a.zr);
+            ctx.strokeStyle = colors.ink;
+            ctx.lineCap = 'round';
+            ctx.globalAlpha = 0.95;
+            for (const { cx, cz, wx, xr, zr, ground } of tufts) {
+                const sx = W / 2 + xr * focal / zr;
+                const sy = horizonY + (explorer.camY - ground) * focal / zr;
+                if (!groundVisible(rows, zr, sx)) continue;
+                const size = focal / zr * (0.22 + hash3(cx, cz, 10) * 0.18);
+                const blades = 5 + Math.floor(hash3(cx, cz, 11) * 6);
+                const wind = Math.sin(seconds * 1.1 + wx * 0.3) * 0.1 + Math.sin(seconds * 2.7 + wx) * 0.04;
+                ctx.lineWidth = 0.5 + size * 0.035;
+                ctx.beginPath();
+                for (let b = 0; b < blades; b++) {
+                    const angle = -Math.PI / 2 + (hash3(cx * 31 + b, cz, 12) - 0.5) * 1.9;
+                    const len = size * (0.45 + hash3(cx, cz * 17 + b, 13) * 0.55);
+                    const bendAngle = angle + wind * (0.6 + hash3(cx + b, cz + b, 14) * 0.8);
+                    const baseX = sx + (hash3(b, cx, cz) - 0.5) * size * 0.35;
+                    ctx.moveTo(baseX, sy);
+                    ctx.quadraticCurveTo(baseX + Math.cos(angle) * len * 0.35, sy + Math.sin(angle) * len * 0.55, baseX + Math.cos(bendAngle) * len, sy + Math.sin(bendAngle) * len);
+                }
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        // The sun or moon sits at a fixed bearing, so it slides across the sky as the camera turns
+        function drawWheelingSun(ctx, scene) {
+            const { W, focal } = geometry;
+            const home = buildNow('home');
+            const body = celestialBody(home);
+            const bearing = Math.atan((body.x - W / 2) / focal);
+            const angle = wrapAngle(bearing - explorer.camYaw);
+            if (Math.abs(angle) > 1.3) return;
+            const x = W / 2 + Math.tan(angle) * focal;
+            const { y, radius } = body;
+            ctx.save();
+            ctx.clip(skyPathFor(scene.skyline));
+            ctx.strokeStyle = colors.ink;
+            ctx.fillStyle = colors.ink;
+            if (colors.dark) {
+                for (let ly = y - radius; ly <= y + radius; ly += 3) {
+                    const half = Math.sqrt(Math.max(0, radius * radius - (ly - y) ** 2));
+                    const nyv = (ly - y) / radius;
+                    for (let lx = x - half; lx < x + half; lx += 2) {
+                        const nxv = (lx - x) / radius;
+                        const lit = clamp01(-0.5 * nxv - 0.1 * nyv + 0.85 * Math.sqrt(Math.max(0, 1 - nxv * nxv - nyv * nyv)));
+                        const w = 2.1 * lit * (0.75 + 0.5 * noise2(lx / 9 + 50, ly / 9));
+                        if (w > 0.3) ctx.fillRect(lx, ly - w / 2, 2.2, w);
+                    }
+                }
+                ctx.lineWidth = 0.7;
+                [[1.7, 0.35], [2.5, 0.18]].forEach(([ring, a]) => {
+                    ctx.globalAlpha = a;
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius * ring, 0, Math.PI * 2);
+                    ctx.stroke();
+                });
+            } else {
+                ctx.fillStyle = colors.paper;
+                ctx.beginPath();
+                ctx.arc(x, y, radius * 1.12, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.globalAlpha = 0.55;
+                ctx.lineWidth = 0.8;
+                ctx.beginPath();
+                for (let k = 0; k < 18; k++) {
+                    const a = (k / 18) * Math.PI * 2;
+                    const inner = radius * 1.35;
+                    const outer = radius * (1.7 + (k % 2) * 0.5);
+                    ctx.moveTo(x + Math.cos(a) * inner, y + Math.sin(a) * inner);
+                    ctx.lineTo(x + Math.cos(a) * outer, y + Math.sin(a) * outer);
+                }
+                ctx.stroke();
+            }
+            ctx.restore();
+        }
+
+        // Engraved fill: horizontal strokes clipped to a shape, heavier toward the shaded side
+        function hatchShape(ctx, path, top, bottom, spacing = 1.5) {
+            ctx.save();
+            ctx.clip(path);
+            for (let ly = top; ly < bottom; ly += spacing) {
+                const depth = clamp01((ly - top) / (bottom - top));
+                const weight = colors.dark ? 0.3 + 0.7 * (1 - depth) : 0.3 + 0.85 * depth;
+                ctx.fillRect(-40, ly - weight / 2, 80, weight);
+            }
+            ctx.restore();
+        }
+
+        // The horse from behind, as the camera follows it: haunches rocking, tail swinging, hind legs lifting through
+        // the gait, the rider's back and pack, and the head swinging out past the rider as the horse turns
+        function drawHorseRear(ctx, { x, y, scale, cycle = 0, speed = 0, turn = 0, time = 0, alpha = 1 }) {
+            const [gaitA, gaitB, w] = gaitMix(speed);
+            const mixHoof = leg => {
+                const a = hoof(gaitA, leg, cycle);
+                const b = hoof(gaitB, leg, cycle);
+                return [a[0] + (b[0] - a[0]) * w, a[1] + (b[1] - a[1]) * w];
+            };
+            const pace = Math.min(1, Math.abs(speed) / 6);
+            const bobAmount = gaitA.bob + (gaitB.bob - gaitA.bob) * w;
+            const beats = w < 0.5 ? gaitA.beats : gaitB.beats;
+            const bob = -Math.abs(Math.sin(Math.PI * cycle * beats)) * bobAmount;
+            const canter = (gaitA === GAITS.canter ? 1 - w : 0) + (gaitB === GAITS.canter ? w : 0);
+            const trot = (gaitA === GAITS.trot ? 1 - w : 0) + (gaitB === GAITS.trot ? w : 0);
+            const roll = Math.sin(Math.PI * 2 * cycle) * (0.03 + 0.04 * canter) * pace + turn * 0.09;
+            const sway = Math.sin(time * 1.7) * 0.5 + Math.sin(Math.PI * 2 * cycle) * 1.1 * pace;
+            const look = turn * 6.5 + Math.sin(time * 0.6) * 0.4 * (1 - pace);
+            const rise = trot * Math.max(0, Math.sin(Math.PI * 2 * cycle * 2)) * 0.9;
+
+            // Each hoof lifts with the gait; a hoof reaching forward sits a touch higher, further from the camera
+            const legs = [[-3.3, 0, false], [3.3, 1, false], [-2.1, 2, true], [2.1, 3, true]].map(([side, leg, fore]) => {
+                const [reach, lift] = mixHoof(leg);
+                const root = [side, (fore ? -15.6 : -15) + bob];
+                const end = [side * (fore ? 0.95 : 0.94), lift * (fore ? 0.8 : 1) - (fore ? 1.2 : 0) - reach * 0.2];
+                const knee = [side * (fore ? 1 : 1.12), (root[1] + end[1]) / 2 + 0.8 + lift * 0.3];
+                return { fore, root, knee, end };
+            });
+
+            const barrel = new Path2D();
+            barrel.ellipse(turn * 2.2, -20.6 + bob, 6.7 + Math.abs(turn) * 2.6, 4.7, 0, 0, Math.PI * 2);
+            const back = new Path2D();
+            back.moveTo(-4.4 + turn * 1.2, -23 + bob);
+            back.lineTo(4.4 + turn * 1.2, -23 + bob);
+            back.lineTo(3 + turn * 3, -27.2 + bob);
+            back.lineTo(-3 + turn * 3, -27.2 + bob);
+            back.closePath();
+            const neck = new Path2D();
+            neck.moveTo(-2.2 + turn * 2.4, -26.4 + bob);
+            neck.lineTo(2.2 + turn * 2.4, -26.4 + bob);
+            neck.lineTo(1.6 + look * 0.75, -30.6 + bob);
+            neck.lineTo(-1.6 + look * 0.75, -30.6 + bob);
+            neck.closePath();
+            neck.ellipse(look, -31.4 + bob, 2, 1.45, 0, 0, Math.PI * 2);
+            const ears = new Path2D();
+            for (const side of [-1, 1]) {
+                ears.moveTo(look + side * 0.5, -32.4 + bob);
+                ears.lineTo(look + side * 1.6, -35 + bob);
+                ears.lineTo(look + side * 1.5, -32.2 + bob);
+                ears.closePath();
+            }
+            const rump = new Path2D();
+            rump.moveTo(-5.4, -12.4);
+            rump.bezierCurveTo(-6.6, -15.5, -6.8, -21.5, -3.6, -23.4);
+            rump.quadraticCurveTo(-1.6, -24.2, 0, -23.2);
+            rump.quadraticCurveTo(1.6, -24.2, 3.6, -23.4);
+            rump.bezierCurveTo(6.8, -21.5, 6.6, -15.5, 5.4, -12.4);
+            rump.quadraticCurveTo(2.6, -11.4, 0.9, -13.6);
+            rump.lineTo(-0.9, -13.6);
+            rump.quadraticCurveTo(-2.6, -11.4, -5.4, -12.4);
+            rump.closePath();
+            const tail = new Path2D();
+            tail.moveTo(0, -22.6);
+            tail.bezierCurveTo(sway * 0.4, -18, sway * 1.2, -13, sway * 1.6, -8.4);
+
+            const seat = [0, -24.6 - rise];
+            const shoulderY = -32.4 - rise;
+            const torso = new Path2D();
+            torso.moveTo(-1.9, seat[1] + 0.3);
+            torso.lineTo(1.9, seat[1] + 0.3);
+            torso.lineTo(2.6, shoulderY + 0.4);
+            torso.lineTo(-2.6, shoulderY + 0.4);
+            torso.closePath();
+            const pack = new Path2D();
+            pack.roundRect(-2.1, shoulderY + 0.2, 4.2, 7, 1.3);
+            pack.ellipse(0, shoulderY - 0.2, 2.8, 1.15, 0, 0, Math.PI * 2);
+            const hat = new Path2D();
+            hat.ellipse(0, shoulderY - 4.3, 3.7, 0.8, 0, 0, Math.PI * 2);
+            hat.roundRect(-1.8, shoulderY - 7.1, 3.6, 2.9, 0.9);
+            const riderLegs = [-1, 1].map(side => [[side * 2, seat[1] + 0.2 + rise * 0.7], [side * 6.6, -21], [side * 6.1, -16.2]]);
+            const arms = [-1, 1].map(side => [[side * 2.5, shoulderY + 0.4], [side * 4, shoulderY + 3.8], [side * 1.7, shoulderY + 4.8]]);
+
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.translate(x, y);
+            ctx.scale(scale, scale);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            const paint = (color, halo) => {
+                const extra = halo ? 2.4 : 0;
+                ctx.strokeStyle = color;
+                ctx.fillStyle = color;
+                const shape = (path, top, bottom) => {
+                    if (halo) {
+                        ctx.lineWidth = extra;
+                        solid(ctx, path, true);
+                        return;
+                    }
+                    ctx.fillStyle = colors.paper;
+                    ctx.fill(path);
+                    ctx.fillStyle = color;
+                    hatchShape(ctx, path, top, bottom);
+                    ctx.lineWidth = 0.85;
+                    ctx.stroke(path);
+                };
+
+                ctx.globalAlpha = alpha * (halo ? 1 : 0.7);
+                for (const leg of legs.filter(l => l.fore)) limb(ctx, leg.root, leg.knee, leg.end, 1.6 + extra, 1.1 + extra);
+                ctx.globalAlpha = alpha;
+
+                ctx.save();
+                ctx.translate(0, -18);
+                ctx.rotate(roll);
+                ctx.translate(0, 18);
+                shape(barrel, -25.4, -15.9);
+                shape(back, -27.2, -23);
+                shape(neck, -33, -26);
+                if (halo) solid(ctx, ears, true);
+                else ctx.fill(ears);
+                ctx.restore();
+
+                for (const leg of legs.filter(l => !l.fore)) limb(ctx, leg.root, leg.knee, leg.end, 3.6 + extra, 1.7 + extra);
+                for (const leg of legs) {
+                    ctx.lineWidth = (leg.fore ? 1.3 : 1.9) + extra;
+                    ctx.beginPath();
+                    ctx.moveTo(leg.end[0] - 0.7, leg.end[1]);
+                    ctx.lineTo(leg.end[0] + 0.7, leg.end[1]);
+                    ctx.stroke();
+                }
+
+                ctx.save();
+                ctx.translate(0, bob);
+                ctx.translate(0, -18);
+                ctx.rotate(roll);
+                ctx.translate(0, 18);
+                shape(rump, -24.2, -11.4);
+                if (!halo) {
+                    ctx.lineWidth = 0.6;
+                    ctx.beginPath();
+                    ctx.moveTo(0, -23);
+                    ctx.lineTo(0, -14);
+                    ctx.stroke();
+                }
+                ctx.lineWidth = 2.4 + extra;
+                ctx.stroke(tail);
+                ctx.lineWidth = 0.7 + extra;
+                for (let k = -2; k <= 2; k++) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, -22);
+                    ctx.quadraticCurveTo(sway * 0.8 + k * 0.6, -15, sway * 1.6 + k * 0.9, -8.8 + Math.abs(k) * 0.5);
+                    ctx.stroke();
+                }
+
+                // The rider leans into the turn and rises with the trot
+                ctx.translate(0, seat[1]);
+                ctx.rotate(turn * 0.08 - roll * 0.5);
+                ctx.translate(0, -seat[1]);
+                for (const [hip, knee, foot] of riderLegs) {
+                    limb(ctx, hip, knee, foot, 2 + extra, 1.6 + extra);
+                    ctx.lineWidth = 1.5 + extra;
+                    ctx.beginPath();
+                    ctx.moveTo(foot[0] - 0.8, foot[1]);
+                    ctx.lineTo(foot[0] + 0.8, foot[1]);
+                    ctx.stroke();
+                }
+                for (const [shoulder, elbow, hand] of arms) limb(ctx, shoulder, elbow, hand, 1.5 + extra, 1.3 + extra);
+                ctx.lineWidth = extra;
+                solid(ctx, torso, halo);
+                ctx.beginPath();
+                ctx.arc(0, shoulderY - 3.1, 2.1 + extra / 2, 0, Math.PI * 2);
+                ctx.fill();
+                if (halo) {
+                    solid(ctx, pack, true);
+                    solid(ctx, hat, true);
+                } else {
+                    ctx.fillStyle = colors.paper;
+                    ctx.fill(pack);
+                    ctx.fillStyle = color;
+                    hatchShape(ctx, pack, shoulderY - 1.4, shoulderY + 7.2, 1.2);
+                    ctx.lineWidth = 0.75;
+                    ctx.stroke(pack);
+                    ctx.fill(hat);
+                }
+                ctx.restore();
+            };
+            paint(colors.paper, true);
+            paint(colors.ink, false);
+            ctx.restore();
+        }
+
+        function drawRider(ctx) {
+            const { W, focal, horizonY } = geometry;
+            const [xr, zr] = toCamera(explorer.x, explorer.z);
+            const sx = W / 2 + xr * focal / zr;
+            const sy = horizonY + (explorer.camY - groundAt(explorer.x, explorer.z)) * focal / zr;
+            const scale = focal / zr * 2 / 26;
+            explorer.screen = { x: sx, y: sy - 24 * scale, feet: sy, scale, r: Math.max(30, 24 * scale) };
+
+            ctx.fillStyle = colors.ink;
+            for (const d of explorer.dust) {
+                ctx.globalAlpha = d.life * 0.45;
+                ctx.beginPath();
+                ctx.arc(d.x, d.y, d.r * (1.6 - d.life * 0.6), 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+
+            // While the camera swings in behind, the side view of the arriving horse turns into the rear view
+            const time = performance.now() / 1000;
+            const behind = easeInOut(explorer.glide);
+            const turn = Math.max(-1, Math.min(1, wrapAngle(explorer.heading - explorer.camYaw) / 0.45));
+            if (behind < 1) {
+                drawHorse(ctx, { x: sx, y: sy, scale, facing: explorer.facing, cycle: explorer.cycle, speed: explorer.speed, rider: true, time, alpha: 1 - behind });
+            }
+            if (behind > 0) {
+                drawHorseRear(ctx, { x: sx, y: sy, scale: scale * 1.25, cycle: explorer.cycle, speed: explorer.speed, turn, time, alpha: behind });
+            }
+        }
+
+        function drawExploreLife(t) {
+            updateExplorer(t);
+            if (explorer.dirty) {
+                cutExploreFrame();
+                explorer.lastCut = t;
+                explorer.dirty = false;
+            }
+            const scene = explorer.scene;
+            drawSky(lifeCtx, scene, t, 1);
+            drawWheelingSun(lifeCtx, scene);
+            drawExploreGrass(lifeCtx, scene, t);
+            drawRider(lifeCtx);
+        }
+
+        function enterExplore() {
+            if (explorer.active) return;
+            Object.assign(explorer, {
+                active: true, x: summon.world.x, z: summon.world.z, heading: 0, speed: 0, cycle: summon.cycle,
+                camX: 0, camZ: 0, camY: CAMERA_HEIGHT, camYaw: 0, glide: 0, facing: summon.facing,
+                holding: false, dust: [], dirty: true, lastTime: 0, lastCut: 0,
+            });
+            explorer.keys.clear();
+            cutSky();
+            cutExploreFrame();
+            footer.classList.add('is-exploring');
+            startLoop();
+        }
+
+        function leaveExplore() {
+            summon.active = false;
+            if (!explorer.active) return;
+            explorer.active = false;
+            explorer.keys.clear();
+            explorer.holding = false;
+            footer.classList.remove('is-exploring');
+            const origin = explorer.screen ? [explorer.screen.x, explorer.screen.y] : [geometry.W / 2, geometry.H];
+            view.scene = explorer.scene;
+            showScene(buildNow('home'), ...origin);
+        }
+
+        const RIDE_KEYS = new Set(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'KeyW', 'KeyA', 'KeyS', 'KeyD']);
+        document.addEventListener('keydown', e => {
+            if (!explorer.active) return;
+            if (e.code === 'Escape') {
+                leaveExplore();
+                return;
+            }
+            if (RIDE_KEYS.has(e.code)) {
+                e.preventDefault();
+                explorer.keys.add(e.code);
+            }
+        });
+        document.addEventListener('keyup', e => explorer.keys.delete(e.code));
+        window.addEventListener('blur', () => explorer.keys.clear());
+
+        const onRider = e => {
+            if (!explorer.screen) return false;
+            const r = footer.getBoundingClientRect();
+            return Math.hypot(e.clientX - r.left - explorer.screen.x, e.clientY - r.top - explorer.screen.y) < explorer.screen.r;
+        };
+        footer.addEventListener('pointerdown', e => {
+            if (!explorer.active || e.target.closest('a, button') || onRider(e)) return;
+            e.preventDefault();
+            explorer.holding = true;
+        });
+        window.addEventListener('pointerup', () => {
+            explorer.holding = false;
+        });
+        footer.addEventListener('click', e => {
+            if (explorer.active) {
+                if (onRider(e)) leaveExplore();
+                return;
+            }
+            if (summon.active || !hiker.hit || view.scene?.key !== 'home' || view.transitioning) return;
+            const r = footer.getBoundingClientRect();
+            if (Math.hypot(e.clientX - r.left - hiker.hit.x, e.clientY - r.top - hiker.hit.y) < hiker.hit.r) startSummon();
+        });
+
+        function drawSky(ctx, scene, t, alpha) {
+            const { W, H, land, stars } = geometry;
+            const { skyline } = scene;
+            const seconds = t / 1000;
+            ctx.fillStyle = colors.ink;
+
+            if (colors.dark) {
+                stars.forEach((star, n) => {
+                    if (star.y > skyline[Math.round(star.x / 2)] - 4 || scene.starHidden?.[n]) return;
+                    ctx.globalAlpha = alpha * star.base * (0.55 + 0.45 * Math.sin(seconds * star.speed + star.phase));
+                    ctx.fillRect(star.x, star.y, star.r, star.r);
+                });
+                const period = 9;
+                const shot = Math.floor(seconds / period);
+                const progress = (seconds % period) / 1.1;
+                if (progress < 1) {
+                    const rand = seededRandom(shot * 977 + 3);
+                    const startX = W * (0.35 + rand() * 0.6);
+                    const startY = H - land * (0.95 + rand() * 0.25);
+                    const travel = land * 0.7;
+                    const headX = startX - travel * progress;
+                    const headY = startY + travel * 0.32 * progress;
+                    const tail = 90 * Math.sin(progress * Math.PI);
+                    const streak = ctx.createLinearGradient(headX, headY, headX + tail, headY - tail * 0.32);
+                    streak.addColorStop(0, colors.ink);
+                    streak.addColorStop(1, 'transparent');
+                    ctx.globalAlpha = alpha * Math.sin(progress * Math.PI);
+                    ctx.strokeStyle = streak;
+                    ctx.lineWidth = 1.2;
+                    ctx.beginPath();
+                    ctx.moveTo(headX, headY);
+                    ctx.lineTo(headX + tail, headY - tail * 0.32);
+                    ctx.stroke();
+                }
+            } else {
+                const crossing = 42;
+                const progress = (seconds % crossing) / crossing;
+                const flockX = -120 + progress * (W + 240);
+                const flockY = H - land * 0.86 + Math.sin(seconds * 0.4) * 8;
+                ctx.strokeStyle = colors.ink;
+                ctx.lineCap = 'round';
+                ctx.globalAlpha = alpha * 0.85;
+                for (let b = 0; b < 7; b++) {
+                    const bx = flockX - (b % 2 ? 1 : 0.6) * b * 13;
+                    const by = flockY + b * 5.5 * (b % 2 ? 1 : -0.4) + Math.sin(seconds * 0.9 + b) * 3;
+                    if (by > skyline[Math.round(Math.min(Math.max(bx, 0), W) / 2)] - 4) continue;
+                    const span = 5 + (b % 3);
+                    const flap = Math.sin(seconds * 7 + b * 1.7);
+                    ctx.lineWidth = 1.1;
+                    ctx.beginPath();
+                    ctx.moveTo(bx - span, by - flap * span * 0.55);
+                    ctx.quadraticCurveTo(bx - span * 0.4, by - span * 0.3, bx, by);
+                    ctx.quadraticCurveTo(bx + span * 0.4, by - span * 0.3, bx + span, by - flap * span * 0.55);
+                    ctx.stroke();
+                }
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        function drawGrass(ctx, scene, t, alpha) {
+            const seconds = t / 1000;
+            ctx.strokeStyle = colors.ink;
+            ctx.lineCap = 'round';
+            ctx.globalAlpha = alpha * 0.95;
+            for (const tuft of scene.tufts) {
+                let wind = Math.sin(seconds * 1.1 + tuft.sx * 0.008) * 0.1 + Math.sin(seconds * 2.7 + tuft.sx * 0.03) * 0.04;
+                const dx = tuft.sx - pointer.x;
+                const dist = Math.hypot(dx, tuft.sy - pointer.y);
+                if (dist < 160) wind += Math.sign(dx) * (1 - dist / 160) * 0.7;
+                ctx.lineWidth = 0.5 + tuft.size * 0.035;
+                ctx.beginPath();
+                for (const blade of tuft.blades) {
+                    const bend = blade.angle + wind * blade.flex;
+                    const baseX = tuft.sx + blade.offset;
+                    ctx.moveTo(baseX, tuft.sy);
+                    ctx.quadraticCurveTo(
+                        baseX + Math.cos(blade.angle) * blade.len * 0.35,
+                        tuft.sy + Math.sin(blade.angle) * blade.len * 0.55,
+                        baseX + Math.cos(bend) * blade.len,
+                        tuft.sy + Math.sin(bend) * blade.len,
+                    );
+                }
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        function drawWater(ctx, scene, t, alpha) {
+            const seconds = t / 1000;
+            ctx.strokeStyle = colors.dark ? colors.ink : colors.paper;
+            ctx.lineCap = 'round';
+            ctx.lineWidth = colors.dark ? 1.2 : 1.6;
+            for (const glint of scene.glints) {
+                const a = Math.sin(seconds * glint.speed + glint.phase);
+                if (a < 0.25) continue;
+                ctx.globalAlpha = alpha * a;
+                ctx.beginPath();
+                ctx.moveTo(glint.x - glint.len / 2, glint.y);
+                ctx.lineTo(glint.x + glint.len / 2, glint.y);
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        function drawBeacons(ctx, scene, t, alpha) {
+            if (!colors.dark) return;
+            const pulse = Math.max(0, Math.sin(t / 1000 * 2.6));
+            for (const b of scene.beacons) {
+                const glow = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, 9);
+                glow.addColorStop(0, `rgba(255, 120, 96, ${0.9 * pulse})`);
+                glow.addColorStop(1, 'rgba(255, 120, 96, 0)');
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = glow;
+                ctx.fillRect(b.x - 9, b.y - 9, 18, 18);
+            }
+            const seconds = t / 1000;
+            for (const lamp of scene.lamps) {
+                const flicker = 0.75 + 0.25 * Math.sin(seconds * 3.1 + lamp.phase) * Math.sin(seconds * 1.7 + lamp.phase * 2);
+                const glow = ctx.createRadialGradient(lamp.x, lamp.y, 0, lamp.x, lamp.y, lamp.size);
+                glow.addColorStop(0, `rgba(255, 214, 150, ${0.95 * flicker})`);
+                glow.addColorStop(0.25, `rgba(255, 196, 120, ${0.45 * flicker})`);
+                glow.addColorStop(1, 'rgba(255, 196, 120, 0)');
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = glow;
+                ctx.fillRect(lamp.x - lamp.size, lamp.y - lamp.size, lamp.size * 2, lamp.size * 2);
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        // Each shape calls fill() for solid areas and line(width) for strokes, so it can also be drawn as a halo
+        const BOAT_SHAPES = {
+            sail: (ctx, fill) => {
+                ctx.beginPath();
+                ctx.moveTo(-11, -3); ctx.lineTo(11, -3); ctx.lineTo(8, 1); ctx.lineTo(-8, 1); ctx.closePath();
+                ctx.moveTo(0.8, -26); ctx.lineTo(0.8, -5); ctx.lineTo(11, -5); ctx.closePath();
+                ctx.moveTo(-0.8, -23); ctx.lineTo(-0.8, -5); ctx.lineTo(-8, -5); ctx.closePath();
+                fill();
+            },
+            longtail: (ctx, fill, line) => {
+                ctx.beginPath();
+                ctx.moveTo(-16, -2); ctx.lineTo(13, -2); ctx.lineTo(19, -7); ctx.lineTo(16, -1); ctx.lineTo(12, 1); ctx.lineTo(-15, 1); ctx.closePath();
+                ctx.moveTo(-9, -2); ctx.lineTo(-9, -8); ctx.lineTo(5, -8); ctx.lineTo(5, -2); ctx.closePath();
+                ctx.moveTo(-10.5, -9); ctx.lineTo(6.5, -9); ctx.lineTo(5, -7.5); ctx.lineTo(-9, -7.5); ctx.closePath();
+                fill();
+                ctx.beginPath();
+                ctx.moveTo(-15, -3); ctx.lineTo(-24, 1);
+                line(1);
+            },
+            ferry: (ctx, fill) => {
+                ctx.beginPath();
+                ctx.moveTo(-18, -3); ctx.lineTo(18, -3); ctx.lineTo(15, 1); ctx.lineTo(-15, 1); ctx.closePath();
+                ctx.rect(-13, -8, 24, 5);
+                ctx.rect(-8, -12, 14, 4);
+                ctx.rect(2, -17, 3, 5);
+                fill();
+            },
+            row: (ctx, fill, line) => {
+                ctx.beginPath();
+                ctx.moveTo(-9, -2); ctx.lineTo(9, -2); ctx.lineTo(6, 1); ctx.lineTo(-7, 1); ctx.closePath();
+                ctx.moveTo(2, -6); ctx.arc(0, -6, 2, 0, Math.PI * 2);
+                ctx.rect(-1.2, -5, 2.4, 4);
+                fill();
+                ctx.beginPath();
+                ctx.moveTo(-9, 2); ctx.lineTo(4, -4); ctx.moveTo(9, 2); ctx.lineTo(-4, -4);
+                line(0.8);
+            },
+        };
+
+        function drawBoats(ctx, scene, t, alpha) {
+            const { W, focal, horizonY } = geometry;
+            for (const boat of scene.spec.boats ?? []) {
+                const [from, to] = boat.range ?? [0, 1];
+                const travel = (to - from) * W + 80;
+                const sx = from * W - 40 + ((t / 1000 * boat.speed * W + boat.offset * travel) % travel);
+                const sy = horizonY + CAMERA_HEIGHT * focal / boat.z;
+                const scale = focal / boat.z * 0.9 / 26;
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.translate(sx, sy + Math.sin(t / 700 + boat.offset * 9) * scale);
+                ctx.scale(scale, scale);
+                ctx.strokeStyle = colors.ink;
+                ctx.globalAlpha = alpha * 0.5;
+                ctx.lineWidth = 0.8;
+                ctx.beginPath();
+                for (let k = 1; k < 5; k++) {
+                    ctx.moveTo(-14 - k * 9, 1.5 + k * 0.8);
+                    ctx.lineTo(-14 - k * 9 - 6, 1.5 + k * 0.8);
+                }
+                ctx.stroke();
+                ctx.globalAlpha = alpha;
+                ctx.lineJoin = 'round';
+                ctx.lineCap = 'round';
+                ctx.fillStyle = ctx.strokeStyle = colors.paper;
+                BOAT_SHAPES[boat.type](ctx, () => { ctx.lineWidth = 3; ctx.stroke(); ctx.fill(); }, w => { ctx.lineWidth = w + 3; ctx.stroke(); });
+                ctx.fillStyle = ctx.strokeStyle = colors.ink;
+                BOAT_SHAPES[boat.type](ctx, () => ctx.fill(), w => { ctx.lineWidth = w; ctx.stroke(); });
+                ctx.restore();
+            }
+        }
+
+        function drawSceneLife(ctx, scene, t, alpha) {
+            if (alpha <= 0.01) return;
+            drawSky(ctx, scene, t, alpha);
+            drawWater(ctx, scene, t, alpha);
+            drawBeacons(ctx, scene, t, alpha);
+            drawBoats(ctx, scene, t, alpha);
+            if (scene.spec.walker) drawWalker(ctx, scene, t, alpha);
+            if (scene.spec.grass) drawGrass(ctx, scene, t, alpha);
+        }
+
+        // Scene cache, built ahead of time in idle slices so hovering is instant
+        const builds = new Map();
+        const ensureBuild = key => {
+            if (!builds.has(key)) builds.set(key, { iterator: sceneBuilder(key), scene: null });
+            return builds.get(key);
+        };
+        const advanceBuild = (entry, budget) => {
+            const end = performance.now() + budget;
+            while (!entry.scene && performance.now() < end) {
+                const step = entry.iterator.next();
+                if (step.done) entry.scene = step.value;
+            }
+            return entry.scene;
+        };
+        const buildNow = key => advanceBuild(ensureBuild(key), Infinity);
+
+        const requestIdle = window.requestIdleCallback
+            ? cb => requestIdleCallback(cb)
+            : cb => setTimeout(() => cb({ timeRemaining: () => 8 }), 40);
+        let idleQueue = [];
+        // City scenes first, then the explorer's mountain tiles around the home view so taking control is instant
+        let tileQueue = [];
+        function idleWork(deadline) {
+            while (idleQueue.length && deadline.timeRemaining() > 3) {
+                const entry = ensureBuild(idleQueue[0]);
+                if (advanceBuild(entry, deadline.timeRemaining() - 2)) idleQueue.shift();
+            }
+            while (!idleQueue.length && tileQueue.length && deadline.timeRemaining() > 4) reliefTile(...tileQueue.shift());
+            if (idleQueue.length || tileQueue.length) requestIdle(idleWork);
+        }
+
+        // Transitions: the new scene washes in from the hovered name like ink spreading through paper
+        const TRANSITION_MS = 1300;
+        const makeLayer = () => document.createElement('canvas');
+        const layers = { shown: makeLayer(), next: makeLayer(), from: makeLayer(), mix: makeLayer() };
+        const view = { scene: null, fromScene: null, start: 0, origin: [0, 0], transitioning: false, pending: null };
+        let dpr = 1;
+        let lifeCtx = null;
+        let engravingCtx = null;
+
+        function sizeLayer(canvas) {
+            canvas.width = Math.round(geometry.W * dpr);
+            canvas.height = Math.round(geometry.H * dpr);
+            const ctx = canvas.getContext('2d');
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            return ctx;
+        }
+
+        function renderInto(layer, scene) {
+            const ctx = layer.getContext('2d');
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            renderScene(ctx, scene);
+        }
+
+        function paint(layer) {
+            engravingCtx.setTransform(1, 0, 0, 1, 0, 0);
+            engravingCtx.clearRect(0, 0, engravingCanvas.width, engravingCanvas.height);
+            engravingCtx.drawImage(layer, 0, 0);
+        }
+
+        function showScene(scene, originX, originY) {
+            if (scene === view.scene) return;
+            if (reduceMotion || !view.scene) {
+                view.scene = scene;
+                view.transitioning = false;
+                renderInto(layers.shown, scene);
+                paint(layers.shown);
+                drawLife(20000);
+                return;
+            }
+            const fromCtx = layers.from.getContext('2d');
+            fromCtx.setTransform(1, 0, 0, 1, 0, 0);
+            fromCtx.clearRect(0, 0, layers.from.width, layers.from.height);
+            fromCtx.drawImage(engravingCanvas, 0, 0);
+            renderInto(layers.next, scene);
+            view.fromScene = view.scene;
+            view.scene = scene;
+            view.origin = [originX, originY];
+            view.start = performance.now();
+            view.transitioning = true;
+            startLoop();
+        }
+
+        const easeInOut = p => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+
+        function compose(now) {
+            if (!view.transitioning) return 1;
+            const p = easeInOut(clamp01((now - view.start) / TRANSITION_MS));
+            if (p >= 1) {
+                view.transitioning = false;
+                [layers.shown, layers.next] = [layers.next, layers.shown];
+                paint(layers.shown);
+                return 1;
+            }
+            const [ox, oy] = view.origin;
+            const { W, H } = geometry;
+            const feather = 220;
+            const reach = Math.hypot(Math.max(ox, W - ox), Math.max(oy, H - oy)) + feather;
+            const radius = p * reach;
+            const mix = layers.mix.getContext('2d');
+            mix.setTransform(1, 0, 0, 1, 0, 0);
+            mix.globalCompositeOperation = 'source-over';
+            mix.clearRect(0, 0, layers.mix.width, layers.mix.height);
+            mix.drawImage(layers.next, 0, 0);
+            mix.globalCompositeOperation = 'destination-in';
+            mix.setTransform(dpr, 0, 0, dpr, 0, 0);
+            const wash = mix.createRadialGradient(ox, oy, Math.max(0, radius - feather), ox, oy, radius);
+            wash.addColorStop(0, 'rgba(0, 0, 0, 1)');
+            wash.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            mix.fillStyle = wash;
+            mix.fillRect(0, 0, W, H);
+            mix.globalCompositeOperation = 'source-over';
+
+            engravingCtx.setTransform(1, 0, 0, 1, 0, 0);
+            engravingCtx.clearRect(0, 0, engravingCanvas.width, engravingCanvas.height);
+            engravingCtx.globalAlpha = 1 - smoothstep(0.55, 1, p);
+            engravingCtx.drawImage(layers.from, 0, 0);
+            engravingCtx.globalAlpha = 1;
+            engravingCtx.drawImage(layers.mix, 0, 0);
+            return p;
+        }
+
+        function drawLife(t) {
+            if (!view.scene || !lifeCtx) return;
+            pointer.x += (pointer.targetX - pointer.x) * 0.12;
+            pointer.y += (pointer.targetY - pointer.y) * 0.12;
+            lifeCtx.clearRect(0, 0, geometry.W, geometry.H);
+
+            const onHome = view.scene.key === 'home' && !view.transitioning;
+            const hovering = onHome && !explorer.active && !summon.active && hiker.hit !== null
+                && Math.hypot(pointer.targetX - hiker.hit.x, pointer.targetY - hiker.hit.y) < hiker.hit.r;
+            if (hovering !== hiker.hover) {
+                hiker.hover = hovering;
+                footer.style.cursor = hovering ? 'pointer' : '';
+            }
+            if (!hiker.hover) hiker.clock += Math.max(0, Math.min(100, t - (hiker.lastTime || t)));
+            hiker.lastTime = t;
+            if (explorer.active) {
+                drawExploreLife(t);
+                return;
+            }
+
+            const p = compose(t);
+            if (view.transitioning && view.fromScene) drawSceneLife(lifeCtx, view.fromScene, t, 1 - p);
+            drawSceneLife(lifeCtx, view.scene, t, view.transitioning ? p : 1);
+        }
+
+        function requestScene(key, originX, originY) {
+            if (explorer.active) return;
+            view.pending = { key, originX, originY };
+            const entry = ensureBuild(key);
+            if (entry.scene || reduceMotion) {
+                view.pending = null;
+                showScene(entry.scene ?? buildNow(key), originX, originY);
+            } else {
+                startLoop();
+            }
+        }
+
+        function servePending() {
+            if (!view.pending) return;
+            const { key, originX, originY } = view.pending;
+            const scene = advanceBuild(ensureBuild(key), 12);
+            if (scene) {
+                view.pending = null;
+                showScene(scene, originX, originY);
+            }
+        }
+
+        let footerVisible = false;
+        let frame = 0;
+        const loop = t => {
+            servePending();
+            drawLife(t);
+            const keepGoing = explorer.active || (!reduceMotion && (footerVisible || view.transitioning || view.pending));
+            frame = keepGoing ? requestAnimationFrame(loop) : 0;
+        };
+        function startLoop() {
+            if (!frame && (!reduceMotion || explorer.active)) frame = requestAnimationFrame(loop);
+        }
+        new IntersectionObserver(([entry]) => {
+            footerVisible = entry.isIntersecting;
+            if (footerVisible) startLoop();
+            else leaveExplore();
+        }).observe(footer);
+
+        function rebuild() {
+            summon.active = false;
+            if (explorer.active) {
+                explorer.active = false;
+                footer.classList.remove('is-exploring');
+            }
+            geometry = measureGeometry();
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+            builds.clear();
+            reliefTiles.clear();
+            lastTileKey = NaN;
+            const relief = homeRelief(geometry);
+            worldRelief = (x, z) => relief(x, z) + broadDunes(x, z);
+            Object.values(layers).forEach(sizeLayer);
+            engravingCtx = sizeLayer(engravingCanvas);
+            lifeCtx = sizeLayer(lifeCanvas);
+            view.scene = null;
+            view.transitioning = false;
+            view.pending = null;
+            showScene(buildNow('home'), 0, 0);
+            idleQueue = [...CITY_KEYS];
+            tileQueue = [];
+            for (let tz = 0; tz <= Math.ceil(Z_FAR / TILE); tz++) {
+                const reach = (geometry.W / 2 + 120) * (tz + 1) * TILE / geometry.focal;
+                for (let tx = Math.floor(-reach / TILE); tx <= Math.ceil(reach / TILE); tx++) tileQueue.push([tx, tz]);
+            }
+            requestIdle(idleWork);
+        }
+
+        let resizeTimer = 0;
+        new ResizeObserver(() => {
+            if (geometry && footer.clientWidth === geometry.W && footer.clientHeight === geometry.H) return;
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(rebuild, geometry ? 150 : 0);
+        }).observe(footer);
+
+        new MutationObserver(() => {
+            colors = readColors();
+            if (!view.scene) return;
+            if (explorer.active) {
+                cutSky();
+                explorer.dirty = true;
+                explorer.lastCut = 0;
+                return;
+            }
+            view.transitioning = false;
+            renderInto(layers.shown, view.scene);
+            paint(layers.shown);
+            drawLife(performance.now());
+        }).observe(html, { attributes: true, attributeFilter: ['data-theme'] });
+
+        // City names in the footer drive the scene
+        let returnTimer = 0;
+        let lastOrigin = [0, 0];
+        document.querySelectorAll('.footer-route [data-city]').forEach(name => {
+            const enter = () => {
+                clearTimeout(returnTimer);
+                const nameBox = name.getBoundingClientRect();
+                const footerBox = footer.getBoundingClientRect();
+                lastOrigin = [nameBox.left + nameBox.width / 2 - footerBox.left, nameBox.bottom - footerBox.top];
+                document.querySelectorAll('.footer-route .is-active').forEach(el => el.classList.remove('is-active'));
+                name.classList.add('is-active');
+                requestScene(name.dataset.city, ...lastOrigin);
+            };
+            const leave = () => {
+                clearTimeout(returnTimer);
+                returnTimer = setTimeout(() => {
+                    name.classList.remove('is-active');
+                    requestScene('home', ...lastOrigin);
+                }, 260);
+            };
+            name.addEventListener('pointerenter', enter);
+            name.addEventListener('focus', enter);
+            name.addEventListener('pointerleave', leave);
+            name.addEventListener('blur', leave);
+        });
+        </script>
+    </body>
+</html>
