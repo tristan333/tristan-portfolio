@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/footer.css">
 
     <style>
         .intro p.intro-hook {
@@ -182,12 +183,58 @@
                 <li><a href="https://substack.com/@tristanpaton" target="_blank">Substack</a></li>
             </ul>
         </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>© 2026 Tristan Paton</p>
-        </footer>
     </main>
+
+    <footer class="site-footer">
+        <canvas class="footer-canvas" id="footer-engraving" aria-hidden="true"></canvas>
+        <canvas class="footer-canvas" id="footer-life" aria-hidden="true"></canvas>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-mark">
+                    <div class="logo-t">
+                        <span class="t-vertical"></span>
+                        <span class="t-horizontal"></span>
+                    </div>
+                    <span class="footer-name">Tristan Paton</span>
+                </div>
+                <a href="mailto:tristanpaton0@gmail.com" class="footer-mail">tristanpaton0@gmail.com</a>
+            </div>
+
+            <nav class="footer-col" aria-label="Site">
+                <h3>Site</h3>
+                <ul>
+                    <li><a href="#work">Work</a></li>
+                    <li><a href="#writing">Writing</a></li>
+                    <li><a href="journey.html">My Life</a></li>
+                    <li><a href="photos.html">Photos</a></li>
+                    <li><a href="assets/Paton_Tristan_Resume.pdf" download>Resume</a></li>
+                </ul>
+            </nav>
+
+            <nav class="footer-col" aria-label="Elsewhere">
+                <h3>Elsewhere</h3>
+                <ul>
+                    <li><a href="https://github.com/tristan333" target="_blank">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/tristanpaton/" target="_blank">LinkedIn</a></li>
+                    <li><a href="https://substack.com/@tristanpaton" target="_blank">Substack</a></li>
+                </ul>
+            </nav>
+
+            <div class="footer-col">
+                <h3>Currently</h3>
+                <p>New York</p>
+                <p class="footer-coords">40.71° N, 74.01° W</p>
+                <p class="footer-coords"><span id="ny-time">--:--</span> local</p>
+            </div>
+        </div>
+
+        <div class="footer-base">
+            <span>© 2026 Tristan Paton</span>
+            <span class="footer-route">
+                <span data-city="tashkent" tabindex="0">Tashkent</span> · <span data-city="rabat" tabindex="0">Rabat</span> · <span data-city="bangkok" tabindex="0">Bangkok</span> · <span data-city="berlin" tabindex="0">Berlin</span> · <span data-city="beirut" tabindex="0">Beirut</span> · <span data-city="sanfrancisco" tabindex="0">San Francisco</span> · <span data-city="hannover" tabindex="0">Hannover</span> · <span data-city="newyork" tabindex="0">New York</span>
+            </span>
+        </div>
+    </footer>
 
 <script>
         // Theme toggle
@@ -238,5 +285,6 @@
 
         
         </script>
+        <script type="module" src="js/footer.js"></script>
     </body>
 </html>
