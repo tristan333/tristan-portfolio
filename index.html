@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/reading.css">
 
     <style>
         .intro p.intro-hook {
@@ -165,6 +166,19 @@
             </p>
         </section>
 
+        <!-- Reading -->
+        <section class="section reading" id="reading" aria-labelledby="reading-title">
+            <div class="reading-head">
+                <h2 id="reading-title">Reading</h2>
+                <span class="reading-status"><span class="reading-pulse" aria-hidden="true"></span><span class="reading-status-text">syncing…</span></span>
+            </div>
+            <div class="reading-body">
+                <div class="reading-skel"></div>
+                <div class="reading-skel"></div>
+                <div class="reading-skel"></div>
+            </div>
+        </section>
+
         <!-- Now -->
         <section class="section" id="now">
             <h2>Now</h2>
@@ -285,6 +299,7 @@
 
         
         </script>
+        <script type="module" src="js/reading.js"></script>
         <script type="module" src="js/footer.js"></script>
     </body>
 </html>
