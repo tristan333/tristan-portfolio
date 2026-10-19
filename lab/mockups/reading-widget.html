@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tristan Paton</title>
+    <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/footer.css">
+    <link rel="stylesheet" href="../../css/reading.css">
+
+    <style>
+        .intro p.intro-hook {
+            color: var(--text);
+            margin-bottom: 24px;
+        }
+        .intro-list {
+            list-style: none;
+            margin: 0 0 24px;
+            padding: 0;
+        }
+        .intro-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .intro-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.7em;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        .intro-list li strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <a href="#" class="logo" aria-label="Home">
+        <div class="logo-t">
+            <span class="t-vertical"></span>
+            <span class="t-horizontal"></span>
+        </div>
+    </a>
+    
+    <div class="header-right">
+        <nav class="nav">
+            <a href="#work">Work</a>
+            <a href="#writing">Writing</a>
+            <a href="../../journey.html">My Life</a>
+            <a href="../../assets/Paton_Tristan_Resume.pdf" download>Resume</a>
+        </nav>
+        
+    <div class="icon-links">
+        <a href="https://github.com/tristan333" target="_blank" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/tristanpaton/" target="_blank" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+        </a>
+        <a href="https://substack.com/@tristanpaton" target="_blank" aria-label="Substack">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
+            </svg>
+        </a>
+        <a href="../../photos.html" aria-label="Photos">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+            </svg>
+        </a>
+        <a href="mailto:tristanpaton0@gmail.com" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+            </svg>
+        </a>
+    </div>        
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+        </button>
+    </div>
+</header>
+    <main class="container">
+        <!-- Hero -->
+        <section class="hero">
+            <h1>Tristan Paton</h1>
+            <p class="tagline">Solutions Engineer at <a href="https://www.chronograph.pe/" target="_blank">Chronograph</a></p>
+        </section>
+
+        <!-- Intro -->
+        <section class="intro">
+            <p class="intro-hook">
+                I help build AI tools for private markets, and spend most of my time making sure they're right when it counts: on real client data, for the people who rely on them.
+            </p>
+            <ul class="intro-list">
+                <li><strong>Agentic tooling for technical ops</strong> — harnesses for identity configuration and multi-tenant data investigations, built on an internal MCP environments.</li>
+                <li><strong>SSO &amp; identity engineering</strong> for institutional LP and GP clients — provisioning, federation, and the configuration work.</li>
+                <li><strong>Evaluating and hardening agents against production financial data</strong>, where a plausible-but-wrong answer is the failure mode that actually costs you.</li>
+                <li><strong>Private-markets domain fluency</strong> — IRR, MOIC, NAV, capital calls, LP/GP reporting — so the tooling understands what the numbers mean, not just their shape.</li>
+                <li><strong>The technical escalation point</strong> — where client problems land when they're technical, weird, and time-sensitive.</li>
+            </ul>
+            <p class="intro-edu">Before all this: Computer Science and French at Denison.</p>
+            <p>
+                I grew up in seven different cities across four continents. Tashkent, Rabat, 
+                Bangkok, Berlin, Beirut, San Francisco, Hannover. <a href="../../journey.html" class="journey-link">Explore my life </a>
+            </p>
+        </section>
+
+        <!-- Work -->
+        <section class="section" id="work">
+            <h2>Work</h2>
+            <ul class="work-list">
+                <li>
+                    <a href="https://www.chronograph.pe/" target="_blank">
+                        <span class="work-title">Chronograph</span>
+                        <span class="work-meta">Solutions Engineer · 2024–Present</span>
+                    </a>
+                    <p class="work-desc">Client-facing solutions engineering across a multi-tenant private markets platform—SSO and identity, SQL data investigations, and agentic tooling.</p>
+                </li>
+                <li>
+                    <a href="https://news-aggregator-ru4n.onrender.com/" target="_blank">
+                        <span class="work-title">Semiconductor Pulse</span>
+                        <span class="work-meta">Side Project</span>
+                    </a>
+                    <p class="work-desc">News aggregator tracking the chip industry. Flask, Python, sentiment analysis - Deployed with Render.</p>
+                </li>
+            </ul>
+        </section>
+
+
+        <!-- Interests -->
+        <section class="section" id="interests">
+            <h2>Interests</h2>
+            <p class="interests-text">
+                Outside of work: I play drums - jazz mostly, a bit of funk and rock. I take photos of the places I go and the people I meet, and I read a lot about AI, space, and a good amount of sci-fi.
+                Lately it's been AI policy and safety, semiconductors, and US-China export controls. I speak French and German, love to cook, and need to be outside - hiking, surfing, biking, skiing.
+            </p>
+        </section>
+
+        <!-- Reading -->
+        <section class="section reading" id="reading" aria-labelledby="reading-title">
+            <div class="reading-head">
+                <h2 id="reading-title">Reading</h2>
+                <span class="reading-status"><span class="reading-pulse" aria-hidden="true"></span><span class="reading-status-text">syncing…</span></span>
+            </div>
+            <div class="reading-body">
+                <div class="reading-skel"></div>
+                <div class="reading-skel"></div>
+                <div class="reading-skel"></div>
+            </div>
+        </section>
+
+        <!-- Now -->
+        <section class="section" id="now">
+            <h2>Now</h2>
+            <p class="now-text">
+                Based in New York. Solutions engineering at Chronograph.
+            </p>
+        </section>
+
+        <!-- Connect -->
+        <section class="section" id="connect">
+            <h2>Connect</h2>
+            <ul class="link-list">
+                <li><a href="mailto:tristanpaton0@gmail.com">tristanpaton0@gmail.com</a></li>
+                <li><a href="https://github.com/tristan333" target="_blank">GitHub</a></li>
+                <li><a href="https://www.linkedin.com/in/tristanpaton/" target="_blank">LinkedIn</a></li>
+                <li><a href="https://substack.com/@tristanpaton" target="_blank">Substack</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <canvas class="footer-canvas" id="footer-engraving" aria-hidden="true"></canvas>
+        <canvas class="footer-canvas" id="footer-life" aria-hidden="true"></canvas>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-mark">
+                    <div class="logo-t">
+                        <span class="t-vertical"></span>
+                        <span class="t-horizontal"></span>
+                    </div>
+                    <span class="footer-name">Tristan Paton</span>
+                </div>
+                <a href="mailto:tristanpaton0@gmail.com" class="footer-mail">tristanpaton0@gmail.com</a>
+            </div>
+
+            <nav class="footer-col" aria-label="Site">
+                <h3>Site</h3>
+                <ul>
+                    <li><a href="#work">Work</a></li>
+                    <li><a href="#writing">Writing</a></li>
+                    <li><a href="../../journey.html">My Life</a></li>
+                    <li><a href="../../photos.html">Photos</a></li>
+                    <li><a href="../../assets/Paton_Tristan_Resume.pdf" download>Resume</a></li>
+                </ul>
+            </nav>
+
+            <nav class="footer-col" aria-label="Elsewhere">
+                <h3>Elsewhere</h3>
+                <ul>
+                    <li><a href="https://github.com/tristan333" target="_blank">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/tristanpaton/" target="_blank">LinkedIn</a></li>
+                    <li><a href="https://substack.com/@tristanpaton" target="_blank">Substack</a></li>
+                </ul>
+            </nav>
+
+            <div class="footer-col">
+                <h3>Currently</h3>
+                <p>New York</p>
+                <p class="footer-coords">40.71° N, 74.01° W</p>
+                <p class="footer-coords"><span id="ny-time">--:--</span> local</p>
+            </div>
+        </div>
+
+        <div class="footer-base">
+            <span>© 2026 Tristan Paton</span>
+            <span class="footer-route">
+                <span data-city="tashkent" tabindex="0">Tashkent</span> · <span data-city="rabat" tabindex="0">Rabat</span> · <span data-city="bangkok" tabindex="0">Bangkok</span> · <span data-city="berlin" tabindex="0">Berlin</span> · <span data-city="beirut" tabindex="0">Beirut</span> · <span data-city="sanfrancisco" tabindex="0">San Francisco</span> · <span data-city="hannover" tabindex="0">Hannover</span> · <span data-city="newyork" tabindex="0">New York</span>
+            </span>
+        </div>
+    </footer>
+
+<script>
+        // Theme toggle
+        const toggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        const savedTheme = localStorage.getItem('theme');
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'light' || (!savedTheme && !systemDark)) {
+            html.setAttribute('data-theme', 'light');
+        }
+        
+    toggle.addEventListener('click', () => {
+        const current = html.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+    });        
+// Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Scroll reveal for sections
+        const sections = document.querySelectorAll('.section');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        sections.forEach(section => observer.observe(section));
+
+        
+        </script>
+        <script src="reading-sample.js"></script>
+        <script type="module" src="../../js/reading.js"></script>
+        <script type="module" src="../../js/footer.js"></script>
+    </body>
+</html>

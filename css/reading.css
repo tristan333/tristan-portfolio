@@ -1,0 +1,313 @@
+/* ==========================================
+   READING - Live widget fed by reading-base
+   ========================================== */
+.reading {
+    --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.reading-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+}
+
+.reading-head h2 {
+    margin-bottom: 0 !important;
+}
+
+.reading-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    color: var(--text-subtle);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+}
+
+.reading-pulse {
+    position: relative;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.reading-pulse::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: readingPulse 2.4s ease-out infinite;
+}
+
+.reading.is-stale .reading-pulse {
+    background: var(--text-subtle);
+}
+
+.reading.is-stale .reading-pulse::after {
+    display: none;
+}
+
+/* ---------- Tabs ---------- */
+.reading-tabs {
+    position: relative;
+    display: flex;
+    gap: 28px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 26px;
+}
+
+.reading-tab {
+    background: none;
+    border: 0;
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding: 0 0 10px;
+    cursor: pointer;
+    transition: color var(--transition);
+}
+
+.reading-tab:hover,
+.reading-tab[aria-selected="true"] {
+    color: var(--text);
+}
+
+.reading-tab-count {
+    margin-left: 6px;
+    font-size: 0.7rem;
+    color: var(--text-subtle);
+    font-variant-numeric: tabular-nums;
+}
+
+.reading-indicator {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 1px;
+    width: var(--w, 0);
+    background: var(--accent);
+    transform: translateX(var(--x, 0));
+    transition: transform 0.45s var(--bounce), width 0.45s var(--bounce);
+}
+
+.reading-panels {
+    overflow: hidden;
+    transition: height 0.4s var(--ease-out);
+}
+
+.reading-panel {
+    animation: readingIn 0.45s var(--ease-out) both;
+}
+
+/* ---------- Links ---------- */
+.reading a:not(.journey-link)::after {
+    display: none;
+}
+
+.reading a:focus-visible,
+.reading-tab:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 2px;
+}
+
+.reading-arrow {
+    display: inline-block;
+    color: var(--accent);
+    opacity: 0;
+    transform: translate(-3px, 3px);
+    transition: opacity 0.2s ease, transform 0.35s var(--bounce);
+}
+
+/* ---------- Feature ---------- */
+.reading-feature {
+    display: block;
+    position: relative;
+    padding: 2px 0 2px 18px;
+    margin-bottom: 26px;
+}
+
+.reading-feature::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 1px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.9s var(--ease-out) 0.2s;
+}
+
+.section.visible .reading-feature::before {
+    transform: scaleY(1);
+}
+
+.reading-kicker {
+    display: flex;
+    gap: 10px;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+.reading-kicker span + span {
+    color: var(--text-subtle);
+}
+
+.reading-feature-title {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+    color: var(--text);
+    transition: color var(--transition);
+}
+
+.reading-meta {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: var(--text-subtle);
+}
+
+.reading-summary {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+.reading-panel[data-panel="dispatch"] .reading-summary {
+    -webkit-line-clamp: 4;
+}
+
+.reading-feature:hover .reading-feature-title {
+    color: var(--accent);
+}
+
+/* ---------- Rows ---------- */
+.reading-list {
+    list-style: none;
+}
+
+.reading-row {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: baseline;
+    padding: 11px 0;
+    border-top: 1px solid var(--border);
+    transition: padding-left 0.3s ease;
+    animation: readingIn 0.5s var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 50ms + 80ms);
+}
+
+.reading-panel > .reading-list:first-child li:first-child .reading-row {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.reading-row-mark {
+    font-size: 0.72rem;
+    color: var(--text-subtle);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+}
+
+.reading-row-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.92rem;
+    color: var(--text);
+    transition: color var(--transition);
+}
+
+.reading-row-source {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    white-space: nowrap;
+    font-size: 0.78rem;
+    color: var(--text-subtle);
+}
+
+.reading-row:hover {
+    padding-left: 6px;
+}
+
+.reading-row:hover .reading-row-title {
+    color: var(--accent);
+}
+
+.reading-row:hover .reading-arrow,
+.reading-feature:hover .reading-arrow,
+.reading a:focus-visible .reading-arrow {
+    opacity: 1;
+    transform: none;
+}
+
+.reading-foot {
+    margin-top: 22px;
+    font-size: 0.9rem;
+}
+
+/* ---------- Loading ---------- */
+.reading-skel {
+    height: 10px;
+    margin: 14px 0;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--border) 0%, transparent 50%, var(--border) 100%);
+    background-size: 200% 100%;
+    animation: readingShimmer 1.4s linear infinite;
+}
+
+.reading-skel:nth-child(1) { width: 30%; }
+.reading-skel:nth-child(2) { width: 85%; height: 14px; }
+.reading-skel:nth-child(3) { width: 65%; }
+
+@keyframes readingPulse {
+    from { transform: scale(1); opacity: 0.6; }
+    to { transform: scale(3.2); opacity: 0; }
+}
+
+@keyframes readingIn {
+    from { opacity: 0; transform: translateY(6px); }
+}
+
+@keyframes readingShimmer {
+    to { background-position: -200% 0; }
+}
+
+@media (max-width: 500px) {
+    .reading-row {
+        grid-template-columns: 44px minmax(0, 1fr);
+        gap: 12px;
+    }
+    .reading-row-source {
+        display: none;
+    }
+    .reading-tabs {
+        gap: 22px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reading-pulse::after {
+        display: none;
+    }
+}
