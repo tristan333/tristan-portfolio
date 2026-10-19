@@ -1,0 +1,19 @@
+index.html
+  s_b431596c4b19f4::t_659ddc5c0a694f 15,169-181,302
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "41ba6cf84f3ec1bc852d2f5bc4e480b855db2f0b",
+  "prompts": {},
+  "sessions": {
+    "s_b431596c4b19f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0b43a8e4-0377-4edd-abab-b55d37fde3c4",
+        "model": "unknown"
+      },
+      "human_author": "tristan333 <tristan.paton33@gmail.com>"
+    }
+  }
+}
