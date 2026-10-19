@@ -1,0 +1,29 @@
+css/reading.css
+  s_b431596c4b19f4::t_73be3890a41c64 107
+  s_b431596c4b19f4::t_26e3e008224fec 219-223
+  s_b431596c4b19f4::t_7ed4a407741e6e 1-106,108-218,224-313
+js/reading.js
+  s_b431596c4b19f4::t_318737766d8b1b 39
+  s_b431596c4b19f4::t_3e3e1393d196f0 77-78
+  s_b431596c4b19f4::t_d15909afa49098 1-38,40-76,79-260
+lab/mockups/reading-sample.js
+  s_b431596c4b19f4::t_04d415f93013b4 1-155
+lab/mockups/reading-widget.html
+  s_b431596c4b19f4::t_22e6d0e4580fe8 1-306
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "83b4ca12eea46b016e2e7b3ee6c38be9263ef87e",
+  "prompts": {},
+  "sessions": {
+    "s_b431596c4b19f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0b43a8e4-0377-4edd-abab-b55d37fde3c4",
+        "model": "unknown"
+      },
+      "human_author": "tristan333 <tristan.paton33@gmail.com>"
+    }
+  }
+}
