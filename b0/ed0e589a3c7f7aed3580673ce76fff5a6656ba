@@ -1,0 +1,23 @@
+css/footer.css
+  s_21b164786f0cca::t_db0479096fa1cc 1-177
+index.html
+  s_21b164786f0cca::t_459442e39e629a 14,188-238,288
+js/footer.js
+  s_21b164786f0cca::t_95b6faaafd7482 1-3074
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b0ed0e589a3c7f7aed3580673ce76fff5a6656ba",
+  "prompts": {},
+  "sessions": {
+    "s_21b164786f0cca": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dfc5e6e4-5cb3-4409-8cc0-d5647f1af057",
+        "model": "unknown"
+      },
+      "human_author": "tristan333 <tristan.paton33@gmail.com>"
+    }
+  }
+}
